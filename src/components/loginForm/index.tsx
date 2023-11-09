@@ -44,11 +44,11 @@ const LoginForm: React.FC = () => (
       <Input.Password />
     </Form.Item>
 
-    <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+    
       <Button type="primary" htmlType="submit" size="middle" block>
         Log-in
       </Button>
-    </Form.Item>
+    
   </Form>
   </Card>
   
