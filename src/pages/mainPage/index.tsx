@@ -1,7 +1,7 @@
 const Main = () => {
   return (
     <>
-       This is main Page
+       This is main Page <b>NIGGGA</b>
     </>
   );
 };
