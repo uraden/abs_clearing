@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, Card  } from 'antd';
 
 const onFinish = (values: unknown) => {
   console.log('Success:', values);
@@ -16,7 +16,9 @@ type FieldType = {
 };
 
 const LoginForm: React.FC = () => (
-  <Form
+  <Card>
+    <h3>ABS Login</h3>
+    <Form
     name="basic"
     labelCol={{ span: 8 }}
     wrapperCol={{ span: 16 }}
@@ -42,20 +44,14 @@ const LoginForm: React.FC = () => (
       <Input.Password />
     </Form.Item>
 
-    <Form.Item<FieldType>
-      name="remember"
-      valuePropName="checked"
-      wrapperCol={{ offset: 8, span: 16 }}
-    >
-      <Checkbox>Remember me</Checkbox>
-    </Form.Item>
-
-    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-      <Button type="primary" htmlType="submit">
-        Submit
+    <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+      <Button type="primary" htmlType="submit" size="middle" block>
+        Log-in
       </Button>
     </Form.Item>
   </Form>
+  </Card>
+  
 );
 
 export default LoginForm;
