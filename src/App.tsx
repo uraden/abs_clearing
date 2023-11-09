@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Main from "./pages/mainPage.tsx"
+import Main from "./pages/mainPage/index.tsx"
+import LoginForm from "./pages/loginPage";
 import './App.css'
 
 function App() {
@@ -9,7 +10,10 @@ function App() {
       path: "/",
       element: <Main />,
     },
-
+    {
+      path: "/login",
+      element: <LoginForm />,
+    },
   ]);
 
   return (
