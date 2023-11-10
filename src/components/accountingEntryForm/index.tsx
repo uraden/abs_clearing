@@ -23,7 +23,7 @@ const AccountingEntryForm: React.FC = () => {
         <Divider />
 
         <Form layout="inline">
-          <Form.Item label="Счет плательшика">
+          <Form.Item label="Счет плательщика">
             <Select style={{ width: "100px" }}>
               <Select.Option value="demo">Demo</Select.Option>
             </Select>
@@ -59,7 +59,7 @@ const AccountingEntryForm: React.FC = () => {
         <Divider />
 
         <Form layout="inline">
-          <Form.Item label="Счет плательшика">
+          <Form.Item label="Счет получателя">
             <Select style={{ width: "100px" }}>
               <Select.Option value="demo">Demo</Select.Option>
             </Select>
@@ -91,14 +91,17 @@ const AccountingEntryForm: React.FC = () => {
         <Divider />
 
         <Form layout="inline">
-          <Form.Item label="Детали платежа">
-            <h4 style={{ margin: "0px 0px " }}>Some data</h4>
-          </Form.Item>
+          
 
           <Form.Item label="платеж">
             <Select style={{ width: "100px" }}>
               <Select.Option value="demo">Demo</Select.Option>
             </Select>
+          </Form.Item>
+
+
+          <Form.Item label="Детали платежа">
+          <Input />
           </Form.Item>
         </Form>
 
