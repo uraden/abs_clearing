@@ -1,7 +1,10 @@
+import SimpleTable from "../../components/simpleTable";
+
+
 const Main = () => {
   return (
     <>
-       This is main Page <b>NIGGGA</b>
+      <SimpleTable />
     </>
   );
 };
