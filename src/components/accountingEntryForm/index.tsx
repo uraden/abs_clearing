@@ -27,10 +27,10 @@ const AccountingEntryForm: React.FC = () => {
         onFinishFailed={onFinishFailed}
       >
         <div className="inline">
-          <Form.Item label="Дата документа">
-            <DatePicker />
+          <Form.Item label="Дата документа" name="docDate">
+            <DatePicker format="YYYY-MM-DD" />
           </Form.Item>
-          <Form.Item label="№ документа">
+          <Form.Item label="№ документа" name="docNumber">
             <Input />
           </Form.Item>
         </div>
@@ -71,7 +71,7 @@ const AccountingEntryForm: React.FC = () => {
           <Form.Item
             label="ИНН"
             rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
-            name="inn"
+            name="innOfPayer"
           >
             <Input />
           </Form.Item>
@@ -87,7 +87,7 @@ const AccountingEntryForm: React.FC = () => {
             rules={[
               { required: true, message: "Пожалуста выберете МФО Банка" },
             ]}
-            name="bankCode"
+            name="bankCodePayer"
           >
             <Input />
           </Form.Item>
@@ -133,7 +133,7 @@ const AccountingEntryForm: React.FC = () => {
           <Form.Item
             label="ИНН"
             rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
-            name="inn"
+            name="innOfReciver"
           >
             <Input />
           </Form.Item>
@@ -149,7 +149,7 @@ const AccountingEntryForm: React.FC = () => {
             rules={[
               { required: true, message: "Пожалуста выберете МФО Банка" },
             ]}
-            name="bankCode"
+            name="bankCodeOfReciver"
           >
             <Input />
           </Form.Item>
@@ -158,13 +158,15 @@ const AccountingEntryForm: React.FC = () => {
         <Divider />
 
         <div className="inline">
-          <Form.Item label="платеж">
+          <Form.Item label="Платеж">
             <Select style={{ width: "100px" }}>
-              <Select.Option value="demo">Demo</Select.Option>
+              <Select.Option value="demo" name="payment">
+                Demo
+              </Select.Option>
             </Select>
           </Form.Item>
 
-          <Form.Item label="Детали платежа">
+          <Form.Item label="Детали платежа" name="paymentDetails">
             <Input />
           </Form.Item>
         </div>
