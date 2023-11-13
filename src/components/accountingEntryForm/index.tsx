@@ -1,18 +1,16 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Button, DatePicker, Form, Input, Select, Divider } from "antd";
 
 const AccountingEntryForm: React.FC = () => {
-  
- const [role, setRole] = useState(1)
+  const [role, setRole] = useState(1);
 
+  const onFinish = (values: unknown) => {
+    console.log("Success:", values);
+  };
 
- const onFinish = (values: unknown) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed = (errorInfo: unknown) => {
-  console.log('Failed:', errorInfo);
-};
+  const onFinishFailed = (errorInfo: unknown) => {
+    console.log("Failed:", errorInfo);
+  };
 
   return (
     <>
@@ -20,58 +18,63 @@ const onFinishFailed = (errorInfo: unknown) => {
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
-        style={{border: "1px solid #808080", padding:"10px", borderRadius:"10px"}}
+        style={{
+          border: "1px solid #808080",
+          padding: "10px",
+          borderRadius: "10px",
+        }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
         <div className="inline">
           <Form.Item label="Дата документа">
-          <DatePicker/>
-            </Form.Item>
-            <Form.Item label="№ документа">
-              <Input  />
-            </Form.Item>
+            <DatePicker />
+          </Form.Item>
+          <Form.Item label="№ документа">
+            <Input />
+          </Form.Item>
         </div>
 
         <Divider />
 
-        <div className="inline" style={{display: "inline" }}>
-          
+        <div className="inline" style={{ display: "inline" }}>
           {role === 2 ? (
-            <Form.Item 
-            label="Счет плательщика"
-            rules={[{ required: true, message: 'Пожалуйста выберете счет плательшика' }]}
-            name="accountInvoice"
+            <Form.Item
+              label="Счет плательщика"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста выберете счет плательшика",
+                },
+              ]}
+              name="accountInvoice"
             >
-            <Select style={{ width: "100px" }}>
-              <Select.Option 
-              value="demo"
-              
-              >Demo</Select.Option>
-            </Select>
-          </Form.Item>
-          ):(
-            <Form.Item 
-            label="Счет плательщика"
-            rules={[{ required: true, message: 'Пожалуйста выберете счет плательшика' }]}
-            name="accountInvoice"
+              <Select style={{ width: "100px" }}>
+                <Select.Option value="demo">Demo</Select.Option>
+              </Select>
+            </Form.Item>
+          ) : (
+            <Form.Item
+              label="Счет плательщика"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста выберете счет плательшика",
+                },
+              ]}
+              name="accountInvoice"
             >
-            <Input />
-          </Form.Item>
+              <Input />
+            </Form.Item>
           )}
-          
 
-         
-
-          <Form.Item 
+          <Form.Item
             label="ИНН"
-            rules={[{ required: true, message: 'Пожалуста выберете ИНН' }]}
+            rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
             name="inn"
           >
             <Input />
           </Form.Item>
-
-         
         </div>
         <br />
         <div className="inline">
@@ -79,11 +82,13 @@ const onFinishFailed = (errorInfo: unknown) => {
             <Input />
           </Form.Item>
 
-          <Form.Item 
+          <Form.Item
             label="МФО Банка"
-            rules={[{ required: true, message: 'Пожалуста выберете МФО Банка' }]}
+            rules={[
+              { required: true, message: "Пожалуста выберете МФО Банка" },
+            ]}
             name="bankCode"
-            >
+          >
             <Input />
           </Form.Item>
         </div>
@@ -95,39 +100,43 @@ const onFinishFailed = (errorInfo: unknown) => {
         <Divider />
 
         <div className="inline">
-          
           {role == 2 ? (
-            <Form.Item 
-            label="Счет получателя"
-            rules={[{ required: true, message: 'Пожалуста выберете cчет получателя' }]}
-            name="accountInvoiceReceiver"
+            <Form.Item
+              label="Счет получателя"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуста выберете cчет получателя",
+                },
+              ]}
+              name="accountInvoiceReceiver"
             >
-            <Select style={{ width: "100px" }}>
-              <Select.Option value="demo">Demo</Select.Option>
-            </Select>
-          </Form.Item>
-          ) : ( 
-          <Form.Item 
-          label="Счет получателя"
-          rules={[{ required: true, message: 'Пожалуста выберете cчет получателя' }]}
-          name="accountInvoiceReceiver"
-          >
-          <Input />
-          </Form.Item>
+              <Select style={{ width: "100px" }}>
+                <Select.Option value="demo">Demo</Select.Option>
+              </Select>
+            </Form.Item>
+          ) : (
+            <Form.Item
+              label="Счет получателя"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуста выберете cчет получателя",
+                },
+              ]}
+              name="accountInvoiceReceiver"
+            >
+              <Input />
+            </Form.Item>
           )}
-          
 
-         
-
-          <Form.Item 
+          <Form.Item
             label="ИНН"
-            rules={[{ required: true, message: 'Пожалуста выберете ИНН' }]}
+            rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
             name="inn"
-            >
+          >
             <Input />
           </Form.Item>
-
-        
         </div>
         <br />
         <div className="inline">
@@ -135,10 +144,12 @@ const onFinishFailed = (errorInfo: unknown) => {
             <Input />
           </Form.Item>
 
-          <Form.Item 
-          label="МФО Банка"
-          rules={[{ required: true, message: 'Пожалуста выберете МФО Банка' }]}
-          name="bankCode"
+          <Form.Item
+            label="МФО Банка"
+            rules={[
+              { required: true, message: "Пожалуста выберете МФО Банка" },
+            ]}
+            name="bankCode"
           >
             <Input />
           </Form.Item>
@@ -147,17 +158,14 @@ const onFinishFailed = (errorInfo: unknown) => {
         <Divider />
 
         <div className="inline">
-          
-
           <Form.Item label="платеж">
             <Select style={{ width: "100px" }}>
               <Select.Option value="demo">Demo</Select.Option>
             </Select>
           </Form.Item>
 
-
           <Form.Item label="Детали платежа">
-          <Input />
+            <Input />
           </Form.Item>
         </div>
 
@@ -165,11 +173,17 @@ const onFinishFailed = (errorInfo: unknown) => {
 
         <div className="inline">
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{outline: 'none'  }}>Сократить</Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ outline: "none" }}
+            >
+              Сократить
+            </Button>
           </Form.Item>
 
           <Form.Item>
-            <Button style={{outline: 'none'}}>Загрузить</Button>
+            <Button style={{ outline: "none" }}>Загрузить</Button>
           </Form.Item>
         </div>
       </Form>

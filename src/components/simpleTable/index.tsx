@@ -54,7 +54,7 @@ const data: DataType[] = [
   },
   {
     key: '6',
-    name: 'Test can',
+    name: 'New can',
     age: 32,
     address: 'London No. 2 Lake Park',
     action: ["Изменить", "Утвердить", "Удалить"]
@@ -82,7 +82,7 @@ const data: DataType[] = [
   },
   {
     key: '10',
-    name: 'My Mn',
+    name: 'My Man',
     age: 1,
     address: 'London No. 2 Lake Park',
     action: ["Изменить", "Утвердить", "Удалить"]
@@ -229,7 +229,7 @@ const SimpleTable: React.FC = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Button onClick={()=> {alert(record.name + " " + record.action[0])}} style={{ borderColor: "#fadb14", color: "#fadb14", outline: 'none' }}>{record.action[0]}</Button>
+          <Button onClick={()=> {alert(record.name + " " + record.action[0])}} style={{ borderColor: "#fa8c16", color: "#fa8c16", outline: 'none' }}>{record.action[0]}</Button>
           <Button onClick={()=> {alert(record.name + " " + record.action[1])}} style={{ borderColor: "#52c41a", color: "#52c41a", outline: 'none' }}>{record.action[1]}</Button>
           <Button onClick={()=> {alert(record.name + " " + record.action[2])}} style={{ borderColor: "#f5222d", color: "#f5222d", outline: 'none' }}>{record.action[2]}</Button>
         </Space>
