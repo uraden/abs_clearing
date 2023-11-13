@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Checkbox, Form, Input, Card } from "antd";
+import { Button, Form, Input } from "antd";
 
 
 const onFinish = (values: unknown) => {
@@ -45,7 +45,7 @@ const LoginForm: React.FC = () => (
         <Input.Password />
       </Form.Item>
 
-      <Button type="primary" htmlType="submit" size="middle" block>
+      <Button type="primary" htmlType="submit" size="middle" block style={{outline: 'none'}}>
         Log-in
       </Button>
     </Form>

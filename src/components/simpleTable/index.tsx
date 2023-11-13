@@ -11,6 +11,7 @@ interface DataType {
   name: string;
   age: number;
   address: string;
+  action: Array;
 }
 
 type DataIndex = keyof DataType;
@@ -21,72 +22,84 @@ const data: DataType[] = [
     name: 'John Brown',
     age: 32,
     address: 'New York No. 1 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '2',
     name: 'Joe Black',
     age: 42,
     address: 'London No. 1 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '3',
     name: 'Jim Green',
     age: 32,
     address: 'Sydney No. 1 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '4',
     name: 'Jim Red',
     age: 32,
     address: 'London No. 2 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '5',
     name: 'Jim Red',
     age: 32,
     address: 'London No. 2 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '6',
     name: 'Test can',
     age: 32,
     address: 'London No. 2 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '7',
     name: 'All In',
     age: 26,
     address: 'London No. 2 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '8',
     name: 'Alex Ferguson',
     age: 32,
     address: 'London No. 2 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '9',
     name: 'Old School',
     age: 50,
     address: 'London No. 2 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '10',
     name: 'My Mn',
     age: 1,
     address: 'London No. 2 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '11',
     name: 'Nigger Bigger',
     age: 31,
     address: 'London No. 2 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
   {
     key: '12',
     name: 'John Smilga',
     age: 32,
     address: 'London No. 2 Lake Park',
+    action: ["Изменить", "Утвердить", "Удалить"]
   },
 ];
 
@@ -210,6 +223,17 @@ const SimpleTable: React.FC = () => {
       ...getColumnSearchProps('address'),
       sorter: (a, b) => a.address.length - b.address.length,
       sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button style={{ borderColor: "#fadb14", color: "#fadb14", outline: 'none' }}>{record.action[0]}</Button>
+          <Button style={{ borderColor: "#52c41a", color: "#52c41a", outline: 'none' }}>{record.action[1]}</Button>
+          <Button style={{ borderColor: "#f5222d", color: "#f5222d", outline: 'none' }}>{record.action[2]}</Button>
+        </Space>
+      ),
     },
   ];
 

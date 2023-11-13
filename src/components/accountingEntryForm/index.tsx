@@ -6,11 +6,11 @@ const AccountingEntryForm: React.FC = () => {
  const [role, setRole] = useState(1)
 
 
- const onFinish = (values: any) => {
+ const onFinish = (values: unknown) => {
   console.log('Success:', values);
 };
 
-const onFinishFailed = (errorInfo: any) => {
+const onFinishFailed = (errorInfo: unknown) => {
   console.log('Failed:', errorInfo);
 };
 
@@ -25,12 +25,12 @@ const onFinishFailed = (errorInfo: any) => {
         onFinishFailed={onFinishFailed}
       >
         <div className="inline">
-        <Form.Item label="Дата док">
-        <DatePicker/>
-          </Form.Item>
-          <Form.Item label="№ Док">
-            <Input  />
-          </Form.Item>
+          <Form.Item label="Дата документа">
+          <DatePicker/>
+            </Form.Item>
+            <Form.Item label="№ документа">
+              <Input  />
+            </Form.Item>
         </div>
 
         <Divider />
@@ -165,11 +165,11 @@ const onFinishFailed = (errorInfo: any) => {
 
         <div className="inline">
           <Form.Item>
-            <Button type="primary" htmlType="submit" >Сократить</Button>
+            <Button type="primary" htmlType="submit" style={{outline: 'none'  }}>Сократить</Button>
           </Form.Item>
 
           <Form.Item>
-            <Button>Загрузить</Button>
+            <Button style={{outline: 'none'}}>Загрузить</Button>
           </Form.Item>
         </div>
       </Form>
