@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, DatePicker, Form, Input, Select, Divider } from "antd";
 
 const AccountingEntryForm: React.FC = () => {
-  const [role, setRole] = useState(1);
+  const [role] = useState(1);
 
   const onFinish = (values: unknown) => {
     console.log("Success:", values);
