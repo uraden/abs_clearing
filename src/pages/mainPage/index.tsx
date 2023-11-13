@@ -1,7 +1,13 @@
+import SimpleTable from "../../components/simpleTable";
+import AccountingEntryForm from "../../components/accountingEntryForm"
+
+
 const Main = () => {
   return (
     <>
-       This is main Page <b>NIGGGA</b>
+      <SimpleTable />
+       <h3>Форма внизу</h3>
+      <AccountingEntryForm />
     </>
   );
 };
