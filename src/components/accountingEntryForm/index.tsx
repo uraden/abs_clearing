@@ -1,10 +1,18 @@
 import React, {useState} from "react";
 import { Button, DatePicker, Form, Input, Select, Divider } from "antd";
 
-const { RangePicker } = DatePicker;
 const AccountingEntryForm: React.FC = () => {
   
  const [role, setRole] = useState(1)
+
+
+ const onFinish = (values: any) => {
+  console.log('Success:', values);
+};
+
+const onFinishFailed = (errorInfo: any) => {
+  console.log('Failed:', errorInfo);
+};
 
   return (
     <>
@@ -13,26 +21,32 @@ const AccountingEntryForm: React.FC = () => {
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         style={{border: "1px solid #808080", padding:"10px", borderRadius:"10px"}}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
       >
-        <Form layout="inline">
+        <div className="inline">
         <Form.Item label="Дата док">
-        <DatePicker />
+        <DatePicker/>
           </Form.Item>
           <Form.Item label="№ Док">
             <Input  />
           </Form.Item>
-        </Form>
+        </div>
 
         <Divider />
 
-        <Form layout="inline">
+        <div className="inline" style={{display: "inline" }}>
           
           {role === 2 ? (
-            <Form.Item label="Счет плательщика">
+            <Form.Item 
+            label="Счет плательщика"
+            rules={[{ required: true, message: 'Пожалуйста выберете счет плательшика' }]}
+            name="accountInvoice"
+            >
             <Select style={{ width: "100px" }}>
               <Select.Option 
               value="demo"
-              rules={[{ required: true, message: 'Пожалуйста выберете счет плательшика' }]}
+              
               >Demo</Select.Option>
             </Select>
           </Form.Item>
@@ -40,6 +54,7 @@ const AccountingEntryForm: React.FC = () => {
             <Form.Item 
             label="Счет плательщика"
             rules={[{ required: true, message: 'Пожалуйста выберете счет плательшика' }]}
+            name="accountInvoice"
             >
             <Input />
           </Form.Item>
@@ -51,14 +66,15 @@ const AccountingEntryForm: React.FC = () => {
           <Form.Item 
             label="ИНН"
             rules={[{ required: true, message: 'Пожалуста выберете ИНН' }]}
+            name="inn"
           >
             <Input />
           </Form.Item>
 
          
-        </Form>
+        </div>
         <br />
-        <Form layout="inline">
+        <div className="inline">
           <Form.Item label="Банк">
             <Input />
           </Form.Item>
@@ -66,10 +82,11 @@ const AccountingEntryForm: React.FC = () => {
           <Form.Item 
             label="МФО Банка"
             rules={[{ required: true, message: 'Пожалуста выберете МФО Банка' }]}
+            name="bankCode"
             >
             <Input />
           </Form.Item>
-        </Form>
+        </div>
 
         <Divider />
 
@@ -77,12 +94,13 @@ const AccountingEntryForm: React.FC = () => {
 
         <Divider />
 
-        <Form layout="inline">
+        <div className="inline">
           
           {role == 2 ? (
             <Form.Item 
             label="Счет получателя"
             rules={[{ required: true, message: 'Пожалуста выберете cчет получателя' }]}
+            name="accountInvoiceReceiver"
             >
             <Select style={{ width: "100px" }}>
               <Select.Option value="demo">Demo</Select.Option>
@@ -92,10 +110,11 @@ const AccountingEntryForm: React.FC = () => {
           <Form.Item 
           label="Счет получателя"
           rules={[{ required: true, message: 'Пожалуста выберете cчет получателя' }]}
+          name="accountInvoiceReceiver"
           >
           <Input />
-        </Form.Item>
-        )}
+          </Form.Item>
+          )}
           
 
          
@@ -103,14 +122,15 @@ const AccountingEntryForm: React.FC = () => {
           <Form.Item 
             label="ИНН"
             rules={[{ required: true, message: 'Пожалуста выберете ИНН' }]}
+            name="inn"
             >
             <Input />
           </Form.Item>
 
         
-        </Form>
+        </div>
         <br />
-        <Form layout="inline">
+        <div className="inline">
           <Form.Item label="Банк">
             <Input />
           </Form.Item>
@@ -118,14 +138,15 @@ const AccountingEntryForm: React.FC = () => {
           <Form.Item 
           label="МФО Банка"
           rules={[{ required: true, message: 'Пожалуста выберете МФО Банка' }]}
+          name="bankCode"
           >
             <Input />
           </Form.Item>
-        </Form>
+        </div>
 
         <Divider />
 
-        <Form layout="inline">
+        <div className="inline">
           
 
           <Form.Item label="платеж">
@@ -138,19 +159,19 @@ const AccountingEntryForm: React.FC = () => {
           <Form.Item label="Детали платежа">
           <Input />
           </Form.Item>
-        </Form>
+        </div>
 
         <Divider />
 
-        <Form layout="inline">
+        <div className="inline">
           <Form.Item>
-            <Button>Сократить</Button>
+            <Button type="primary" htmlType="submit" >Сократить</Button>
           </Form.Item>
 
           <Form.Item>
             <Button>Загрузить</Button>
           </Form.Item>
-        </Form>
+        </div>
       </Form>
     </>
   );
