@@ -229,9 +229,9 @@ const SimpleTable: React.FC = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Button onClick={()=> {alert(record.name)}} style={{ borderColor: "#fadb14", color: "#fadb14", outline: 'none' }}>{record.action[0]}</Button>
-          <Button onClick={()=> {alert(record.name)}} style={{ borderColor: "#52c41a", color: "#52c41a", outline: 'none' }}>{record.action[1]}</Button>
-          <Button onClick={()=> {alert(record.name)}} style={{ borderColor: "#f5222d", color: "#f5222d", outline: 'none' }}>{record.action[2]}</Button>
+          <Button onClick={()=> {alert(record.name + " " + record.action[0])}} style={{ borderColor: "#fadb14", color: "#fadb14", outline: 'none' }}>{record.action[0]}</Button>
+          <Button onClick={()=> {alert(record.name + " " + record.action[1])}} style={{ borderColor: "#52c41a", color: "#52c41a", outline: 'none' }}>{record.action[1]}</Button>
+          <Button onClick={()=> {alert(record.name + " " + record.action[2])}} style={{ borderColor: "#f5222d", color: "#f5222d", outline: 'none' }}>{record.action[2]}</Button>
         </Space>
       ),
     },
