@@ -174,12 +174,12 @@ const AccountingEntryForm: React.FC = () => {
 
         <Divider />
 
-        <div className="inline">
+        <div className="horizontal" style={{display: 'flex', justifyContent: 'center'}}>
           <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
-              style={{ outline: "none" }}
+              style={{ outline: "none", marginRight: '50px' }}
             >
               Сократить
             </Button>
