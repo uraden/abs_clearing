@@ -308,6 +308,9 @@ const SimpleTable: React.FC = () => {
             onCancel={cancel}
             okText="Yes"
             cancelText="No"
+            style={{ outline: "none" }}
+            okButtonProps={{ style: { outline: "none" } }} 
+            cancelButtonProps={{ style: { outline: "none" }}}
           >
             <Button
               // onClick={() => {
@@ -335,6 +338,8 @@ const SimpleTable: React.FC = () => {
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
+        okButtonProps={{ style: { outline: "none" } }} 
+        cancelButtonProps={{ style: { outline: "none" }}}
       >
         <p>{modalText}</p>
       </Modal>
