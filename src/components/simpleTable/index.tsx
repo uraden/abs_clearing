@@ -1,10 +1,10 @@
-import { SearchOutlined } from '@ant-design/icons';
-import React, { useRef, useState } from 'react';
-import Highlighter from 'react-highlight-words'
-import type { InputRef } from 'antd';
-import { Button, Input, Space, Table } from 'antd';
-import type { ColumnType, ColumnsType } from 'antd/es/table';
-import type { FilterConfirmProps } from 'antd/es/table/interface';
+import { SearchOutlined } from "@ant-design/icons";
+import React, { useRef, useState } from "react";
+import Highlighter from "react-highlight-words";
+import type { InputRef } from "antd";
+import { Button, Input, Popconfirm, Space, Table, message } from "antd";
+import type { ColumnType, ColumnsType } from "antd/es/table";
+import type { FilterConfirmProps } from "antd/es/table/interface";
 
 interface DataType {
   key: string;
@@ -18,100 +18,100 @@ type DataIndex = keyof DataType;
 
 const data: DataType[] = [
   {
-    key: '1',
-    name: 'John Brown',
+    key: "1",
+    name: "John Brown",
     age: 32,
-    address: 'New York No. 1 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "New York No. 1 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '2',
-    name: 'Joe Black',
+    key: "2",
+    name: "Joe Black",
     age: 42,
-    address: 'London No. 1 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 1 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '3',
-    name: 'Jim Green',
+    key: "3",
+    name: "Jim Green",
     age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "Sydney No. 1 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '4',
-    name: 'Jim Red',
+    key: "4",
+    name: "Jim Red",
     age: 32,
-    address: 'London No. 2 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 2 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '5',
-    name: 'Jim Red',
+    key: "5",
+    name: "Jim Red",
     age: 32,
-    address: 'London No. 2 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 2 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '6',
-    name: 'New can',
+    key: "6",
+    name: "New can",
     age: 32,
-    address: 'London No. 2 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 2 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '7',
-    name: 'All In',
+    key: "7",
+    name: "All In",
     age: 26,
-    address: 'London No. 2 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 2 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '8',
-    name: 'Alex Ferguson',
+    key: "8",
+    name: "Alex Ferguson",
     age: 32,
-    address: 'London No. 2 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 2 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '9',
-    name: 'Old School',
+    key: "9",
+    name: "Old School",
     age: 50,
-    address: 'London No. 2 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 2 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '10',
-    name: 'My Man',
+    key: "10",
+    name: "My Man",
     age: 1,
-    address: 'London No. 2 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 2 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '11',
-    name: 'Nigger Bigger',
+    key: "11",
+    name: "Nigger Bigger",
     age: 31,
-    address: 'London No. 2 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 2 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
-    key: '12',
-    name: 'John Smilga',
+    key: "12",
+    name: "John Smilga",
     age: 32,
-    address: 'London No. 2 Lake Park',
-    action: ["Изменить", "Утвердить", "Удалить"]
+    address: "London No. 2 Lake Park",
+    action: ["Изменить", "Утвердить", "Удалить"],
   },
 ];
 
 const SimpleTable: React.FC = () => {
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
 
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
-    dataIndex: DataIndex,
+    dataIndex: DataIndex
   ) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -120,24 +120,38 @@ const SimpleTable: React.FC = () => {
 
   const handleReset = (clearFilters: () => void) => {
     clearFilters();
-    setSearchText('');
+    setSearchText("");
   };
 
-  const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<DataType> => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+  const getColumnSearchProps = (
+    dataIndex: DataIndex
+  ): ColumnType<DataType> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
         <Input
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            handleSearch(selectedKeys as string[], confirm, dataIndex)
+          }
+          style={{ marginBottom: 8, display: "block" }}
         />
         <Space>
           <Button
             type="primary"
-            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            onClick={() =>
+              handleSearch(selectedKeys as string[], confirm, dataIndex)
+            }
             icon={<SearchOutlined />}
             size="small"
             style={{ width: 90 }}
@@ -175,7 +189,7 @@ const SimpleTable: React.FC = () => {
       </div>
     ),
     filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
@@ -190,48 +204,102 @@ const SimpleTable: React.FC = () => {
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ''}
+          textToHighlight={text ? text.toString() : ""}
         />
       ) : (
         text
       ),
   });
 
+  const confirm = (e: React.MouseEvent<HTMLElement>, name: string) => {
+    console.log(e);
+    message.success(`Deleted successfully ${name}`);
+  };
+
+  const cancel = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
+    message.error("Cancelled deletion");
+  };
+
   const columns: ColumnsType<DataType> = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
       width: 300,
-      ...getColumnSearchProps('name'),
+      ...getColumnSearchProps("name"),
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: "Age",
+      dataIndex: "age",
+      key: "age",
       width: 300,
-      ...getColumnSearchProps('age'),
+      ...getColumnSearchProps("age"),
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
       width: 300,
-      ...getColumnSearchProps('address'),
+      ...getColumnSearchProps("address"),
       sorter: (a, b) => a.address.length - b.address.length,
-      sortDirections: ['descend', 'ascend'],
+      sortDirections: ["descend", "ascend"],
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: "Action",
+      key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button onClick={()=> {alert(record.name + " " + record.action[0])}} style={{ borderColor: "#fa8c16", color: "#fa8c16", outline: 'none' }}>{record.action[0]}</Button>
-          <Button onClick={()=> {alert(record.name + " " + record.action[1])}} style={{ borderColor: "#52c41a", color: "#52c41a", outline: 'none' }}>{record.action[1]}</Button>
-          <Button onClick={()=> {alert(record.name + " " + record.action[2])}} style={{ borderColor: "#f5222d", color: "#f5222d", outline: 'none' }}>{record.action[2]}</Button>
+          <Button
+            onClick={() => {
+              alert(record.name + " " + record.action[0]);
+            }}
+            style={{
+              borderColor: "#fa8c16",
+              color: "#fa8c16",
+              outline: "none",
+            }}
+          >
+            {record.action[0]}
+          </Button>
+          <Button
+            onClick={() => {
+              alert(record.name + " " + record.action[1]);
+            }}
+            style={{
+              borderColor: "#52c41a",
+              color: "#52c41a",
+              outline: "none",
+            }}
+          >
+            {record.action[1]}
+          </Button>
+          <Popconfirm
+            title={`Delete the task`}
+            description={`Are you sure to delete ${record.name}?`}
+            // @ts-ignore
+            onConfirm={(e) => confirm(e, record.name)}
+            // @ts-ignore
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button
+              // onClick={() => {
+              //   alert(record.name + " " + record.action[2]);
+              // }}
+              style={{
+                borderColor: "#f5222d",
+                color: "#f5222d",
+                outline: "none",
+              }}
+            >
+              {record.action[2]}
+            </Button>
+          </Popconfirm>
         </Space>
       ),
     },
