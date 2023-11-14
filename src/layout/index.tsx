@@ -7,7 +7,10 @@ import Navbar from "./header/Navbar";
 const Wrapper = ({ children }: { children: ReactNode }) => {
   return (
     <>
-     <Navbar />
+     <Navbar>
+        {children}
+      </Navbar>
+
     </>
   );
 };

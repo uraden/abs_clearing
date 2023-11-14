@@ -25,6 +25,7 @@ const AccountingEntryForm: React.FC = () => {
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        
       >
         <div className="inline">
           <Form.Item label="Дата документа" name="docDate">
