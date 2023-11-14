@@ -2,7 +2,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import type { InputRef } from "antd";
-import { Button, Input, Popconfirm, Space, Table } from "antd";
+import { Button, Input, Popconfirm, Space, Table, message } from "antd";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 
@@ -214,14 +214,14 @@ const SimpleTable: React.FC = () => {
       ),
   });
 
-  const confirm = (e: React.MouseEvent<HTMLElement>) => {
+  const confirm = (e: React.MouseEvent<HTMLElement>, name: string) => {
     console.log(e);
-    message.success("Click on Yes");
+    message.success(`Deleted successfully ${name}`);
   };
 
   const cancel = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
-    message.error("Click on No");
+    message.error("Cancelled deletion");
   };
 
   const columns: ColumnsType<DataType> = [
@@ -279,9 +279,9 @@ const SimpleTable: React.FC = () => {
           </Button>
           <Popconfirm
             title={`Delete the task`}
-            description={`Are you sure to delete this?`}
+            description={`Are you sure to delete ${record.name}?`}
             // @ts-ignore
-            onConfirm={confirm}
+            onConfirm={(e) => confirm(e, record.name)}
             // @ts-ignore
             onCancel={cancel}
             okText="Yes"
