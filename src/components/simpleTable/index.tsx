@@ -2,7 +2,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import type { InputRef } from "antd";
-import { Button, Input, Popconfirm, Space, Table, message } from "antd";
+import { Button, Input, Popconfirm, Space, Table, message, Modal } from "antd";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 
@@ -107,6 +107,27 @@ const SimpleTable: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState("Content of the modal");
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleOk = () => {
+    setModalText("The modal will be closed after two seconds");
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpen(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    console.log("Clicked cancel button");
+    setOpen(false);
+  };
 
   const handleSearch = (
     selectedKeys: string[],
@@ -255,7 +276,8 @@ const SimpleTable: React.FC = () => {
         <Space size="middle">
           <Button
             onClick={() => {
-              alert(record.name + " " + record.action[0]);
+              setModalText(`${record.name}, ${record.age}, ${record.address}`)
+              return showModal();
             }}
             style={{
               borderColor: "#fa8c16",
@@ -305,7 +327,20 @@ const SimpleTable: React.FC = () => {
     },
   ];
 
-  return <Table columns={columns} dataSource={data} />;
+  return (
+    <>
+    <Modal
+        title="Title"
+        open={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <p>{modalText}</p>
+      </Modal>
+      <Table columns={columns} dataSource={data} />
+    </>
+  );
 };
 
 export default SimpleTable;
