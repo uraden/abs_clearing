@@ -1,12 +1,15 @@
 import React, { ReactNode, useState } from "react";
 import {
-  TeamOutlined,
-  UserOutlined,
+  SettingOutlined,
+  FileTextOutlined,
   PieChartOutlined,
   DesktopOutlined,
-  FileOutlined,
-  UnorderedListOutlined,
+  FileDoneOutlined,
   FormOutlined,
+  AppstoreAddOutlined,
+  DeliveredProcedureOutlined,
+  BlockOutlined,
+  
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
@@ -42,20 +45,46 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   }
 
   const items: MenuItem[] = [
-    getItem('Мои Документы', "account-list", <UnorderedListOutlined />),
-    getItem('Новые поручения', "account-form", <FormOutlined />),
-    getItem("Option 1", "1", <PieChartOutlined />),
-    getItem("Option 2", "2", <DesktopOutlined />),
-    getItem("User", "sub1", <UserOutlined />, [
-      getItem("Tom", "3"),
-      getItem("Bill", "4"),
-      getItem("Alex", "5"),
+    getItem('Мои Документы', "", <FileTextOutlined />, [
+      getItem("Список документов", "account-list"),
+      getItem("Мои документы", "4"),
+      getItem("Документы в других филивлах", "5"),
+      getItem("Новый документ", "5"),
+      getItem("Архив документов", "5"),
+      getItem("Отчисления", "5"),
+      getItem("Документы SWIFT", "5"),
+      getItem("Валютные контракты", "5"),
+      getItem("Заявки на конвертацию", "5"),
+      getItem("Зарплатный проект", "5")
     ]),
-    getItem("Team", "sub2", <TeamOutlined />, [
+    getItem('Счета', "account-form", <FormOutlined />),
+    getItem("Долги", "1", <PieChartOutlined />, [
+      getItem("Картотека", "111"),
+      getItem("Кредитные договоры", "11"),
+      getItem("Архив кредитных договоров", "1111"),
+    ]),
+    getItem("Справочники", "2", <DesktopOutlined />,  [
+      getItem("Cправочник курсов валют", "111"),
+      getItem("Cправочник банков", "11"),
+      getItem("Cправочник филиалов банков", "1111"),
+    ]),
+    getItem("Отчеты", "sub1", <FileDoneOutlined />, [
+      getItem("Выписка лицевых счетов", "33"),
+      getItem("Сальдово-оборотная ", "44"),
+      getItem("Справка о работе счета", "55"),
+      getItem("Ведомость платежных операций", "55"),
+      getItem("Опись платежей Paynet", "55"),
+      getItem("Выгрузка документов ГНИ", "55"),
+      getItem("Удаленные и незавершенные платежи", "55"),
+      getItem("Выписка по карт-счетам UZKART-онлайн", "55"),
+    ]),
+    getItem("Настройки", "sub2", <SettingOutlined />, [
       getItem("Team 1", "6"),
       getItem("Team 2", "8"),
     ]),
-    getItem("Files", "9", <FileOutlined />),
+    getItem("Сервисы", "9", <BlockOutlined />),
+    getItem("Требования", "10", <AppstoreAddOutlined />),
+    getItem("Заявки", "11", <DeliveredProcedureOutlined />),
   ];
 
   const onClick: MenuProps['onClick'] = (e) => {
