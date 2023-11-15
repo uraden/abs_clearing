@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, DatePicker, Form, Input, Select, Divider } from "antd";
+import TextArea from "antd/es/input/TextArea";
 
 const AccountingEntryForm: React.FC = () => {
   const [role] = useState(1);
@@ -28,10 +29,18 @@ const AccountingEntryForm: React.FC = () => {
         
       >
         <div className="inline">
-          <Form.Item label="Дата документа" name="docDate">
+          <Form.Item
+            label="Дата документа"
+            name="docDate"
+            rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
+          >
             <DatePicker format="YYYY-MM-DD" />
           </Form.Item>
-          <Form.Item label="№ документа" name="docNumber">
+          <Form.Item
+            label="№ документа"
+            name="docNumber"
+            rules={[{ required: true, message: "Пожалуста выберете № документа" }]}
+          >
             <Input />
           </Form.Item>
         </div>
@@ -71,7 +80,7 @@ const AccountingEntryForm: React.FC = () => {
 
           <Form.Item
             label="ИНН"
-            rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
+            
             name="innOfPayer"
           >
             <Input />
@@ -133,7 +142,7 @@ const AccountingEntryForm: React.FC = () => {
 
           <Form.Item
             label="ИНН"
-            rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
+            // rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
             name="innOfReciver"
           >
             <Input />
@@ -159,7 +168,7 @@ const AccountingEntryForm: React.FC = () => {
         <Divider />
 
         <div className="inline">
-          <Form.Item label="Платеж">
+          <Form.Item label="Код назначения">
             <Select style={{ width: "100px" }}>
               <Select.Option value="demo" name="payment">
                 Demo
@@ -168,7 +177,7 @@ const AccountingEntryForm: React.FC = () => {
           </Form.Item>
 
           <Form.Item label="Детали платежа" name="paymentDetails">
-            <Input />
+            <TextArea rows={4} />
           </Form.Item>
         </div>
 
