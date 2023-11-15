@@ -12,13 +12,12 @@ import {
   
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Layout, Menu, theme } from "antd";
+import { Avatar, Layout, Menu, Popover, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const Navbar = ({ children }: { children: ReactNode }) => {
-
   const [collapsed, setCollapsed] = useState(false);
   const [men, setMen] = useState(false);
   const [marginLeft, setMarginLeft] = useState(false);
@@ -87,10 +86,17 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     getItem("Заявки", "11", <DeliveredProcedureOutlined />),
   ];
 
-  const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
+  const onClick: MenuProps["onClick"] = (e) => {
+    console.log("click ", e);
     navigate(`/${e.key}`);
   };
+
+  const content = (
+    <div>
+      <p>Content</p>
+      <p>Content</p>
+    </div>
+  );
 
   return (
     <Layout hasSider>
@@ -124,19 +130,42 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           onClick={onClick}
         />
       </Sider>
-      <Layout className="site-layout" style={{ marginLeft: marginLeft ? 88 : 200,  minHeight: '100vh', width: withLayout ? '94vw' : '88vw' }}>
-        <Header style={{
-          background: colorBgContainer,
-          padding: 0,
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-        }}/>
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <div style={{ padding: 24, textAlign: 'center', background: colorBgContainer, zIndex: "99" }}>
+      <Layout
+        className="site-layout"
+        style={{
+          marginLeft: marginLeft ? 88 : 200,
+          minHeight: "100vh",
+          width: withLayout ? "94vw" : "88vw",
+        }}
+      >
+        <Header
+          style={{
+            background: colorBgContainer,
+            padding: 0,
+            position: "sticky",
+            top: 0,
+            zIndex: 1,
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
+          <div style={{ marginRight: 32 }}>
+            <Popover trigger="click" title={"Профиль"} content={content}>
+              <Avatar style={{ cursor: 'pointer' }} size={40}>USER</Avatar>
+            </Popover>
+          </div>
+        </Header>
+        <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+          <div
+            style={{
+              padding: 24,
+              textAlign: "center",
+              background: colorBgContainer,
+              zIndex: "99",
+            }}
+          >
             {children}
           </div>
         </Content>

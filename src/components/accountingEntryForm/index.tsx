@@ -115,8 +115,14 @@ const AccountEntryForm: React.FC = () => {
         </div>
 
         <Divider />
-
-        <h3> Сумма не указана</h3>
+        <Form.Item
+          label="Сумма"
+          rules={[{ required: true, message: "Пожалуста введите сумму" }]}
+          name="price"
+        >
+          <Input />
+        </Form.Item>
+        {/* <h3> Сумма не указана</h3> */}
 
         <Divider />
 
