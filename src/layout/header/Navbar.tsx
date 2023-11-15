@@ -11,7 +11,7 @@ import { Layout, Menu, theme } from 'antd';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const Navbar: React.FC = ({ children }: { children: ReactNode }) => {
+const Navbar = ({ children }: { children: ReactNode }) => {
 
   const [collapsed, setCollapsed] = useState(false);
   const [men, setMen] = useState(false);
