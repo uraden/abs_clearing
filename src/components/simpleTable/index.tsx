@@ -103,7 +103,7 @@ const data: DataType[] = [
   },
 ];
 
-const SimpleTable: React.FC = () => {
+const AccountList: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
@@ -343,9 +343,10 @@ const SimpleTable: React.FC = () => {
       >
         <p>{modalText}</p>
       </Modal>
+      <h3 style={{ textAlign: "center", marginBottom: 16 }}>Таблица</h3>
       <Table columns={columns} dataSource={data} />
     </>
   );
 };
 
-export default SimpleTable;
+export default AccountList;

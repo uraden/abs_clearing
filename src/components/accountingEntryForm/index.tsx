@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, DatePicker, Form, Input, Select, Divider } from "antd";
 import TextArea from "antd/es/input/TextArea";
 
-const AccountingEntryForm: React.FC = () => {
+const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
 
   const onFinish = (values: unknown) => {
@@ -29,12 +29,12 @@ const AccountingEntryForm: React.FC = () => {
 
   return (
     <>
+      <h3 style={{ textAlign: "center", marginBottom: 16 }}>Форма</h3>
       <Form
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         style={{
-          border: "1px solid #808080",
           padding: "10px",
           borderRadius: "10px",
         }}
@@ -47,7 +47,7 @@ const AccountingEntryForm: React.FC = () => {
             name="docDate"
             rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
           >
-            <DatePicker format="YYYY-MM-DD" />
+            <DatePicker placeholder="Выберите дату" format="YYYY-MM-DD" />
           </Form.Item>
           <Form.Item
             label="№ документа"
@@ -181,24 +181,79 @@ const AccountingEntryForm: React.FC = () => {
         <div className="inline">
           <Form.Item label="Код назначения">
             <Select
+              allowClear
               showSearch
-              placeholder="Select a person"
+              placeholder="Выберите код назначения"
               optionFilterProp="children"
               onChange={onChange}
               onSearch={onSearch}
               filterOption={filterOption}
               options={[
                 {
-                  value: "jack",
-                  label: "Jack",
+                  value: "08101",
+                  label:
+                    "08101 - Предоплата по налогам и другим обязательным платежам",
                 },
                 {
-                  value: "lucy",
-                  label: "Lucy",
+                  value: "08102",
+                  label:
+                    "08102 - Оплата налогов и других обязательных платежей по расчёту",
                 },
                 {
-                  value: "tom",
-                  label: "Tom",
+                  value: "08103",
+                  label:
+                    "08103 - Оплата налогов и других обязательных платежей по перерасчёту",
+                },
+                {
+                  value: "08104",
+                  label:
+                    "08104 - Оплата налогов и других обязательных платежей по итогам камеральной проверки",
+                },
+                {
+                  value: "08105",
+                  label:
+                    "08105 - Оплата налогов и других обязательных платежей по итогам проверок ГНИ",
+                },
+                {
+                  value: "08106",
+                  label:
+                    "08106 - Оплата доначисленных налогов на счета правоохранительных органов",
+                },
+                {
+                  value: "08107",
+                  label:
+                    "08107 - Оплата налогов, взысканных судебными исполнителями",
+                },
+                {
+                  value: "08108",
+                  label: "08108 - Пеня",
+                },
+                {
+                  value: "08201",
+                  label: "08201 - Разовый платёж в бюджет – за регистрацию",
+                },
+                {
+                  value: "08202",
+                  label: "08202 - Разовый платёж в бюджет – пеня ",
+                },
+                {
+                  value: "08203",
+                  label: "08203 - Разовый платёж в бюджет – финансовые санкции",
+                },
+                {
+                  value: "08301",
+                  label:
+                    "08301 - Разовый платёж в бюджет между хоз.субъектами – за регистрацию ",
+                },
+                {
+                  value: "08302",
+                  label:
+                    "08302 - Разовый платёж в бюджет между хоз.субъектами – пеня ",
+                },
+                {
+                  value: "08303",
+                  label:
+                    "08303 - Разовый платёж в бюджет между хоз.субъектами – финансовые санкции",
                 },
               ]}
             />
@@ -234,4 +289,4 @@ const AccountingEntryForm: React.FC = () => {
   );
 };
 
-export default () => <AccountingEntryForm />;
+export default () => <AccountEntryForm />;
