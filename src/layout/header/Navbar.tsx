@@ -75,7 +75,16 @@ const Navbar: React.FC = ({ children }: { children: ReactNode }) => {
          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
       </Sider>
       <Layout className="site-layout" style={{ marginLeft: marginLeft ? 88 : 200,  minHeight: '100vh', width: withLayout ? '94vw' : '88vw' }}>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header style={{
+          background: colorBgContainer,
+          padding: 0,
+          position: 'sticky',
+          top: 0,
+          zIndex: 1,
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+        }}/>
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
           <div style={{ padding: 24, textAlign: 'center', background: colorBgContainer, zIndex: "99" }}>
             {children}
