@@ -123,8 +123,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           }}
         >
           <div style={{ marginRight: 32 }}>
-            <Popover  title={"Профиль"} content={content}>
-              <Avatar size={40}>USER</Avatar>
+            <Popover trigger="click" title={"Профиль"} content={content}>
+              <Avatar style={{ cursor: 'pointer' }} size={40}>USER</Avatar>
             </Popover>
           </div>
         </Header>
