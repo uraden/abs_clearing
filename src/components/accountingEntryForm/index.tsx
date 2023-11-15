@@ -13,6 +13,20 @@ const AccountingEntryForm: React.FC = () => {
     console.log("Failed:", errorInfo);
   };
 
+  const onChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSearch = (value: string) => {
+    console.log("search:", value);
+  };
+
+  // Filter `option.label` match the user type `input`
+  const filterOption = (
+    input: string,
+    option?: { label: string; value: string }
+  ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
   return (
     <>
       <Form
@@ -26,7 +40,6 @@ const AccountingEntryForm: React.FC = () => {
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        
       >
         <div className="inline">
           <Form.Item
@@ -39,7 +52,9 @@ const AccountingEntryForm: React.FC = () => {
           <Form.Item
             label="№ документа"
             name="docNumber"
-            rules={[{ required: true, message: "Пожалуста выберете № документа" }]}
+            rules={[
+              { required: true, message: "Пожалуста выберете № документа" },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -78,11 +93,7 @@ const AccountingEntryForm: React.FC = () => {
             </Form.Item>
           )}
 
-          <Form.Item
-            label="ИНН"
-            
-            name="innOfPayer"
-          >
+          <Form.Item label="ИНН" name="innOfPayer">
             <Input />
           </Form.Item>
         </div>
@@ -169,11 +180,28 @@ const AccountingEntryForm: React.FC = () => {
 
         <div className="inline">
           <Form.Item label="Код назначения">
-            <Select style={{ width: "100px" }}>
-              <Select.Option value="demo" name="payment">
-                Demo
-              </Select.Option>
-            </Select>
+            <Select
+              showSearch
+              placeholder="Select a person"
+              optionFilterProp="children"
+              onChange={onChange}
+              onSearch={onSearch}
+              filterOption={filterOption}
+              options={[
+                {
+                  value: "jack",
+                  label: "Jack",
+                },
+                {
+                  value: "lucy",
+                  label: "Lucy",
+                },
+                {
+                  value: "tom",
+                  label: "Tom",
+                },
+              ]}
+            />
           </Form.Item>
 
           <Form.Item label="Детали платежа" name="paymentDetails">
@@ -183,12 +211,15 @@ const AccountingEntryForm: React.FC = () => {
 
         <Divider />
 
-        <div className="horizontal" style={{display: 'flex', justifyContent: 'center'}}>
+        <div
+          className="horizontal"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
           <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
-              style={{ outline: "none", marginRight: '50px' }}
+              style={{ outline: "none", marginRight: "50px" }}
             >
               Сократить
             </Button>
