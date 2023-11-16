@@ -9,7 +9,6 @@ import {
   AppstoreAddOutlined,
   DeliveredProcedureOutlined,
   BlockOutlined,
-  
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Avatar, Layout, Menu, Popover, theme } from "antd";
@@ -44,7 +43,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   }
 
   const items: MenuItem[] = [
-    getItem('Мои Документы', "", <FileTextOutlined />, [
+    getItem("Мои Документы", "", <FileTextOutlined />, [
       getItem("Список документов", "account-list"),
       getItem("Мои документы", "4"),
       getItem("Документы в других филивлах", "5"),
@@ -54,15 +53,15 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       getItem("Документы SWIFT", "5"),
       getItem("Валютные контракты", "5"),
       getItem("Заявки на конвертацию", "5"),
-      getItem("Зарплатный проект", "5")
+      getItem("Зарплатный проект", "5"),
     ]),
-    getItem('Счета', "account-form", <FormOutlined />),
+    getItem("Счета", "account-form", <FormOutlined />),
     getItem("Долги", "1", <PieChartOutlined />, [
       getItem("Картотека", "111"),
       getItem("Кредитные договоры", "11"),
       getItem("Архив кредитных договоров", "1111"),
     ]),
-    getItem("Справочники", "2", <DesktopOutlined />,  [
+    getItem("Справочники", "2", <DesktopOutlined />, [
       getItem("Cправочник курсов валют", "111"),
       getItem("Cправочник банков", "11"),
       getItem("Cправочник филиалов банков", "1111"),
@@ -123,7 +122,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   return (
     <Layout hasSider>
-      <Sider
+      {/* <Sider
         style={{
           overflow: "auto",
           height: "100vh",
@@ -152,33 +151,43 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           items={items}
           onClick={onClick}
         />
-      </Sider>
+      </Sider> */}
       <Layout
         className="site-layout"
         style={{
-          marginLeft: marginLeft ? 88 : 200,
+          // marginLeft: marginLeft ? 88 : 200,
           minHeight: "100vh",
-          width: withLayout ? "94vw" : "88vw",
+          width: '100vw'
         }}
       >
         <Header
           style={{
-            background: colorBgContainer,
-            padding: 0,
-            position: "sticky",
-            top: 0,
+            // background: colorBgContainer,
+            // padding: 0,
+            // position: "sticky",
+            // top: 0,
+            border: '1px solid blue',
             zIndex: 1,
             width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
+            // display: "flex",
+            // alignItems: "center",
+            // justifyContent: "flex-end",
           }}
         >
-          <div style={{ marginRight: 32 }}>
+          <Menu
+            theme="light"
+            defaultSelectedKeys={["1"]}
+            mode="horizontal"
+            items={items}
+            onClick={onClick}
+          />
+          {/* <div style={{ marginRight: 32 }}>
             <Popover trigger="click" title={"Профиль"} content={content}>
-              <Avatar style={{ cursor: 'pointer' }} size={40}>USER</Avatar>
+              <Avatar style={{ cursor: "pointer" }} size={40}>
+                USER
+              </Avatar>
             </Popover>
-          </div>
+          </div> */}
         </Header>
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <div
