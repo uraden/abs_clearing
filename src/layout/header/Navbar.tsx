@@ -69,7 +69,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     getItem("Отчеты", "sub1", <FileDoneOutlined />, [
       getItem("Выписка лицевых счетов", "33"),
       getItem("Сальдово-оборотная ", "44"),
-      getItem("Справка о работе счета", "55"),
+      getItem("Справка о работе счета", "551"),
       getItem("Ведомость платежных операций", "55"),
       getItem("Опись платежей Paynet", "55"),
       getItem("Выгрузка документов ГНИ", "55"),
@@ -122,54 +122,17 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   return (
     <Layout style={{ height: '100vh' }}>
-      {/* <Sider
-        style={{
-          overflow: "auto",
-          height: "100vh",
-          position: "fixed",
-          left: 0,
-          top: 0,
-          bottom: 0,
-          zIndex: 1,
-        }}
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => {
-          setCollapsed(value);
-          setMen(!men);
-
-          setMarginLeft(!marginLeft);
-          setWithLayout(!withLayout);
-          console.log("marginLeft", marginLeft);
-        }}
-      >
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-          items={items}
-          onClick={onClick}
-        />
-      </Sider> */}
-      {/* <Layout
-        className="site-layout"
-        style={{
-          // marginLeft: marginLeft ? 88 : 200,
-          minHeight: "100vh",
-          width: '100vw'
-        }}
-      > */}
         <Header
           style={{
             // background: colorBgContainer,
             // padding: 0,
             // position: "sticky",
             // top: 0,
-            border: '1px solid blue',
+            // border: '1px solid blue',
             // zIndex: 1,
 
-            // width: "100vw",
+            minWidth: "98vw",
+            width: '100%',
             display: "flex",
             // alignItems: "center",
             // justifyContent: "flex-end",
@@ -181,7 +144,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             mode="horizontal"
             items={items}
             onClick={onClick}
-            style={{ border: '1px solid green' }}
+            style={{ width: '100%' }}
           />
           {/* <div style={{ marginRight: 32 }}>
             <Popover trigger="click" title={"Профиль"} content={content}>
@@ -191,7 +154,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             </Popover>
           </div> */}
         </Header>
-        <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+        <Content style={{ margin: "0 50px" }}>
           <div
             style={{
               padding: 16,
@@ -203,7 +166,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             {children}
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>By Beka and Jamal 2023</Footer>
+        {/* <Footer style={{ textAlign: "center" }}>By Beka and Jamal 2023</Footer> */}
       {/* </Layout> */}
     </Layout>
   );
