@@ -121,7 +121,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <Layout hasSider>
+    <Layout style={{ height: '100vh' }}>
       {/* <Sider
         style={{
           overflow: "auto",
@@ -152,14 +152,14 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           onClick={onClick}
         />
       </Sider> */}
-      <Layout
+      {/* <Layout
         className="site-layout"
         style={{
           // marginLeft: marginLeft ? 88 : 200,
           minHeight: "100vh",
           width: '100vw'
         }}
-      >
+      > */}
         <Header
           style={{
             // background: colorBgContainer,
@@ -167,19 +167,21 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             // position: "sticky",
             // top: 0,
             border: '1px solid blue',
-            zIndex: 1,
-            width: "100%",
-            // display: "flex",
+            // zIndex: 1,
+
+            // width: "100vw",
+            display: "flex",
             // alignItems: "center",
             // justifyContent: "flex-end",
           }}
         >
           <Menu
-            theme="light"
+            theme="dark"
             defaultSelectedKeys={["1"]}
             mode="horizontal"
             items={items}
             onClick={onClick}
+            style={{ border: '1px solid green' }}
           />
           {/* <div style={{ marginRight: 32 }}>
             <Popover trigger="click" title={"Профиль"} content={content}>
@@ -192,7 +194,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <div
             style={{
-              padding: 24,
+              padding: 16,
               textAlign: "center",
               background: colorBgContainer,
               zIndex: "99",
@@ -202,7 +204,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>By Beka and Jamal 2023</Footer>
-      </Layout>
+      {/* </Layout> */}
     </Layout>
   );
 };
