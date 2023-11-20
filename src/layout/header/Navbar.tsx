@@ -150,7 +150,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         <Content style={{ margin: "0 50px" }}>
           <div
             style={{
-              padding: 16,
+              // padding: 16,
               textAlign: "center",
               background: colorBgContainer,
               zIndex: "99",
