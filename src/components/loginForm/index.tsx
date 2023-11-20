@@ -31,19 +31,20 @@ type FieldType = {
 
 const LoginForm: React.FC = () => (
   <div>
-    <h3 style={{ textAlign: "center", marginBottom: 4 }}>ABS Login</h3>
+    <h3 style={{ marginBottom: 4, fontSize: '54px', color: 'white' }}>ABS Login</h3>
     <Form
       name="basic"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600 }}
+      style={{width: 700}}
       initialValues={{ remember: true }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
+      layout="vertical"
     >
       <Form.Item<FieldType>
-        label="Username"
+        label={<label style={{ color: "white" }}>Username</label>}
         name="login"
         rules={[{ required: true, message: "Please input your username!" }]}
       >
@@ -51,14 +52,14 @@ const LoginForm: React.FC = () => (
       </Form.Item>
 
       <Form.Item<FieldType>
-        label="Password"
+        label={<label style={{ color: "white" }}>Password</label>}
         name="password"
         rules={[{ required: true, message: "Please input your password!" }]}
       >
         <Input.Password />
       </Form.Item>
 
-      <Button type="primary" htmlType="submit" size="middle" block style={{outline: 'none'}}>
+      <Button type="primary" htmlType="submit" size="middle" block style={{outline: 'none', width: '466px', backgroundColor: '#6C63FF'}}>
         Log-in
       </Button>
     </Form>
