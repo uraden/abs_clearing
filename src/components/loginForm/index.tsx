@@ -56,7 +56,7 @@ const LoginForm: React.FC = () => (
       layout="vertical"
     >
       <Form.Item<FieldType>
-        label="Username"
+        label={<label style={{ color: "white" }}>Username</label>}
         name="login"
         rules={[{ required: true, message: "Please input your username!" }]}
       >
@@ -76,7 +76,8 @@ const LoginForm: React.FC = () => (
         htmlType="submit"
         size="middle"
         block
-        style={{ outline: "none", width: "466px", backgroundColor: "#6C63FF" }}
+        style={{ outline: "none", width: "466px", backgroundColor: "white", color: "#6C63FF" }}
+        className="loginBtn"
       >
         Log-in
       </Button>
