@@ -123,7 +123,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout style={{ height: '100vh', width: '100vw' }}>
         <Header
           style={{
             // background: colorBgContainer,
