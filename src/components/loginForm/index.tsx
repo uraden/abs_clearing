@@ -23,110 +23,9 @@ const onFinish = async (values: unknown, setMessage: any) => {
     // toast.error(response.title);
     setMessage(response.title);
     setTimeout(() => {
-      setMessage('');
+      setMessage("");
     }, 4000);
   }
-  (
-    <>
-      <div>
-        <h3 style={{ textAlign: "center", marginBottom: 4 }}>ABS Login</h3>
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600 }}
-          initialValues={{ remember: true }}
-          onFinish={(values) => onFinish(values, setMessage)}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
-          <Form.Item<FieldType>
-            label="Username"
-            name="login"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input />
-          </Form.Item>
-  
-          <Form.Item<FieldType>
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-  
-          <Button
-            type="primary"
-            htmlType="submit"
-            size="middle"
-            block
-            style={{ outline: "none" }}
-          >
-            Log-in
-          </Button>
-        </Form>
-      </div>
-    </>
-  );(
-    <>
-      <div>
-        <h3 style={{ textAlign: "center", marginBottom: 4 }}>ABS Login</h3>
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600 }}
-          initialValues={{ remember: true }}
-          onFinish={(values) => onFinish(values, setMessage)}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
-          <Form.Item<FieldType>
-            label="Username"
-            name="login"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input />
-          </Form.Item>
-  
-          <Form.Item<FieldType>
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-  
-          <Button
-            type="primary"
-            htmlType="submit"
-            size="middle"
-            block
-            style={{ outline: "none" }}
-          >
-            Log-in
-          </Button>
-        </Form>
-      </div>
-    </>
-  );  if (response && response.token) {
-    localStorage.setItem('token', response.token);
-    
-  }
-};
-
-const onFinishFailed = (errorInfo: unknown) => {
-  console.log("Failed:", errorInfo);
-};
-
-type FieldType = {
-  login?: string;
-  password?: string;
-  remember?: string;
-};
-
-const LoginForm: React.FC = ({ setMessage }: any) => (
   <>
     <div>
       <h3 style={{ textAlign: "center", marginBottom: 4 }}>ABS Login</h3>
@@ -167,7 +66,106 @@ const LoginForm: React.FC = ({ setMessage }: any) => (
         </Button>
       </Form>
     </div>
-  </>
+  </>;
+  <>
+    <div>
+      <h3 style={{ textAlign: "center", marginBottom: 4 }}>ABS Login</h3>
+      <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        style={{ maxWidth: 600 }}
+        initialValues={{ remember: true }}
+        onFinish={(values) => onFinish(values, setMessage)}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Form.Item<FieldType>
+          label="Username"
+          name="login"
+          rules={[{ required: true, message: "Please input your username!" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Button
+          type="primary"
+          htmlType="submit"
+          size="middle"
+          block
+          style={{ outline: "none" }}
+        >
+          Log-in
+        </Button>
+      </Form>
+    </div>
+  </>;
+  if (response && response.token) {
+    localStorage.setItem("token", response.token);
+  }
+};
+
+const onFinishFailed = (errorInfo: unknown) => {
+  console.log("Failed:", errorInfo);
+};
+
+type FieldType = {
+  login?: string;
+  password?: string;
+  remember?: string;
+};
+
+const LoginForm: React.FC = ({ setMessage }: any) => (
+  <div>
+    <h3 style={{ marginBottom: 4, fontSize: "54px", color: "white" }}>
+      ABS Login
+    </h3>
+    <Form
+      name="basic"
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      style={{ width: 700 }}
+      initialValues={{ remember: true }}
+      onFinish={(values) => onFinish(values, setMessage)}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+      layout="vertical"
+    >
+      <Form.Item<FieldType>
+        label="Username"
+        name="login"
+        rules={[{ required: true, message: "Please input your username!" }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item<FieldType>
+        label={<label style={{ color: "white" }}>Password</label>}
+        name="password"
+        rules={[{ required: true, message: "Please input your password!" }]}
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Button
+        type="primary"
+        htmlType="submit"
+        size="middle"
+        block
+        style={{ outline: "none", width: "466px", backgroundColor: "#6C63FF" }}
+      >
+        Log-in
+      </Button>
+    </Form>
+  </div>
 );
 
 export default LoginForm;
