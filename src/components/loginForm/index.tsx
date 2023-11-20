@@ -69,7 +69,7 @@ const LoginForm: React.FC = () => {
         layout="vertical"
       >
         <Form.Item<FieldType>
-          label="Username"
+          label={<label style={{ color: "white" }}>Username</label>}
           name="login"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
