@@ -101,3 +101,7 @@
     width: 390px;
   }
 }
+
+.loginBtn:hover {
+  font-weight: 700;
+}
