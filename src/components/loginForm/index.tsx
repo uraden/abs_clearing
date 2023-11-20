@@ -1,9 +1,22 @@
 import React from "react";
 import { Button, Form, Input } from "antd";
+import { login } from "./request";
 
+const Roles = [
+  {
+    roleId: 1,
+    roleName: 'Сотрудник банка'
+  },
+  {
+    roleId: 2,
+    roleName: 'Пользователь клиента'
+  }
+]
 
-const onFinish = (values: unknown) => {
+const onFinish = async (values: unknown) => {
   console.log("Success:", values);
+  const request = await login(values);
+  console.log('request: ', request);
 };
 
 const onFinishFailed = (errorInfo: unknown) => {
@@ -11,7 +24,7 @@ const onFinishFailed = (errorInfo: unknown) => {
 };
 
 type FieldType = {
-  username?: string;
+  login?: string;
   password?: string;
   remember?: string;
 };
@@ -31,7 +44,7 @@ const LoginForm: React.FC = () => (
     >
       <Form.Item<FieldType>
         label="Username"
-        name="username"
+        name="login"
         rules={[{ required: true, message: "Please input your username!" }]}
       >
         <Input />
