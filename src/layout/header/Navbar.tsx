@@ -126,18 +126,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     <Layout style={{ height: '100vh', width: '100vw' }}>
         <Header
           style={{
-            // background: colorBgContainer,
-            // padding: 0,
-            // position: "sticky",
-            // top: 0,
-            // border: '1px solid blue',
-            // zIndex: 1,
-
             minWidth: "98vw",
             width: '100%',
             display: "flex",
-            // alignItems: "center",
-            // justifyContent: "flex-end",
           }}
         >
           <Menu
