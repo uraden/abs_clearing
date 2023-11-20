@@ -9,7 +9,7 @@ export const login = async (body: any) => {
   } catch (error) {
     // console.log('err: ', error);
     if (error) {
-      // console.log('requesttt: ', error.response.data);
+      console.log('requesttt: ', error.response.data);
       return error.response.data;
     }
   }
