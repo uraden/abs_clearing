@@ -43,6 +43,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     } as MenuItem;
   }
 
+  const currentYear = new Date().getFullYear();
+
   const items: MenuItem[] = [
     getItem('Мои Документы', "", <FileTextOutlined />, [
       getItem("Список документов", "account-list"),
@@ -192,7 +194,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             {children}
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>By Beka and Jamal 2023</Footer>
+        <Footer style={{ textAlign: "center" }}>By Beka and Jamal {currentYear}</Footer>
       </Layout>
     </Layout>
   );
