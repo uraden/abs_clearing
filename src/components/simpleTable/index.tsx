@@ -10,8 +10,9 @@ import { getAccountList } from "../../pages/accountList/request";
 interface DataType {
   key: string;
   name: string;
-  age: number;
+  currency: string;
   address: string;
+  remainder: string;
   action: Array<string>;
 }
 
@@ -21,85 +22,97 @@ const data: DataType[] = [
   {
     key: "1",
     name: "John Brown",
-    age: 32,
+    currency: '32',
     address: "New York No. 1 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "2",
     name: "Joe Black",
-    age: 42,
+    currency: '42',
     address: "London No. 1 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "3",
     name: "Jim Green",
-    age: 32,
+    currency: '32',
     address: "Sydney No. 1 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "4",
     name: "Jim Red",
-    age: 32,
+    currency: '33',
+    remainder: '',
     address: "London No. 2 Lake Park",
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "5",
     name: "Jim Red",
-    age: 32,
+    currency: '45',
     address: "London No. 2 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "6",
     name: "New can",
-    age: 32,
+    currency: '33',
     address: "London No. 2 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "7",
     name: "All In",
-    age: 26,
+    currency: '26',
     address: "London No. 2 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "8",
     name: "Alex Ferguson",
-    age: 32,
+    currency: '32',
     address: "London No. 2 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "9",
     name: "Old School",
-    age: 50,
+    currency: '50',
     address: "London No. 2 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "10",
     name: "My Man",
-    age: 1,
+    currency: '1',
     address: "London No. 2 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "11",
     name: "Nigger Bigger",
-    age: 31,
+    currency: '31',
     address: "London No. 2 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
   {
     key: "12",
     name: "John Smilga",
-    age: 32,
+    currency: '32',
     address: "London No. 2 Lake Park",
+    remainder: '',
     action: ["Изменить", "Утвердить", "Удалить"],
   },
 ];
@@ -257,21 +270,21 @@ const AccountList: React.FC = () => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "Name",
+      title: "Наименование",
       dataIndex: "name",
       key: "name",
       width: 300,
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Валюта",
+      dataIndex: "currency",
+      key: "currency",
       width: 300,
-      ...getColumnSearchProps("age"),
+      ...getColumnSearchProps("currency"),
     },
     {
-      title: "Address",
+      title: "Банк",
       dataIndex: "address",
       key: "address",
       width: 300,
@@ -280,7 +293,16 @@ const AccountList: React.FC = () => {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Action",
+      title: "Остаток",
+      dataIndex: "remainder",
+      key: "remainder",
+      width: 300,
+      ...getColumnSearchProps("remainder"),
+      sorter: (a, b) => a.address.length - b.address.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Статус",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
