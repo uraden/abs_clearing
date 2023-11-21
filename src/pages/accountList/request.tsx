@@ -6,6 +6,7 @@ export const getAccountList = async () => {
   try {
     const request = await axios.post(api.orders());
     console.log('request: ', request);
+    return request;
   } catch (error) {
     console.log('err: ', error);
   }

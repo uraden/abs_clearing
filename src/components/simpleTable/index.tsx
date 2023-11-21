@@ -11,111 +11,111 @@ interface DataType {
   key: string;
   name: string;
   currency: string;
-  address: string;
+  bankName: string;
   remainder: string;
   action: Array<string>;
 }
 
 type DataIndex = keyof DataType;
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    currency: '32',
-    address: "New York No. 1 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "2",
-    name: "Joe Black",
-    currency: '42',
-    address: "London No. 1 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "3",
-    name: "Jim Green",
-    currency: '32',
-    address: "Sydney No. 1 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    currency: '33',
-    remainder: '',
-    address: "London No. 2 Lake Park",
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "5",
-    name: "Jim Red",
-    currency: '45',
-    address: "London No. 2 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "6",
-    name: "New can",
-    currency: '33',
-    address: "London No. 2 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "7",
-    name: "All In",
-    currency: '26',
-    address: "London No. 2 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "8",
-    name: "Alex Ferguson",
-    currency: '32',
-    address: "London No. 2 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "9",
-    name: "Old School",
-    currency: '50',
-    address: "London No. 2 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "10",
-    name: "My Man",
-    currency: '1',
-    address: "London No. 2 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "11",
-    name: "Nigger Bigger",
-    currency: '31',
-    address: "London No. 2 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-  {
-    key: "12",
-    name: "John Smilga",
-    currency: '32',
-    address: "London No. 2 Lake Park",
-    remainder: '',
-    action: ["Изменить", "Утвердить", "Удалить"],
-  },
-];
+
+//   {
+//     key: "1",
+//     name: "John Brown",
+//     currency: '32',
+//     bankName: "New York No. 1 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "2",
+//     name: "Joe Black",
+//     currency: '42',
+//     bankName: "London No. 1 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "3",
+//     name: "Jim Green",
+//     currency: '32',
+//     bankName: "Sydney No. 1 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "4",
+//     name: "Jim Red",
+//     currency: '33',
+//     remainder: '',
+//     bankName: "London No. 2 Lake Park",
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "5",
+//     name: "Jim Red",
+//     currency: '45',
+//     bankName: "London No. 2 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "6",
+//     name: "New can",
+//     currency: '33',
+//     bankName: "London No. 2 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "7",
+//     name: "All In",
+//     currency: '26',
+//     bankName: "London No. 2 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "8",
+//     name: "Alex Ferguson",
+//     currency: '32',
+//     bankName: "London No. 2 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "9",
+//     name: "Old School",
+//     currency: '50',
+//     bankName: "London No. 2 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "10",
+//     name: "My Man",
+//     currency: '1',
+//     bankName: "London No. 2 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "11",
+//     name: "Nigger Bigger",
+//     currency: '31',
+//     bankName: "London No. 2 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+//   {
+//     key: "12",
+//     name: "John Smilga",
+//     currency: '32',
+//     bankName: "London No. 2 Lake Park",
+//     remainder: '',
+//     action: ["Изменить", "Утвердить", "Удалить"],
+//   },
+// ];
 
 const AccountList: React.FC = () => {
   const [searchText, setSearchText] = useState("");
@@ -125,9 +125,25 @@ const AccountList: React.FC = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
 
+  const [tableData, setTableData] =useState([])
+
   const getList = async () => {
-    const response = getAccountList();
-    console.log("res: ", response);
+    const response = await getAccountList();
+    try {
+      
+      // Assuming the data is an array inside response.data, map it with an incremental id
+      const mappedData = response?.data.map((item: { id: string; crBankName: string; crInn: string; debBankName: string; naznCode: string }) => ({
+        key: item.id, 
+        name: item.crBankName,
+        currency: item.crInn,
+        bankName: item.debBankName,
+        remainder: item.naznCode,
+        action: ["Изменить", "Утвердить", "Удалить"],
+      }));
+      setTableData(mappedData || []);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   useEffect(() => {
@@ -285,11 +301,11 @@ const AccountList: React.FC = () => {
     },
     {
       title: "Банк",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "bankName",
+      key: "bankName",
       width: 300,
-      ...getColumnSearchProps("address"),
-      sorter: (a, b) => a.address.length - b.address.length,
+      ...getColumnSearchProps("bankName"),
+      sorter: (a, b) => a.bankName.length - b.bankName.length,
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -298,7 +314,7 @@ const AccountList: React.FC = () => {
       key: "remainder",
       width: 300,
       ...getColumnSearchProps("remainder"),
-      sorter: (a, b) => a.address.length - b.address.length,
+      sorter: (a, b) => a.remainder.length - b.remainder.length,
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -308,7 +324,7 @@ const AccountList: React.FC = () => {
         <Space size="middle">
           <Button
             onClick={() => {
-              setModalText(`${record.name}, ${record.age}, ${record.address}`);
+              setModalText(`${record.name}, ${record.currency}, ${record.bankName}`);
               return showModal();
             }}
             style={{
@@ -334,10 +350,8 @@ const AccountList: React.FC = () => {
           <Popconfirm
             title={`Delete the task`}
             description={`Are you sure to delete ${record.name}?`}
-            // @ts-ignore
-            onConfirm={(e) => confirm(e, record.name)}
-            // @ts-ignore
-            onCancel={cancel}
+            onConfirm={(e) => e && confirm(e, record.name)}
+            onCancel={(e) =>e && cancel(e)}
             okText="Yes"
             cancelText="No"
             style={{ outline: "none" }}
@@ -376,7 +390,7 @@ const AccountList: React.FC = () => {
         <p>{modalText}</p>
       </Modal>
       <h3 style={{ textAlign: "center", marginBottom: 16 }}>Таблица</h3>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={tableData} />
     </>
   );
 };
