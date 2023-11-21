@@ -1,10 +1,11 @@
 import { SearchOutlined } from "@ant-design/icons";
-import React, { useRef, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import type { InputRef } from "antd";
 import { Button, Input, Popconfirm, Space, Table, message, Modal } from "antd";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
+import { getAccountList } from "../../pages/accountList/request";
 
 interface DataType {
   key: string;
@@ -110,6 +111,15 @@ const AccountList: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
+
+  const getList = async () => {
+    const response = getAccountList();
+    console.log("res: ", response);
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
 
   const showModal = () => {
     setOpen(true);
@@ -276,7 +286,7 @@ const AccountList: React.FC = () => {
         <Space size="middle">
           <Button
             onClick={() => {
-              setModalText(`${record.name}, ${record.age}, ${record.address}`)
+              setModalText(`${record.name}, ${record.age}, ${record.address}`);
               return showModal();
             }}
             style={{
@@ -309,8 +319,8 @@ const AccountList: React.FC = () => {
             okText="Yes"
             cancelText="No"
             style={{ outline: "none" }}
-            okButtonProps={{ style: { outline: "none" } }} 
-            cancelButtonProps={{ style: { outline: "none" }}}
+            okButtonProps={{ style: { outline: "none" } }}
+            cancelButtonProps={{ style: { outline: "none" } }}
           >
             <Button
               // onClick={() => {
@@ -332,14 +342,14 @@ const AccountList: React.FC = () => {
 
   return (
     <>
-    <Modal
+      <Modal
         title="Title"
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
-        okButtonProps={{ style: { outline: "none" } }} 
-        cancelButtonProps={{ style: { outline: "none" }}}
+        okButtonProps={{ style: { outline: "none" } }}
+        cancelButtonProps={{ style: { outline: "none" } }}
       >
         <p>{modalText}</p>
       </Modal>
