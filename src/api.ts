@@ -1,4 +1,4 @@
-const baseUrl = 'http://100.1.0.52:8081/v1/api';
+const baseUrl = import.meta.env.VITE_BASEURL;
 
 export default {
   login: () => [baseUrl, 'auth', 'authenticate'].join('/'),
