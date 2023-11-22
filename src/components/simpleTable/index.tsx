@@ -2,7 +2,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import type { InputRef } from "antd";
-import { Button, Input, Popconfirm, Space, Table, message, Modal } from "antd";
+import { Button, Input, Space, Table, Modal } from "antd";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import { getAccountList } from "../../pages/accountList/request";
@@ -40,7 +40,7 @@ const AccountList: React.FC = () => {
         currency: item.crInn,
         bankName: item.debBankName,
         remainder: item.naznCode,
-        action: ["Изменить", "Утвердить", "Удалить"],
+        action: ["Изменить"],
       }));
       setTableData(mappedData || []);
     } catch (error) {
@@ -176,15 +176,15 @@ const AccountList: React.FC = () => {
       ),
   });
 
-  const confirm = (e: React.MouseEvent<HTMLElement>, name: string) => {
-    console.log(e);
-    message.success(`Deleted successfully ${name}`);
-  };
+  // const confirm = (e: React.MouseEvent<HTMLElement>, name: string) => {
+  //   console.log(e);
+  //   message.success(`Deleted successfully ${name}`);
+  // };
 
-  const cancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    message.error("Cancelled deletion");
-  };
+  // const cancel = (e: React.MouseEvent<HTMLElement>) => {
+  //   console.log(e);
+  //   message.error("Cancelled deletion");
+  // };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -220,7 +220,7 @@ const AccountList: React.FC = () => {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Статус",
+      title: "Действие",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
@@ -237,42 +237,7 @@ const AccountList: React.FC = () => {
           >
             {record.action[0]}
           </Button>
-          <Button
-            onClick={() => {
-              alert(record.name + " " + record.action[1]);
-            }}
-            style={{
-              borderColor: "#52c41a",
-              color: "#52c41a",
-              outline: "none",
-            }}
-          >
-            {record.action[1]}
-          </Button>
-          <Popconfirm
-            title={`Delete the task`}
-            description={`Are you sure to delete ${record.name}?`}
-            onConfirm={(e) => e && confirm(e, record.name)}
-            onCancel={(e) =>e && cancel(e)}
-            okText="Yes"
-            cancelText="No"
-            style={{ outline: "none" }}
-            okButtonProps={{ style: { outline: "none" } }}
-            cancelButtonProps={{ style: { outline: "none" } }}
-          >
-            <Button
-              // onClick={() => {
-              //   alert(record.name + " " + record.action[2]);
-              // }}
-              style={{
-                borderColor: "#f5222d",
-                color: "#f5222d",
-                outline: "none",
-              }}
-            >
-              {record.action[2]}
-            </Button>
-          </Popconfirm>
+          
         </Space>
       ),
     },
