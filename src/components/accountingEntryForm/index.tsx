@@ -1,19 +1,52 @@
 import React, { useState } from "react";
-import { Button, DatePicker, Form, Input, Select, Divider } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Select,
+  Divider,
+  message,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { makeOrder } from "../../pages/accountForm/request";
+import moment from "moment";
 
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
 
-  const onFinish = async (values: unknown) => {
+  const confirmForm = () => {
+    message.success(`Created new form`);
+  };
+
+  const failConfirmForm = () => {
+    message.error("Couldn't send form");
+  };
+
+  const onFinish = async (values: object) => {
     setLoading(true);
-    console.log('val: ', values);
-    const request = await makeOrder(values);
-    console.log('reqqqqqqqqqqq: ', request);
-    console.log("Success:", values);
-    setLoading(false);
+
+    try {
+      const formattedValues = {
+        ...values,
+        crMfo: "0014",
+        crInn: 201053750,
+        crPnfl: 123456,
+        crBankName: "BEKHZOD COMPANY",
+        statusId: "1",
+        dtd: values.dtd ? moment(values.dtd).format("DD.MM.YYYY") : null,
+      };
+
+      const request = await makeOrder(formattedValues);
+      console.log("req: ", request);
+      console.log("iiii", formattedValues);
+      confirmForm();
+      setLoading(false);
+    } catch (err) {
+      failConfirmForm()
+      console.log("error: ", err);
+    }
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
@@ -51,14 +84,14 @@ const AccountEntryForm: React.FC = () => {
         <div className="inline">
           <Form.Item
             label="Дата документа"
-            name="docDate"
+            name="dtd"
             rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
           >
-            <DatePicker placeholder="Выберите дату" format="YYYY-MM-DD" />
+            <DatePicker placeholder="Выберите дату" format="DD.MM.YYYY" />
           </Form.Item>
           <Form.Item
             label="№ документа"
-            name="docNumber"
+            name="ndoc"
             rules={[
               { required: true, message: "Пожалуста выберете № документа" },
             ]}
@@ -68,6 +101,36 @@ const AccountEntryForm: React.FC = () => {
         </div>
 
         <Divider />
+
+        <Form.Item
+          label="sum"
+          name="sum"
+          rules={[
+            { required: true, message: "Пожалуста выберете № документа" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="debMfo"
+          name="debMfo"
+          rules={[
+            { required: true, message: "Пожалуста выберете № документа" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="debInn"
+          name="debInn"
+          rules={[
+            { required: true, message: "Пожалуста выберете № документа" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
         <div className="inline" style={{ display: "inline" }}>
           {role === 2 ? (
@@ -79,7 +142,7 @@ const AccountEntryForm: React.FC = () => {
                   message: "Пожалуйста выберете счет плательшика",
                 },
               ]}
-              name="accountInvoice"
+              name="sum"
             >
               <Select style={{ width: "100px" }}>
                 <Select.Option value="demo">Demo</Select.Option>
@@ -94,20 +157,20 @@ const AccountEntryForm: React.FC = () => {
                   message: "Пожалуйста выберете счет плательшика",
                 },
               ]}
-              name="accountInvoice"
+              name="naznCode"
             >
               <Input />
             </Form.Item>
           )}
 
-          <Form.Item label="ИНН" name="innOfPayer">
+          <Form.Item label="ИНН" name="naznText">
             <Input />
           </Form.Item>
         </div>
         <br />
         <div className="inline">
           <Form.Item label="Банк">
-            <Input />
+            <Input name="debMfo" />
           </Form.Item>
 
           <Form.Item
@@ -115,7 +178,7 @@ const AccountEntryForm: React.FC = () => {
             rules={[
               { required: true, message: "Пожалуста выберете МФО Банка" },
             ]}
-            name="bankCodePayer"
+            name="debAcc"
           >
             <Input />
           </Form.Item>
@@ -125,7 +188,7 @@ const AccountEntryForm: React.FC = () => {
         <Form.Item
           label="Сумма"
           rules={[{ required: true, message: "Пожалуста введите сумму" }]}
-          name="price"
+          name="debName"
         >
           <Input />
         </Form.Item>
@@ -143,7 +206,7 @@ const AccountEntryForm: React.FC = () => {
                   message: "Пожалуста выберете cчет получателя",
                 },
               ]}
-              name="accountInvoiceReceiver"
+              name="debInn"
             >
               <Select style={{ width: "100px" }}>
                 <Select.Option value="demo">Demo</Select.Option>
@@ -158,7 +221,7 @@ const AccountEntryForm: React.FC = () => {
                   message: "Пожалуста выберете cчет получателя",
                 },
               ]}
-              name="accountInvoiceReceiver"
+              name="debPnfl"
             >
               <Input />
             </Form.Item>
@@ -167,7 +230,7 @@ const AccountEntryForm: React.FC = () => {
           <Form.Item
             label="ИНН"
             // rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
-            name="innOfReciver"
+            name="debBankName"
           >
             <Input />
           </Form.Item>
@@ -175,7 +238,7 @@ const AccountEntryForm: React.FC = () => {
         <br />
         <div className="inline">
           <Form.Item label="Банк">
-            <Input />
+            <Input name="crMfo" />
           </Form.Item>
 
           <Form.Item
@@ -183,7 +246,7 @@ const AccountEntryForm: React.FC = () => {
             rules={[
               { required: true, message: "Пожалуста выберете МФО Банка" },
             ]}
-            name="bankCodeOfReciver"
+            name="crAcc"
           >
             <Input />
           </Form.Item>
@@ -272,7 +335,7 @@ const AccountEntryForm: React.FC = () => {
             />
           </Form.Item>
 
-          <Form.Item label="Детали платежа" name="paymentDetails">
+          <Form.Item label="Детали платежа" name="crName">
             <TextArea rows={4} />
           </Form.Item>
         </div>
