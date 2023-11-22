@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { Button, DatePicker, Form, Input, Select, Divider } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import { makeOrder } from "../../pages/accountForm/request";
 
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
+  const [isLoading, setLoading] = useState(false);
 
-  const onFinish = (values: unknown) => {
+  const onFinish = async (values: unknown) => {
+    setLoading(true);
+    console.log('val: ', values);
+    const request = await makeOrder(values);
+    console.log('reqqqqqqqqqqq: ', request);
     console.log("Success:", values);
+    setLoading(false);
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
@@ -280,6 +287,7 @@ const AccountEntryForm: React.FC = () => {
             <Button
               type="primary"
               htmlType="submit"
+              loading={isLoading}
               style={{ outline: "none", marginRight: "50px" }}
             >
               Сократить
