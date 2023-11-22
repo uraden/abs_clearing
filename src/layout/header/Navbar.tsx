@@ -123,11 +123,11 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <Layout style={{ height: '100vh', width: '100vw' }}>
+    <Layout style={{height:"100%"}}>
         <Header
           style={{
-            minWidth: "98vw",
-            width: '100%',
+            // minWidth: "98vw",
+            // width: '100%',
             display: "flex",
           }}
         >
@@ -139,13 +139,13 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             onClick={onClick}
             style={{ width: '100%' }}
           />
-          {/* <div style={{ marginRight: 32 }}>
+          <div style={{ marginRight: 32 }}>
             <Popover trigger="click" title={"Профиль"} content={content}>
               <Avatar style={{ cursor: "pointer" }} size={40}>
                 USER
               </Avatar>
             </Popover>
-          </div> */}
+          </div>
         </Header>
         <Content style={{ margin: "0 50px" }}>
           <div
