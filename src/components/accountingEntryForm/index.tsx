@@ -83,11 +83,12 @@ const AccountEntryForm: React.FC = () => {
       >
         <div className="inline">
           <Form.Item
+          className="aaaaa"
             label="Дата документа"
             name="dtd"
             rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
           >
-            <DatePicker placeholder="Выберите дату" format="DD.MM.YYYY" />
+            <DatePicker placeholder="Выберите дату" format="DD.MM.YYYY"/>
           </Form.Item>
           <Form.Item
             label="№ документа"
