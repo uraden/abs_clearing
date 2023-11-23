@@ -26,10 +26,11 @@ const AccountList: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
-
+  const [isLoading, setLoading] = useState(false);
   const [tableData, setTableData] =useState([])
 
   const getList = async () => {
+    setLoading(true)
     const response = await getAccountList();
     try {
       
@@ -43,7 +44,9 @@ const AccountList: React.FC = () => {
         action: ["Изменить", "Утвердить", "Удалить"],
       }));
       setTableData(mappedData || []);
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.error('Error fetching data:', error);
     }
   };
@@ -292,7 +295,7 @@ const AccountList: React.FC = () => {
         <p>{modalText}</p>
       </Modal>
       <h3 style={{ textAlign: "center", marginBottom: 16 }}>Таблица</h3>
-      <Table columns={columns} dataSource={tableData} />
+      <Table loading={isLoading} columns={columns} dataSource={tableData} />
     </>
   );
 };
