@@ -11,7 +11,7 @@ import {
   BlockOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Avatar, Layout, Menu, Popover, theme } from "antd";
+import { Avatar, Button, Layout, Menu, Popover, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -90,24 +90,24 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       getItem("ИПБ - Справка о работе счета", "55"),
       getItem("ИПБ - Сведения о сборе коммунальных платежей", "55"),
     ]),
-    getItem("Настройки", "sub2", <SettingOutlined />, [
-      getItem("Смена пароля", "6"),
-      getItem("Установка параметров", "8"),
-      getItem("Периодические платежи", "8"),
-    ]),
+    // getItem("Настройки", "sub2", <SettingOutlined />, [
+    //   getItem("Смена пароля", "6"),
+    // getItem("Установка параметров", "8"),
+    // getItem("Периодические платежи", "8"),
+    // ]),
     getItem("Сервис", "9", <BlockOutlined />, [
       getItem("Файлы отчетов", "6"),
       getItem("Импорт документов", "8"),
       getItem("Экспорт документов", "8"),
-      getItem("Регистрация QR", "8"),
+      // getItem("Регистрация QR", "8"),
     ]),
-    getItem("Требования", "10", <AppstoreAddOutlined />, [
-      getItem("УзбекЭнерго", "6"),
-      getItem("Требования банка", "8"),
-    ]),
-    getItem("Заявки", "11", <DeliveredProcedureOutlined />, [
-      getItem("Заявки на получение кредита в валюте", "8"),
-    ]),
+    // getItem("Требования", "10", <AppstoreAddOutlined />, [
+    //   getItem("УзбекЭнерго", "6"),
+    //   getItem("Требования банка", "8"),
+    // ]),
+    // getItem("Заявки", "11", <DeliveredProcedureOutlined />, [
+    //   getItem("Заявки на получение кредита в валюте", "8"),
+    // ]),
   ];
 
   const onClick: MenuProps["onClick"] = (e) => {
@@ -116,51 +116,70 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   };
 
   const content = (
-    <div>
-      <p>Content</p>
-      <p>Content</p>
+    <div className="setting-button-wrapper">
+      <Button
+        style={{
+          borderColor: "#f5222d",
+          color: "#f5222d",
+          outline: "none",
+        }}
+      >
+        Выход
+      </Button>
+      <Button
+        style={{
+          borderColor: "#fa8c16",
+          color: "#fa8c16",
+          outline: "none",
+          marginTop: 8,
+        }}
+      >
+        Смена пароля
+      </Button>
     </div>
   );
 
   return (
     <Layout>
-        <Header
+      <Header
+        style={{
+          // minWidth: "98vw",
+          // width: '100%',
+          display: "flex",
+        }}
+      >
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["1"]}
+          mode="horizontal"
+          items={items}
+          onClick={onClick}
+          style={{ width: "100%" }}
+        />
+        <div style={{ marginRight: 32 }}>
+          <Popover trigger="click" title={"Настройки"} content={content}>
+            <Avatar style={{ cursor: "pointer" }} size={40}>
+              USER
+            </Avatar>
+          </Popover>
+        </div>
+      </Header>
+      <Content style={{ margin: "0 50px" }}>
+        <div
           style={{
-            // minWidth: "98vw",
-            // width: '100%',
-            display: "flex",
+            // padding: 16,
+            textAlign: "center",
+            background: colorBgContainer,
+            zIndex: "99",
           }}
         >
-          <Menu
-            theme="dark"
-            defaultSelectedKeys={["1"]}
-            mode="horizontal"
-            items={items}
-            onClick={onClick}
-            style={{ width: '100%' }}
-          />
-          <div style={{ marginRight: 32 }}>
-            <Popover trigger="click" title={"Профиль"} content={content}>
-              <Avatar style={{ cursor: "pointer" }} size={40}>
-                USER
-              </Avatar>
-            </Popover>
-          </div>
-        </Header>
-        <Content style={{ margin: "0 50px" }}>
-          <div
-            style={{
-              // padding: 16,
-              textAlign: "center",
-              background: colorBgContainer,
-              zIndex: "99",
-            }}
-          >
-            {children}
-          </div>
-        </Content>
-        <Footer style={{ textAlign: "center" }}>By Beka and Jamal {currentYear}</Footer>
-      </Layout>
+          {children}
+        </div>
+      </Content>
+      <Footer style={{ textAlign: "center" }}>
+        By Beka and Jamal {currentYear}
+      </Footer>
+    </Layout>
   );
 };
 

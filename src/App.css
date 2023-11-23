@@ -107,3 +107,10 @@
 .loginBtn:hover {
   font-weight: 700;
 }
+
+.setting-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
