@@ -1,6 +1,4 @@
-// import { httpClient } from "../../httpClient";
 import api from "../../api";
-import axios from "axios";
 import { httpClient } from "../../httpClient";
 
 export const getAccountList = async () => {

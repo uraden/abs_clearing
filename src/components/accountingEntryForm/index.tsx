@@ -24,7 +24,7 @@ const AccountEntryForm: React.FC = () => {
     message.error("Couldn't send form");
   };
 
-  const onFinish = async (values: object) => {
+  const onFinish = async (values: {dtd: string}) => {
     setLoading(true);
 
     try {
@@ -35,7 +35,7 @@ const AccountEntryForm: React.FC = () => {
         crPnfl: 123456,
         crBankName: "BEKHZOD COMPANY",
         statusId: "1",
-        dtd: values.dtd ? moment(values.dtd).format("DD.MM.YYYY") : null,
+        dtd: values.dtd ? moment(values?.dtd).format("DD.MM.YYYY") : null,
       };
 
       const request = await makeOrder(formattedValues);

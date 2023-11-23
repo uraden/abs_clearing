@@ -3,16 +3,17 @@ import { Button, Form, Input, notification } from "antd";
 import { login } from "./request";
 import { useNavigate } from "react-router-dom";
 
-const Roles = [
-  {
-    roleId: 1,
-    roleName: "Сотрудник банка",
-  },
-  {
-    roleId: 2,
-    roleName: "Пользователь клиента",
-  },
-];
+
+// const Roles = [
+//   {
+//     roleId: 1,
+//     roleName: "Сотрудник банка",
+//   },
+//   {
+//     roleId: 2,
+//     roleName: "Пользователь клиента",
+//   },
+// ];
 
 type FieldType = {
   login?: string;

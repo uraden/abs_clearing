@@ -1,26 +1,23 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import {
-  SettingOutlined,
   FileTextOutlined,
   PieChartOutlined,
   DesktopOutlined,
   FileDoneOutlined,
   FormOutlined,
-  AppstoreAddOutlined,
-  DeliveredProcedureOutlined,
   BlockOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Avatar, Button, Layout, Menu, Popover, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 const Navbar = ({ children }: { children: ReactNode }) => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [men, setMen] = useState(false);
-  const [marginLeft, setMarginLeft] = useState(false);
-  const [withLayout, setWithLayout] = useState(false);
+  // const [collapsed, setCollapsed] = useState(false);
+  // const [men, setMen] = useState(false);
+  // const [marginLeft, setMarginLeft] = useState(false);
+  // const [withLayout, setWithLayout] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();

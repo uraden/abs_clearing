@@ -2,7 +2,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import type { InputRef } from "antd";
-import { Button, Input, Popconfirm, Space, Table, message, Modal } from "antd";
+import { Button, Input, Space, Table, Modal } from "antd";
+import { useNavigate } from "react-router-dom";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import { getAccountList } from "../../pages/accountList/request";
@@ -28,6 +29,8 @@ const AccountList: React.FC = () => {
   const [modalText, setModalText] = useState("Content of the modal");
   const [isLoading, setLoading] = useState(false);
   const [tableData, setTableData] =useState([])
+
+  const navigate = useNavigate();
 
   const getList = async () => {
     setLoading(true)
@@ -55,9 +58,9 @@ const AccountList: React.FC = () => {
     getList();
   }, []);
 
-  const showModal = () => {
-    setOpen(true);
-  };
+  // const showModal = () => {
+  //   setOpen(true);
+  // };
 
   const handleOk = () => {
     setModalText("The modal will be closed after two seconds");
@@ -87,6 +90,7 @@ const AccountList: React.FC = () => {
     clearFilters();
     setSearchText("");
   };
+  
 
   const getColumnSearchProps = (
     dataIndex: DataIndex
@@ -179,16 +183,6 @@ const AccountList: React.FC = () => {
       ),
   });
 
-  const confirm = (e: React.MouseEvent<HTMLElement>, name: string) => {
-    console.log(e);
-    message.success(`Deleted successfully ${name}`);
-  };
-
-  const cancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    message.error("Cancelled deletion");
-  };
-
   const columns: ColumnsType<DataType> = [
     {
       title: "Наименование",
@@ -228,10 +222,7 @@ const AccountList: React.FC = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button
-            onClick={() => {
-              setModalText(`${record.name}, ${record.currency}, ${record.bankName}`);
-              return showModal();
-            }}
+            onClick={() => navigate('/account-form')}
             style={{
               borderColor: "#fa8c16",
               color: "#fa8c16",
