@@ -123,7 +123,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <Layout style={{height:"100%"}}>
+    <Layout>
         <Header
           style={{
             // minWidth: "98vw",
