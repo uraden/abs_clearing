@@ -240,7 +240,7 @@ const AccountList: React.FC = () => {
           >
             {record.action[0]}
           </Button>
-          <Button
+          {/* <Button
             onClick={() => {
               alert(record.name + " " + record.action[1]);
             }}
@@ -275,7 +275,7 @@ const AccountList: React.FC = () => {
             >
               {record.action[2]}
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </Space>
       ),
     },
