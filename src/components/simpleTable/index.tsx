@@ -7,9 +7,6 @@ import _ from "lodash";
 
 import { useAccountList } from "../../pages/accountList/request";
 
-
-
-
 const AccountList: React.FC = () => {
 
 
@@ -53,8 +50,6 @@ const AccountList: React.FC = () => {
   useEffect(() => {
     getList();
   }, []);
-
-
 
   interface DataType {
     key: React.Key;
@@ -112,7 +107,7 @@ const AccountList: React.FC = () => {
       </h3>
 
 
-    <Table dataSource={transTabbleData} columns={columns} />
+    <Table dataSource={transTabbleData} columns={columns} bordered />
     </>
   );
 };
