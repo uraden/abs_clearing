@@ -61,7 +61,7 @@ const AccountList: React.FC = () => {
   const columns  = [
     { title: "№ Док.", dataIndex: "nDoc", key: "nDoc" },
     {
-      title: "Платильшик",
+      title: "Плательщик",
       children: [
         { title: "МФО", dataIndex: "mfo_1", key: "mfo_1" },
         { title: "Счет", dataIndex: "account_1", key: "account_1" },

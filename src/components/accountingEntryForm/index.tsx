@@ -37,6 +37,9 @@ const AccountEntryForm: React.FC = () => {
         crPnfl: 123456,
         crBankName: "BEKHZOD COMPANY",
         statusId: "1",
+        debMfo: '1234',
+        sum: '1234',
+        debInn: '1234',
         dtd: values.dtd ? moment(values?.dtd).format("DD.MM.YYYY") : null,
       };
 
@@ -104,36 +107,6 @@ const AccountEntryForm: React.FC = () => {
         </div>
 
         <Divider />
-
-        <Form.Item
-          label="sum"
-          name="sum"
-          rules={[
-            { required: true, message: "Пожалуста выберете № документа" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="debMfo"
-          name="debMfo"
-          rules={[
-            { required: true, message: "Пожалуста выберете № документа" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="debInn"
-          name="debInn"
-          rules={[
-            { required: true, message: "Пожалуста выберете № документа" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
 
         <div className="inline" style={{ display: "inline" }}>
           {role === 2 ? (
