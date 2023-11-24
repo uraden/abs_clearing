@@ -44,25 +44,25 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   const items: MenuItem[] = [
     getItem("Мои Документы", "", <FileTextOutlined />, [
       getItem("Список документов", "account-list"),
-      getItem("Мои документы", "4"),
-      getItem("Документы в других филивлах", "5"),
-      getItem("Новый документ", "5"),
+      // getItem("Мои документы", "4"),
+      // getItem("Документы в других филивлах", "5"),
+      getItem("Новый документ", "account-form"),
       getItem("Архив документов", "5"),
-      getItem("Отчисления", "5"),
-      getItem("Документы SWIFT", "5"),
-      getItem("Валютные контракты", "5"),
-      getItem("Заявки на конвертацию", "5"),
-      getItem("Зарплатный проект", "5"),
+      // getItem("Отчисления", "5"),
+      // getItem("Документы SWIFT", "5"),
+      // getItem("Валютные контракты", "5"),
+      // getItem("Заявки на конвертацию", "5"),
+      // getItem("Зарплатный проект", "5"),
     ]),
-    getItem("Счета", "account-form", <FormOutlined />),
+    // getItem("Счета", "account-form", <FormOutlined />),
     getItem("Долги", "1", <PieChartOutlined />, [
       getItem("Картотека", "111"),
-      getItem("Кредитные договоры", "11"),
-      getItem("Архив кредитных договоров", "1111"),
+      // getItem("Кредитные договоры", "11"),
+      // getItem("Архив кредитных договоров", "1111"),
     ]),
     getItem("Справочники", "2", <DesktopOutlined />, [
-      getItem("Cправочник курсов валют", "111"),
-      getItem("Cправочник банков", "11"),
+      // getItem("Cправочник курсов валют", "111"),
+      // getItem("Cправочник банков", "11"),
       getItem("Cправочник филиалов банков", "1111"),
     ]),
     getItem("Отчеты", "sub1", <FileDoneOutlined />, [
@@ -93,7 +93,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     // getItem("Периодические платежи", "8"),
     // ]),
     getItem("Сервис", "9", <BlockOutlined />, [
-      getItem("Файлы отчетов", "6"),
+      // getItem("Файлы отчетов", "6"),
       getItem("Импорт документов", "8"),
       getItem("Экспорт документов", "8"),
       // getItem("Регистрация QR", "8"),
@@ -161,13 +161,14 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           </Popover>
         </div>
       </Header>
-      <Content style={{ margin: "0 50px" }}>
+      <Content style={{ margin: "0 48px" }}>
         <div
           style={{
             // padding: 16,
             textAlign: "center",
             background: colorBgContainer,
             zIndex: "99",
+            paddingTop: 24
           }}
         >
           {children}

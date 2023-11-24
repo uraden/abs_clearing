@@ -9,16 +9,15 @@ import type { FilterConfirmProps } from "antd/es/table/interface";
 import { getAccountList } from "../../pages/accountList/request";
 
 interface DataType {
-  key: string;
-  name: string;
-  currency: string;
-  bankName: string;
-  remainder: string;
-  action: Array<string>;
+  id: string;
+  crBankName: string;
+  crInn: string;
+  debBankName: string;
+  naznCode: string;
+  status: string
 }
 
 type DataIndex = keyof DataType;
-
 
 const AccountList: React.FC = () => {
   const [searchText, setSearchText] = useState("");
@@ -28,29 +27,37 @@ const AccountList: React.FC = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
   const [isLoading, setLoading] = useState(false);
-  const [tableData, setTableData] =useState([])
+  const [tableData, setTableData] = useState([]);
 
   const navigate = useNavigate();
 
   const getList = async () => {
-    setLoading(true)
+    setLoading(true);
     const response = await getAccountList();
     try {
-      
       // Assuming the data is an array inside response.data, map it with an incremental id
-      const mappedData = response?.data.map((item: { id: string; crBankName: string; crInn: string; debBankName: string; naznCode: string }) => ({
-        key: item.id, 
-        name: item.crBankName,
-        currency: item.crInn,
-        bankName: item.debBankName,
-        remainder: item.naznCode,
-        action: ["Изменить", "Утвердить", "Удалить"],
-      }));
-      setTableData(mappedData || []);
-      setLoading(false)
+      // const mappedData = response?.data.map(
+      //   (item: {
+      //     id: string;
+      //     crBankName: string;
+      //     crInn: string;
+      //     debBankName: string;
+      //     naznCode: string;
+      //   }) => ({
+      //     key: item.id,
+      //     name: item.crBankName,
+      //     currency: item.crInn,
+      //     bankName: item.debBankName,
+      //     remainder: item.naznCode,
+      //     action: ["Изменить", "Утвердить", "Удалить"],
+      //   })
+      // );
+      // @ts-ignore
+      setTableData(response.data || []);
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
-      console.error('Error fetching data:', error);
+      setLoading(false);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -82,6 +89,7 @@ const AccountList: React.FC = () => {
     dataIndex: DataIndex
   ) => {
     confirm();
+    console.log();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
@@ -186,40 +194,46 @@ const AccountList: React.FC = () => {
   const columns: ColumnsType<DataType> = [
     {
       title: "Наименование",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "crBankName",
+      key: "crBankName",
       width: 300,
-      ...getColumnSearchProps("name"),
+      ...getColumnSearchProps("crBankName"),
     },
     {
       title: "Валюта",
-      dataIndex: "currency",
-      key: "currency",
+      dataIndex: "crInn",
+      key: "crInn",
       width: 300,
-      ...getColumnSearchProps("currency"),
+      ...getColumnSearchProps("crInn"),
     },
     {
       title: "Банк",
-      dataIndex: "bankName",
-      key: "bankName",
+      dataIndex: "debBankName",
+      key: "debBankName",
       width: 300,
-      ...getColumnSearchProps("bankName"),
-      sorter: (a, b) => a.bankName.length - b.bankName.length,
+      ...getColumnSearchProps("debBankName"),
+      sorter: (a, b) => a.debBankName.length - b.debBankName.length,
       sortDirections: ["descend", "ascend"],
     },
     {
       title: "Остаток",
-      dataIndex: "remainder",
-      key: "remainder",
+      dataIndex: "naznCode",
+      key: "naznCode",
       width: 300,
-      ...getColumnSearchProps("remainder"),
-      sorter: (a, b) => a.remainder.length - b.remainder.length,
+      ...getColumnSearchProps("naznCode"),
+      sorter: (a, b) => a.naznCode.length - b.naznCode.length,
       sortDirections: ["descend", "ascend"],
     },
     {
       title: "Статус",
-      key: "action",
-      render: (_, record) => (
+      dataIndex: "status",
+      key: "status",
+      render: (status) => status,
+    },
+    {
+      title: "Действие",
+      // key: "action",
+      render: (_) => (
         <Space size="middle">
           <Button
             onClick={() => navigate('/account-form')}
@@ -229,7 +243,7 @@ const AccountList: React.FC = () => {
               outline: "none",
             }}
           >
-            {record.action[0]}
+            Изменить
           </Button>
           {/* <Button
             onClick={() => {
