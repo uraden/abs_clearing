@@ -360,7 +360,7 @@ const AccountEntryForm: React.FC = () => {
             </Button>
           </Form.Item>
 
-          <Form.Item>
+          {/* <Form.Item>
             <Button
               danger
               type="primary"
@@ -370,7 +370,7 @@ const AccountEntryForm: React.FC = () => {
             >
               Удалить
             </Button>
-          </Form.Item>
+          </Form.Item> */}
         </div>
       </Form>
     </>
