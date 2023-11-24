@@ -9,12 +9,14 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { makeOrder } from "../../pages/accountForm/request";
+import { useMakeOrder } from "../../pages/accountForm/request";
 import moment from "moment";
 
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
+
+  const {makeOrder} = useMakeOrder();
 
   const confirmForm = () => {
     message.success(`Created new form`);
