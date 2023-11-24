@@ -2,12 +2,10 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import type { InputRef } from "antd";
-import { Button, Input, Space, Table, Modal, Tag } from "antd";
+import { Button, Input, Space, Table, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
-import _ from 'lodash';
-import { Status } from "../../assets/defaultData";
 import { useAccountList } from "../../pages/accountList/request";
 
 interface DataType {
