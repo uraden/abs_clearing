@@ -2,11 +2,13 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useRef, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import type { InputRef } from "antd";
-import { Button, Input, Space, Table, Modal } from "antd";
+import { Button, Input, Space, Table, Modal, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import { getAccountList } from "../../pages/accountList/request";
+import _ from 'lodash';
+import { Status } from "../../assets/defaultData";
 
 interface DataType {
   id: string;
@@ -228,7 +230,13 @@ const AccountList: React.FC = () => {
       title: "Статус",
       dataIndex: "status",
       key: "status",
-      render: (status) => status,
+      render: (status) => {
+        const tempStatus = _.find(Status, (o) => o.statusTitle === status);
+        if (tempStatus) {
+          return <Tag color={tempStatus.statusColor}>{status}</Tag>
+        }
+        return status;
+      },
     },
     {
       title: "Действие",
@@ -299,7 +307,7 @@ const AccountList: React.FC = () => {
       >
         <p>{modalText}</p>
       </Modal>
-      <h3 style={{ textAlign: "center", marginBottom: 16 }}>Таблица</h3>
+      <h3 style={{ textAlign: "center", marginBottom: 16 }}>Список Документов</h3>
       <Table loading={isLoading} columns={columns} dataSource={tableData} />
     </>
   );

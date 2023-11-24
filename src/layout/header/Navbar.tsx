@@ -41,7 +41,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   const currentYear = new Date().getFullYear();
 
   const items: MenuItem[] = [
-    getItem("Мои Документы", "", <FileTextOutlined />, [
+    getItem("Мои Документы", "0", <FileTextOutlined />, [
       // getItem("Мои документы", "4"),
       // getItem("Документы в других филивлах", "5"),
       getItem("Новый документ", "account-form"),
@@ -119,6 +119,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           color: "#f5222d",
           outline: "none",
         }}
+        onClick={() => {
+          navigate('/login')
+        }}
       >
         Выход
       </Button>
@@ -139,8 +142,6 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     <Layout>
       <Header
         style={{
-          // minWidth: "98vw",
-          // width: '100%',
           display: "flex",
         }}
       >
