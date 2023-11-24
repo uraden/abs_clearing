@@ -1,39 +1,24 @@
-import { SearchOutlined } from "@ant-design/icons";
-import React, { useRef, useEffect, useState } from "react";
-import Highlighter from "react-highlight-words";
-import type { InputRef } from "antd";
-import { Button, Input, Space, Table, Modal, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Space, Table } from "antd";
 import { useNavigate } from "react-router-dom";
-import type { ColumnType, ColumnsType } from "antd/es/table";
-import type { FilterConfirmProps } from "antd/es/table/interface";
-import _ from 'lodash';
-import { Status } from "../../assets/defaultData";
+import type { ColumnsType } from "antd/es/table";
+
+import _ from "lodash";
+
 import { useAccountList } from "../../pages/accountList/request";
 
-interface DataType {
-  id: string;
-  crBankName: string;
-  crInn: string;
-  debBankName: string;
-  naznCode: string;
-  status: string
-}
 
-type DataIndex = keyof DataType;
+
 
 const AccountList: React.FC = () => {
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
-  const searchInput = useRef<InputRef>(null);
-  const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState("Content of the modal");
+
+
   const [isLoading, setLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
 
   const navigate = useNavigate();
 
-  const { getAccountList } = useAccountList()
+  const { getAccountList } = useAccountList();
 
   const getList = async () => {
     setLoading(true);
@@ -69,192 +54,52 @@ const AccountList: React.FC = () => {
     getList();
   }, []);
 
-  // const showModal = () => {
-  //   setOpen(true);
-  // };
 
-  const handleOk = () => {
-    setModalText("The modal will be closed after two seconds");
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
 
-  const handleCancel = () => {
-    console.log("Clicked cancel button");
-    setOpen(false);
-  };
+  interface DataType {
+    key: React.Key;
+    nDoc: string;
+    mfo_1: string;
+    account_1: string;
+    mfo_2: string;
+    accunt_2: string;
+    total_amount: string;
+    status: string;
+  }
 
-  const handleSearch = (
-    selectedKeys: string[],
-    confirm: (param?: FilterConfirmProps) => void,
-    dataIndex: DataIndex
-  ) => {
-    confirm();
-    console.log();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
+  const transTabbleData = tableData.map((item: {id: string, ndoc: string, crMfo: string, crPnfl: string, debMfo: string, debPnfl:string, sum:string }) => ({
+    key: item.id,
+    nDoc: item.ndoc,
+    mfo_1: item.crMfo, 
+    account_1: item.crPnfl, 
+    mfo_2: item.debMfo, 
+    account_2: item.debPnfl, 
+    total_amount: item.sum, 
+  }));
 
-  const handleReset = (clearFilters: () => void) => {
-    clearFilters();
-    setSearchText("");
-  };
-  
-
-  const getColumnSearchProps = (
-    dataIndex: DataIndex
-  ): ColumnType<DataType> => ({
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-      close,
-    }) => (
-      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() =>
-            handleSearch(selectedKeys as string[], confirm, dataIndex)
-          }
-          style={{ marginBottom: 8, display: "block" }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() =>
-              handleSearch(selectedKeys as string[], confirm, dataIndex)
-            }
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 90 }}
-          >
-            Search
-          </Button>
-          <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size="small"
-            style={{ width: 90 }}
-          >
-            Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setSearchText((selectedKeys as string[])[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              close();
-            }}
-          >
-            close
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes((value as string).toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
-    },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ""}
-        />
-      ) : (
-        text
-      ),
-  });
-
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<DataType>  = [
+    { title: "№ Док.", dataIndex: "nDoc", key: "nDoc" },
     {
-      title: "Наименование",
-      dataIndex: "crBankName",
-      key: "crBankName",
-      width: 300,
-      ...getColumnSearchProps("crBankName"),
+      title: "Платильшик",
+      children: [
+        { title: "МФО", dataIndex: "mfo_1", key: "mfo_1" },
+        { title: "Счет", dataIndex: "account_1", key: "account_1" },
+      ],
     },
     {
-      title: "Валюта",
-      dataIndex: "crInn",
-      key: "crInn",
-      width: 300,
-      ...getColumnSearchProps("crInn"),
+      title: "Получатель",
+      children: [
+        { title: "МФО", dataIndex: "mfo_2", key: "mfo_2" },
+        { title: "Счет", dataIndex: "account_2", key: "account_2" },
+      ],
     },
+    { title: "Сумма", dataIndex: "total_amount", key: "total_amount" },
     {
-      title: "Банк",
-      dataIndex: "debBankName",
-      key: "debBankName",
-      width: 300,
-      ...getColumnSearchProps("debBankName"),
-      sorter: (a, b) => a.debBankName.length - b.debBankName.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Остаток",
-      dataIndex: "naznCode",
-      key: "naznCode",
-      width: 300,
-      ...getColumnSearchProps("naznCode"),
-      sorter: (a, b) => a.naznCode.length - b.naznCode.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Статус",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => {
-        const tempStatus = _.find(Status, (o) => o.statusTitle === status);
-        if (tempStatus) {
-          return <Tag color={tempStatus.statusColor}>{status}</Tag>
-        }
-        return status;
-      },
-    },
-    {
-      title: "Действие",
-      // key: "action",
-      render: (_) => (
+      title: "Action",
+      key: "action",
+      render: () => (
         <Space size="middle">
-          <Button
-            onClick={() => navigate('/account-form')}
-            style={{
-              borderColor: "#fa8c16",
-              color: "#fa8c16",
-              outline: "none",
-            }}
-          >
-            Изменить
-          </Button>
+          <Button>Изменить</Button>
         </Space>
       ),
     },
@@ -262,19 +107,12 @@ const AccountList: React.FC = () => {
 
   return (
     <>
-      <Modal
-        title="Title"
-        open={open}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        okButtonProps={{ style: { outline: "none" } }}
-        cancelButtonProps={{ style: { outline: "none" } }}
-      >
-        <p>{modalText}</p>
-      </Modal>
-      <h3 style={{ textAlign: "center", marginBottom: 16 }}>Список Документов</h3>
-      <Table loading={isLoading} columns={columns} dataSource={tableData} />
+      <h3 style={{ textAlign: "center", marginBottom: 16 }}>
+        Список Документов
+      </h3>
+
+
+    <Table dataSource={transTabbleData} columns={columns} />
     </>
   );
 };
