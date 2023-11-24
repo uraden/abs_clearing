@@ -55,7 +55,7 @@ const LoginForm: React.FC = () => {
   return (
     <div>
       {contextHolder}
-      <h3 style={{ marginBottom: 4, fontSize: "54px", color: "white" }}>
+      <h3 style={{ marginBottom: 4, fontSize: "54px", color: "white", display: "flex" }}>
         ABS Login
       </h3>
       <Form
@@ -85,6 +85,7 @@ const LoginForm: React.FC = () => {
           <Input.Password />
         </Form.Item>
 
+        <Form.Item >
         <Button
           type="primary"
           htmlType="submit"
@@ -99,6 +100,8 @@ const LoginForm: React.FC = () => {
         >
           Log-in
         </Button>
+        </Form.Item>
+       
       </Form>
     </div>
   );

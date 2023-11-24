@@ -6,7 +6,7 @@ import { Button, Input, Space, Table, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
-import { getAccountList } from "../../pages/accountList/request";
+import { useAccountList } from "../../pages/accountList/request";
 
 interface DataType {
   key: string;
@@ -31,6 +31,8 @@ const AccountList: React.FC = () => {
   const [tableData, setTableData] =useState([])
 
   const navigate = useNavigate();
+
+  const { getAccountList } = useAccountList()
 
   const getList = async () => {
     setLoading(true)
