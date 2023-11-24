@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Space, Table } from "antd";
-import { useNavigate } from "react-router-dom";
-import type { ColumnsType } from "antd/es/table";
-
-import _ from "lodash";
 
 import { useAccountList } from "../../pages/accountList/request";
 
@@ -13,7 +9,7 @@ const AccountList: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { getAccountList } = useAccountList();
 
@@ -51,16 +47,6 @@ const AccountList: React.FC = () => {
     getList();
   }, []);
 
-  interface DataType {
-    key: React.Key;
-    nDoc: string;
-    mfo_1: string;
-    account_1: string;
-    mfo_2: string;
-    accunt_2: string;
-    total_amount: string;
-    status: string;
-  }
 
   const transTabbleData = tableData.map((item: {id: string, ndoc: string, crMfo: string, crPnfl: string, debMfo: string, debPnfl:string, sum:string }) => ({
     key: item.id,
@@ -72,7 +58,7 @@ const AccountList: React.FC = () => {
     total_amount: item.sum, 
   }));
 
-  const columns: ColumnsType<DataType>  = [
+  const columns  = [
     { title: "№ Док.", dataIndex: "nDoc", key: "nDoc" },
     {
       title: "Платильшик",
@@ -107,7 +93,7 @@ const AccountList: React.FC = () => {
       </h3>
 
 
-    <Table dataSource={transTabbleData} columns={columns} bordered />
+    <Table loading={isLoading} dataSource={transTabbleData} columns={columns} bordered />
     </>
   );
 };
