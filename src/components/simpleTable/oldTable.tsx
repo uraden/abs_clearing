@@ -232,13 +232,13 @@ const AccountList: React.FC = () => {
       title: "Статус",
       dataIndex: "status",
       key: "status",
-      render: (status) => {
-        const tempStatus = _.find(Status, (o) => o.statusTitle === status);
-        if (tempStatus) {
-          return <Tag color={tempStatus.statusColor}>{status}</Tag>
-        }
-        return status;
-      },
+      // render: (status) => {
+      //   const tempStatus = _.find(Status, (o) => o.statusTitle === status);
+      //   if (tempStatus) {
+      //     return <Tag color={tempStatus.statusColor}>{status}</Tag>
+      //   }
+      //   return status;
+      // },
     },
     {
       title: "Действие",
