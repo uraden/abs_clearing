@@ -42,7 +42,6 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   const items: MenuItem[] = [
     getItem("Мои Документы", "", <FileTextOutlined />, [
-      
       // getItem("Мои документы", "4"),
       // getItem("Документы в других филивлах", "5"),
       getItem("Новый документ", "account-form"),
@@ -168,14 +167,19 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             textAlign: "center",
             background: colorBgContainer,
             zIndex: "99",
-            paddingTop: 24
+            paddingTop: 24,
           }}
         >
           {children}
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
-        By Beka and Jamal {currentYear}
+        АО
+        <span style={{ fontStyle: "italic" }}>
+          {" "}
+          "Национальный Клиринговый Центр"
+        </span>{" "}
+        при УзРВБ {currentYear}
       </Footer>
     </Layout>
   );
