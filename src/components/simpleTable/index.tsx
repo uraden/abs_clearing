@@ -255,42 +255,6 @@ const AccountList: React.FC = () => {
           >
             Изменить
           </Button>
-          {/* <Button
-            onClick={() => {
-              alert(record.name + " " + record.action[1]);
-            }}
-            style={{
-              borderColor: "#52c41a",
-              color: "#52c41a",
-              outline: "none",
-            }}
-          >
-            {record.action[1]}
-          </Button>
-          <Popconfirm
-            title={`Delete the task`}
-            description={`Are you sure to delete ${record.name}?`}
-            onConfirm={(e) => e && confirm(e, record.name)}
-            onCancel={(e) =>e && cancel(e)}
-            okText="Yes"
-            cancelText="No"
-            style={{ outline: "none" }}
-            okButtonProps={{ style: { outline: "none" } }}
-            cancelButtonProps={{ style: { outline: "none" } }}
-          >
-            <Button
-              // onClick={() => {
-              //   alert(record.name + " " + record.action[2]);
-              // }}
-              style={{
-                borderColor: "#f5222d",
-                color: "#f5222d",
-                outline: "none",
-              }}
-            >
-              {record.action[2]}
-            </Button>
-          </Popconfirm> */}
         </Space>
       ),
     },

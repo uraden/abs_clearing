@@ -42,26 +42,14 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   const items: MenuItem[] = [
     getItem("Мои Документы", "0", <FileTextOutlined />, [
-      // getItem("Мои документы", "4"),
-      // getItem("Документы в других филивлах", "5"),
       getItem("Новый документ", "account-form"),
       getItem("Список документов", "account-list"),
       getItem("Архив документов", "5"),
-      // getItem("Отчисления", "5"),
-      // getItem("Документы SWIFT", "5"),
-      // getItem("Валютные контракты", "5"),
-      // getItem("Заявки на конвертацию", "5"),
-      // getItem("Зарплатный проект", "5"),
     ]),
-    // getItem("Счета", "account-form", <FormOutlined />),
     getItem("Долги", "1", <PieChartOutlined />, [
       getItem("Картотека", "111"),
-      // getItem("Кредитные договоры", "11"),
-      // getItem("Архив кредитных договоров", "1111"),
     ]),
     getItem("Справочники", "2", <DesktopOutlined />, [
-      // getItem("Cправочник курсов валют", "111"),
-      // getItem("Cправочник банков", "11"),
       getItem("Cправочник филиалов банков", "1111"),
     ]),
     getItem("Отчеты", "sub1", <FileDoneOutlined />, [
@@ -69,10 +57,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       getItem("Сальдово-оборотная ", "44"),
       getItem("Справка о работе счета", "551"),
       getItem("Ведомость платежных операций", "55"),
-      // getItem("Опись платежей Paynet", "55"),
       getItem("Выгрузка документов ГНИ", "55"),
       getItem("Удаленные и незавершенные платежи", "55"),
-      // getItem("Выписка по карт-счетам UZKART-онлайн", "55"),
       getItem("Справка о работе счета 2", "55"),
       getItem("Выписка лицевых счетов 2", "55"),
       getItem("Справка о работе счета 3", "55"),
@@ -81,29 +67,12 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       getItem("Выписка лицевых счетов за период", "55"),
       getItem("Отчет об удаленных документах", "55"),
       getItem("Справка о работе счета консолидированная", "55"),
-      // getItem("ИПБ - Шаблон СУВОКАВА по дням", "55"),
-      // getItem("ИПБ - Сведения по депозитам организаций МВД", "55"),
-      // getItem("ИПБ - Справка о работе счета", "55"),
-      // getItem("ИПБ - Сведения о сборе коммунальных платежей", "55"),
     ]),
-    // getItem("Настройки", "sub2", <SettingOutlined />, [
-    //   getItem("Смена пароля", "6"),
-    // getItem("Установка параметров", "8"),
-    // getItem("Периодические платежи", "8"),
-    // ]),
     getItem("Сервис", "9", <BlockOutlined />, [
-      // getItem("Файлы отчетов", "6"),
       getItem("Импорт документов", "8"),
       getItem("Экспорт документов", "8"),
-      // getItem("Регистрация QR", "8"),
     ]),
-    // getItem("Требования", "10", <AppstoreAddOutlined />, [
-    //   getItem("УзбекЭнерго", "6"),
-    //   getItem("Требования банка", "8"),
-    // ]),
-    // getItem("Заявки", "11", <DeliveredProcedureOutlined />, [
-    //   getItem("Заявки на получение кредита в валюте", "8"),
-    // ]),
+
   ];
 
   const onClick: MenuProps["onClick"] = (e) => {

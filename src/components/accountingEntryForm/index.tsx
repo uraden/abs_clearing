@@ -16,7 +16,7 @@ const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
 
-  const {makeOrder} = useMakeOrder();
+  const { makeOrder } = useMakeOrder();
 
   const confirmForm = () => {
     message.success(`Created new form`);
@@ -26,7 +26,7 @@ const AccountEntryForm: React.FC = () => {
     message.error("Couldn't send form");
   };
 
-  const onFinish = async (values: {dtd: string}) => {
+  const onFinish = async (values: { dtd: string }) => {
     setLoading(true);
 
     try {
@@ -46,7 +46,7 @@ const AccountEntryForm: React.FC = () => {
       confirmForm();
       setLoading(false);
     } catch (err) {
-      failConfirmForm()
+      failConfirmForm();
       console.log("error: ", err);
     }
   };
@@ -85,12 +85,12 @@ const AccountEntryForm: React.FC = () => {
       >
         <div className="inline">
           <Form.Item
-          className="aaaaa"
+            className="aaaaa"
             label="Дата документа"
             name="dtd"
             rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
           >
-            <DatePicker placeholder="Выберите дату" format="DD.MM.YYYY"/>
+            <DatePicker placeholder="Выберите дату" format="DD.MM.YYYY" />
           </Form.Item>
           <Form.Item
             label="№ документа"
@@ -347,21 +347,29 @@ const AccountEntryForm: React.FC = () => {
 
         <div
           className="horizontal"
-          style={{ display: "flex", justifyContent: "center" }}
+          style={{ display: "flex", justifyContent: "center", gap: 16 }}
         >
           <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
               loading={isLoading}
-              style={{ outline: "none", marginRight: "50px" }}
+              style={{ outline: "none" }}
             >
-              Сократить
+              Сохранить
             </Button>
           </Form.Item>
 
           <Form.Item>
-            <Button style={{ outline: "none" }}>Загрузить</Button>
+            <Button
+              danger
+              type="primary"
+              style={{
+                outline: "none",
+              }}
+            >
+              Удалить
+            </Button>
           </Form.Item>
         </div>
       </Form>
