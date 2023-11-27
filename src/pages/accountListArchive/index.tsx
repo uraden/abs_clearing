@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button, Space } from "antd";
+import { Button, Space,  DatePicker  } from "antd";
 import { getAccountArchiveList } from "./request";
 import CustomTable from "../../components/Reusables/Table";
 import { Link } from "react-router-dom";
+import type { DatePickerProps } from 'antd';
+import moment from "moment";
 
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
@@ -71,13 +73,30 @@ const AccountListArchive = () => {
     getList();
   }, []);
 
+  const onChange: DatePickerProps['onChange'] = (dateString) => {
+    console.log(moment(dateString).format("DD.MM.YYYY") );
+  };
+
   return (
+    <>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      width: '18%',
+      justifyContent: 'space-evenly'
+    }}> 
+      <h3>
+        Выберити дату:
+      </h3>
+      <DatePicker onChange={onChange} />
+    </div>
     <CustomTable
       // @ts-ignore
       isLoading={isLoading}
       columns={columns}
       dataSource={dataSource}
     />
+    </>
   );
 };
 
