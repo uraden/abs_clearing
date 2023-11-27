@@ -4,7 +4,11 @@ import { getAccountArchiveList } from "./request";
 import CustomTable from "../../components/Reusables/Table";
 import { Link } from "react-router-dom";
 import type { DatePickerProps } from 'antd';
-import moment from "moment";
+import moment, { MomentInput} from "moment";
+
+interface YourRecordType {
+  key: string;
+}
 
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
@@ -30,8 +34,7 @@ const AccountListArchive = () => {
     {
       title: "Action",
       key: "action",
-      //@ts-ignore
-      render: (_, record) => (
+      render: (_text: unknown, record: YourRecordType) => (
         <Space size="middle">
           <Link to={`/edit/${record.key}/doc`}>
             <Button>Изменить</Button>
@@ -74,7 +77,7 @@ const AccountListArchive = () => {
   }, []);
 
   const onChange: DatePickerProps['onChange'] = (dateString) => {
-    console.log(moment(dateString).format("DD.MM.YYYY") );
+    console.log(moment(dateString as MomentInput).format("DD.MM.YYYY") );
   };
 
   return (
@@ -91,7 +94,7 @@ const AccountListArchive = () => {
       <DatePicker onChange={onChange} />
     </div>
     <CustomTable
-      // @ts-ignore
+    //@ts-ignore
       isLoading={isLoading}
       columns={columns}
       dataSource={dataSource}

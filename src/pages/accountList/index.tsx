@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AccountList from "../../components/simpleTable";
+// import AccountList from "../../components/simpleTable";
 import { Button, Space } from "antd";
 import { Link } from "react-router-dom";
 import { getAccountArchiveList } from "../accountListArchive/request";

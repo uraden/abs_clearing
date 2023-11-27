@@ -1,17 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Button, Space, Table } from "antd";
-import { useAccountList } from "../../pages/accountList/request";
-
-interface IAccountList {
-  isLoading: boolean;
-  columns: {
-    render?: Function;
-    title: string;
-    dataIndex?: string;
-    key?: string;
-  }[];
-  dataSource: any;
-}
+import React from "react";
+import { Table } from "antd";
+// import { useAccountList } from "../../pages/accountList/request";
 
 const CustomTable: React.FC = ({ isLoading, columns, dataSource }: any) => {
   console.log('coll: ', columns)
