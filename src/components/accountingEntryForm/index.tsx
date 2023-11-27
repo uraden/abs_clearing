@@ -7,6 +7,8 @@ import {
   Select,
   Divider,
   message,
+  Row,
+  InputNumber
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useMakeOrder } from "../../pages/accountForm/request";
@@ -76,8 +78,8 @@ const AccountEntryForm: React.FC = () => {
     <>
       <h3 style={{ textAlign: "center", marginBottom: 16 }}>Форма</h3>
       <Form
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 14 }}
+        // labelCol={{ span: 10}}
+        // wrapperCol={{ span: 14 }}
         layout="horizontal"
         style={{
           padding: "10px",
@@ -86,16 +88,26 @@ const AccountEntryForm: React.FC = () => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
-        <div className="inline">
+        
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center'
+            }}
+          >
           <Form.Item
+            labelCol={{span: 10}}
+            wrapperCol={{ span: 14 }}
             className="aaaaa"
-            label="Дата документа"
+            label="Дата документа:"
             name="dtd"
             rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
           >
             <DatePicker placeholder="Выберите дату" format="DD.MM.YYYY" />
           </Form.Item>
           <Form.Item
+          labelCol={{span: 10}}
+          wrapperCol={{ span: 14 }}
             label="№ документа"
             name="ndoc"
             rules={[
@@ -105,12 +117,17 @@ const AccountEntryForm: React.FC = () => {
             <Input />
           </Form.Item>
         </div>
-
         <Divider />
 
-        <div className="inline" style={{ display: "inline" }}>
+        <div className="inline" 
+        style={{ 
+          display: "flex", 
+          justifyContent: 'center'
+          }}>
           {role === 2 ? (
             <Form.Item
+            labelCol={{span: 10}}
+            wrapperCol={{ span: 14 }}
               label="Счет плательщика"
               rules={[
                 {
@@ -120,12 +137,15 @@ const AccountEntryForm: React.FC = () => {
               ]}
               name="sum"
             >
-              <Select style={{ width: "100px" }}>
+              <Select
+               style={{ width: "100px" }}>
                 <Select.Option value="demo">Demo</Select.Option>
               </Select>
             </Form.Item>
           ) : (
             <Form.Item
+            // labelCol={{span: 10}}
+            // wrapperCol={{ span: 14 }}
               label="Счет плательщика"
               rules={[
                 {
@@ -135,17 +155,41 @@ const AccountEntryForm: React.FC = () => {
               ]}
               name="naznCode"
             >
-              <Input />
+              <InputNumber type="number" 
+                minLength={16}
+                maxLength={16}
+                style={{
+                  width: 184,
+                  display: 'flex'
+                }}
+              />
             </Form.Item>
           )}
 
-          <Form.Item label="ИНН" name="naznText">
-            <Input />
+          <Form.Item 
+            label="ИНН" 
+            name="naznText"
+            // labelCol={{span: 10}}
+            // wrapperCol={{ span: 14 }}
+            style={{
+              marginLeft: 40
+            }}
+            >
+            <Input 
+               style={{
+                width: 184,
+                display: 'flex'
+              }}
+            />
           </Form.Item>
-        </div>
-        <br />
-        <div className="inline">
-          <Form.Item label="Банк">
+        
+          <Form.Item label="Банк" 
+          // labelCol={{span: 10}}
+          // wrapperCol={{ span: 14 }}
+          style={{
+            marginLeft: 40
+          }}
+            >
             <Input name="debMfo" />
           </Form.Item>
 
@@ -155,24 +199,40 @@ const AccountEntryForm: React.FC = () => {
               { required: true, message: "Пожалуста выберете МФО Банка" },
             ]}
             name="debAcc"
+            // labelCol={{span: 10}}
+            // wrapperCol={{ span: 14 }}
+            style={{
+              marginLeft: 40
+            }}
           >
             <Input />
           </Form.Item>
         </div>
 
         <Divider />
-        <Form.Item
+       
+       <div style={{
+        display: 'flex',
+        justifyContent: 'center'
+        }}>
+       <Form.Item
           label="Сумма"
           rules={[{ required: true, message: "Пожалуста введите сумму" }]}
           name="debName"
         >
           <Input />
         </Form.Item>
-        {/* <h3> Сумма не указана</h3> */}
+       </div>
+       
 
         <Divider />
 
-        <div className="inline">
+        <div className="inline" 
+          style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
           {role == 2 ? (
             <Form.Item
               label="Счет получателя"
@@ -207,13 +267,19 @@ const AccountEntryForm: React.FC = () => {
             label="ИНН"
             // rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
             name="debBankName"
+            style={{
+              marginLeft: 40
+            }}
           >
             <Input />
           </Form.Item>
-        </div>
-        <br />
-        <div className="inline">
-          <Form.Item label="Банк">
+       
+          <Form.Item 
+            label="Банк"
+            style={{
+              marginLeft: 40
+            }}
+            >
             <Input name="crMfo" />
           </Form.Item>
 
@@ -223,6 +289,9 @@ const AccountEntryForm: React.FC = () => {
               { required: true, message: "Пожалуста выберете МФО Банка" },
             ]}
             name="crAcc"
+            style={{
+              marginLeft: 40
+            }}
           >
             <Input />
           </Form.Item>
@@ -230,8 +299,15 @@ const AccountEntryForm: React.FC = () => {
 
         <Divider />
 
-        <div className="inline">
-          <Form.Item label="Код назначения">
+        <div className="inline" style={{
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+          <Form.Item label="Код назначения"
+          style={{
+            width: '20%'
+          }}
+          >
             <Select
               allowClear
               showSearch
@@ -311,7 +387,14 @@ const AccountEntryForm: React.FC = () => {
             />
           </Form.Item>
 
-          <Form.Item label="Детали платежа" name="crName">
+          <Form.Item 
+            label="Детали платежа" 
+            name="crName"
+            style={{
+              width: '45%',
+              marginLeft: 30
+            }}
+            >
             <TextArea rows={4} />
           </Form.Item>
         </div>
