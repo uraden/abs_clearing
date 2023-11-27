@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AccountList from "../../components/simpleTable";
 import { Button, Space } from "antd";
 import { getAccountArchiveList } from "./request";
 import CustomTable from "../../components/Reusables/Table";

@@ -108,7 +108,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: '100vh' }}>
       <Header
         style={{
           display: "flex",
