@@ -6,6 +6,7 @@ import "./App.css";
 import AccountEntryForm from "./pages/accountForm";
 import AccountList from "./components/simpleTable/index.tsx";
 import NotFound from "./components/notFound/NotFound.tsx";
+import AccountListArchive from "./pages/accountListArchive/index.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -26,10 +27,26 @@ function App() {
       ),
     },
     {
+      path: "/edit/:docId/doc",
+      element: (
+        <Protected isSignedIn={true}>
+          <AccountEntryForm />
+        </Protected>
+      ),
+    },
+    {
       path: "/account-list",
       element: (
         <Protected isSignedIn={true}>
           <AccountList />
+        </Protected>
+      ),
+    },
+    {
+      path: "/account-list-archive",
+      element: (
+        <Protected isSignedIn={true}>
+          <AccountListArchive />
         </Protected>
       ),
     },

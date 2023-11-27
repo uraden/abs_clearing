@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Space, Table } from "antd";
 
 import { useAccountList } from "../../pages/accountList/request";
+import { Link } from "react-router-dom";
 
 const AccountList: React.FC = () => {
-
-
   const [isLoading, setLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
 
@@ -17,23 +16,6 @@ const AccountList: React.FC = () => {
     setLoading(true);
     const response = await getAccountList();
     try {
-      // Assuming the data is an array inside response.data, map it with an incremental id
-      // const mappedData = response?.data.map(
-      //   (item: {
-      //     id: string;
-      //     crBankName: string;
-      //     crInn: string;
-      //     debBankName: string;
-      //     naznCode: string;
-      //   }) => ({
-      //     key: item.id,
-      //     name: item.crBankName,
-      //     currency: item.crInn,
-      //     bankName: item.debBankName,
-      //     remainder: item.naznCode,
-      //     action: ["Изменить", "Утвердить", "Удалить"],
-      //   })
-      // );
       // @ts-ignore
       setTableData(response.data || []);
       setLoading(false);
@@ -47,18 +29,27 @@ const AccountList: React.FC = () => {
     getList();
   }, []);
 
+  const transTabbleData = tableData.map(
+    (item: {
+      id: string;
+      ndoc: string;
+      crMfo: string;
+      crPnfl: string;
+      debMfo: string;
+      debPnfl: string;
+      sum: string;
+    }) => ({
+      key: item.id,
+      nDoc: item.ndoc,
+      mfo_1: item.crMfo,
+      account_1: item.crPnfl,
+      mfo_2: item.debMfo,
+      account_2: item.debPnfl,
+      total_amount: item.sum,
+    })
+  );
 
-  const transTabbleData = tableData.map((item: {id: string, ndoc: string, crMfo: string, crPnfl: string, debMfo: string, debPnfl:string, sum:string }) => ({
-    key: item.id,
-    nDoc: item.ndoc,
-    mfo_1: item.crMfo, 
-    account_1: item.crPnfl, 
-    mfo_2: item.debMfo, 
-    account_2: item.debPnfl, 
-    total_amount: item.sum, 
-  }));
-
-  const columns  = [
+  const columns = [
     { title: "№ Док.", dataIndex: "nDoc", key: "nDoc" },
     {
       title: "Плательщик",
@@ -78,9 +69,12 @@ const AccountList: React.FC = () => {
     {
       title: "Action",
       key: "action",
-      render: () => (
+      // @ts-ignore
+      render: (_, record) => (
         <Space size="middle">
-          <Button>Изменить</Button>
+          <Link to={`/${record.key}/new-doc`}>
+            <Button>Изменить</Button>
+          </Link>
         </Space>
       ),
     },
@@ -92,8 +86,12 @@ const AccountList: React.FC = () => {
         Список Документов
       </h3>
 
-
-    <Table loading={isLoading} dataSource={transTabbleData} columns={columns} bordered />
+      <Table
+        loading={isLoading}
+        dataSource={transTabbleData}
+        columns={columns}
+        bordered
+      />
     </>
   );
 };

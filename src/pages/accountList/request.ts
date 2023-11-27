@@ -17,10 +17,10 @@ export const useAccountList = () => {
       return request;
     } catch (error) {
       console.log("err: ", error);
+      unauthorizedAccess();
       setTimeout(() => {
-        unauthorizedAccess()
         navigate('/login');
-        }, 500);
+        }, 1000);
     }
   };
 

@@ -44,7 +44,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     getItem("Мои Документы", "0", <FileTextOutlined />, [
       getItem("Новый документ", "account-form"),
       getItem("Список документов", "account-list"),
-      getItem("Архив документов", "5"),
+      getItem("Архив документов", "account-list-archive"),
     ]),
     getItem("Долги", "1", <PieChartOutlined />, [
       getItem("Картотека", "111"),
