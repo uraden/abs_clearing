@@ -19,7 +19,7 @@ function App() {
       ),
     },
     {
-      path: "/account-form",
+      path: "/new-doc",
       element: (
         <Protected isSignedIn={true}>
           <AccountEntryForm />

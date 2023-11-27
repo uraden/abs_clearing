@@ -42,7 +42,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   const items: MenuItem[] = [
     getItem("Мои Документы", "0", <FileTextOutlined />, [
-      getItem("Новый документ", "account-form"),
+      getItem("Новый документ", "new-doc"),
       getItem("Список документов", "account-list"),
       getItem("Архив документов", "account-list-archive"),
     ]),
