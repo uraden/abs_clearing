@@ -92,7 +92,7 @@ const AccountEntryForm: React.FC = () => {
           <div
             style={{
               display: 'flex',
-              justifyContent: 'center'
+              justifyContent: 'flex-start'
             }}
           >
           <Form.Item
@@ -122,7 +122,7 @@ const AccountEntryForm: React.FC = () => {
         <div className="inline" 
         style={{ 
           display: "flex", 
-          justifyContent: 'center'
+          justifyContent: 'flex-start'
           }}>
           {role === 2 ? (
             <Form.Item
@@ -213,7 +213,7 @@ const AccountEntryForm: React.FC = () => {
        
        <div style={{
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'flex-start'
         }}>
        <Form.Item
           label="Сумма"
@@ -230,7 +230,7 @@ const AccountEntryForm: React.FC = () => {
         <div className="inline" 
           style={{
             display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'flex-start'
           }}
         >
           {role == 2 ? (
@@ -301,7 +301,7 @@ const AccountEntryForm: React.FC = () => {
 
         <div className="inline" style={{
           display: 'flex',
-          justifyContent: 'center'
+          justifyContent: 'flex-start'
         }}>
           <Form.Item label="Код назначения"
           style={{
@@ -403,7 +403,7 @@ const AccountEntryForm: React.FC = () => {
 
         <div
           className="horizontal"
-          style={{ display: "flex", justifyContent: "center", gap: 16 }}
+          style={{ display: "flex", justifyContent: "flex-start", gap: 16 }}
         >
           <Form.Item>
             <Button
