@@ -4,6 +4,7 @@ import { getAccountArchiveList } from "./request";
 import CustomTable from "../../components/Reusables/Table";
 import { Link } from "react-router-dom";
 import type { DatePickerProps } from 'antd';
+import moment from "moment";
 
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
@@ -72,8 +73,8 @@ const AccountListArchive = () => {
     getList();
   }, []);
 
-  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
+  const onChange: DatePickerProps['onChange'] = (dateString) => {
+    console.log(moment(dateString).format("DD.MM.YYYY") );
   };
 
   return (
