@@ -1,6 +1,7 @@
 import LoginForm from "../../components/loginForm";
 
-import loginImage from "../../../public/images/login-image.png";
+import loginImage from "../../assets/images/login-image.png";
+// import loginImage from "../../../public/images/login-image.png";
 const LoginPage = () => {
   return (
     <div className="login-wrapper">

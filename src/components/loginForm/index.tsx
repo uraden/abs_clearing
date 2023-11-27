@@ -3,7 +3,6 @@ import { Button, Form, Input, notification } from "antd";
 import { login } from "./request";
 import { useNavigate } from "react-router-dom";
 
-
 // const Roles = [
 //   {
 //     roleId: 1,
@@ -26,7 +25,7 @@ const LoginForm: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
   }, []);
 
   const onFinish = async (values: unknown) => {
@@ -55,7 +54,14 @@ const LoginForm: React.FC = () => {
   return (
     <div>
       {contextHolder}
-      <h3 style={{ marginBottom: 4, fontSize: "54px", color: "white", display: "flex" }}>
+      <h3
+        style={{
+          marginBottom: 4,
+          fontSize: "54px",
+          color: "white",
+          display: "flex",
+        }}
+      >
         ABS Login
       </h3>
       <Form
@@ -85,23 +91,22 @@ const LoginForm: React.FC = () => {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item >
-        <Button
-          type="primary"
-          htmlType="submit"
-          size="middle"
-          loading={isLoading}
-          block
-          style={{
-            outline: "none",
-            width: "466px",
-            backgroundColor: "#6C63FF",
-          }}
-        >
-          Log-in
-        </Button>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            size="middle"
+            loading={isLoading}
+            block
+            style={{
+              outline: "none",
+              width: "466px",
+              backgroundColor: "#6C63FF",
+            }}
+          >
+            Log-in
+          </Button>
         </Form.Item>
-       
       </Form>
     </div>
   );

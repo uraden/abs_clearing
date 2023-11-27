@@ -5,7 +5,7 @@ import Protected from "./routes/Protected.tsx";
 import "./App.css";
 import AccountEntryForm from "./pages/accountForm";
 import AccountList from "./components/simpleTable/index.tsx";
-import NotFound from "./components/NotFound.tsx";
+import NotFound from "./components/notFound/NotFound.tsx";
 
 function App() {
   const router = createBrowserRouter([
