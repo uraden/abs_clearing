@@ -86,7 +86,7 @@ const AccountListArchive = () => {
       justifyContent: 'space-evenly'
     }}> 
       <h3>
-        Выберити дату:
+        Выберите дату:
       </h3>
       <DatePicker onChange={onChange} />
     </div>
