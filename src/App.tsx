@@ -4,7 +4,7 @@ import LoginForm from "./pages/loginPage";
 import Protected from "./routes/Protected.tsx";
 import "./App.css";
 import AccountEntryForm from "./pages/accountForm";
-import AccountList from "./components/simpleTable/index.tsx";
+import AccountList from "./pages/accountList";
 import NotFound from "./components/notFound/NotFound.tsx";
 import AccountListArchive from "./pages/accountListArchive/index.tsx";
 
