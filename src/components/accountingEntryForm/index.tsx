@@ -102,12 +102,56 @@ const AccountEntryForm: React.FC = () => {
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        initialValues={
-          {
-            name: 'ndoc',
-            
-          }
-        }
+       fields={[
+        {
+          name: ['dtd'],
+          // value:moment(editData.dtd).format("DD.MM.YYYY")
+         },
+        {
+        name: ['ndoc'],
+        value:editData.ndoc
+       },
+       {
+        name: ['crAcc'],
+        value: editData.crAcc
+       }, 
+       {
+        name: ['crInn'],
+        value: editData.crInn
+       }, 
+       {
+        name: ['crBankName'],
+        value: editData.crBankName
+       },
+       {
+        name: ['crMfo'],
+        value: editData.crMfo
+       },
+       {
+        name: ['sum'],
+        value: editData.sum
+       },
+       {
+        name: ['debAcc'],
+        value: editData.debAcc
+       },
+       {
+        name: ['debInn'],
+        value: editData.debInn
+       },
+       {
+        name: ['debBankName'],
+        value: editData.debBankName
+       },
+       {
+        name: ['naznCode'],
+        value: editData.naznCode
+       },
+       {
+        name: ['naznText'],
+        value: editData.naznText
+       },
+      ]}
       >
         
           <div
@@ -174,7 +218,7 @@ const AccountEntryForm: React.FC = () => {
                   message: "Пожалуйста выберете счет плательшика",
                 },
               ]}
-              name="naznCode"
+              name="crAcc"
             >
               <InputNumber type="number" 
                 minLength={16}
@@ -189,7 +233,7 @@ const AccountEntryForm: React.FC = () => {
 
           <Form.Item 
             label="ИНН" 
-            name="naznText"
+            name="crInn"
             // labelCol={{span: 10}}
             // wrapperCol={{ span: 14 }}
             style={{
@@ -210,8 +254,9 @@ const AccountEntryForm: React.FC = () => {
           style={{
             marginLeft: 40
           }}
+          name="crBankName"
             >
-            <Input name="debMfo" />
+            <Input />
           </Form.Item>
 
           <Form.Item
@@ -219,7 +264,7 @@ const AccountEntryForm: React.FC = () => {
             rules={[
               { required: true, message: "Пожалуста выберете МФО Банка" },
             ]}
-            name="debAcc"
+            name="crMfo"
             // labelCol={{span: 10}}
             // wrapperCol={{ span: 14 }}
             style={{
@@ -239,7 +284,7 @@ const AccountEntryForm: React.FC = () => {
        <Form.Item
           label="Сумма"
           rules={[{ required: true, message: "Пожалуста введите сумму" }]}
-          name="debName"
+          name="sum"
         >
           <Input />
         </Form.Item>
@@ -278,7 +323,7 @@ const AccountEntryForm: React.FC = () => {
                   message: "Пожалуста выберете cчет получателя",
                 },
               ]}
-              name="debPnfl"
+              name="debAcc"
             >
               <Input />
             </Form.Item>
@@ -287,7 +332,7 @@ const AccountEntryForm: React.FC = () => {
           <Form.Item
             label="ИНН"
             // rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
-            name="debBankName"
+            name="debInn"
             style={{
               marginLeft: 40
             }}
@@ -300,8 +345,9 @@ const AccountEntryForm: React.FC = () => {
             style={{
               marginLeft: 40
             }}
+            name="debBankName"
             >
-            <Input name="crMfo" />
+            <Input />
           </Form.Item>
 
           <Form.Item
@@ -328,6 +374,7 @@ const AccountEntryForm: React.FC = () => {
           style={{
             width: '20%'
           }}
+          name="naznCode"
           >
             <Select
               allowClear
@@ -410,7 +457,7 @@ const AccountEntryForm: React.FC = () => {
 
           <Form.Item 
             label="Детали платежа" 
-            name="crName"
+            name="naznText"
             style={{
               width: '45%',
               marginLeft: 30
