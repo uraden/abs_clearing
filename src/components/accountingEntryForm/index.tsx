@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   DatePicker,
@@ -11,11 +11,27 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useMakeOrder } from "../../pages/accountForm/request";
+import { useParams } from "react-router";
 import moment from "moment";
+import { editFormData } from './request'
 
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
+
+  const  {docId} = useParams();
+
+  console.log(docId)
+
+  const fetchEditForm = async () =>{
+   const infoEdit =  await editFormData(docId);
+   console.log('this is the data', infoEdit)
+  }
+
+  useEffect(() => {
+    fetchEditForm()
+    console.log('fdsfsfsf')
+  })
 
   const { makeOrder } = useMakeOrder();
 
