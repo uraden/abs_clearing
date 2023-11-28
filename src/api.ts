@@ -4,6 +4,6 @@ export default {
   login: () => [baseUrl, 'auth', 'authenticate'].join('/'),
   orders: () => [baseUrl, 'orders'].join('/'),
   newOrder: () => [baseUrl, 'newOrder'].join('/'),
-  editForm: (orderId:unknown) => [baseUrl, 'order', orderId].join('/'),
+  editForm: (orderId:unknown) => [baseUrl, 'order'].join('/') + `?orderId=${orderId}`,
   // orders: () => [baseUrl, 'auth', 'orders'].join('/'),
 }

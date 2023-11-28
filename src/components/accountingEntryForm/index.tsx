@@ -18,20 +18,20 @@ import { editFormData } from './request'
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
+  const [editData, setEditDate] = useState({})
 
   const  {docId} = useParams();
 
-  console.log(docId)
-
   const fetchEditForm = async () =>{
    const infoEdit =  await editFormData(docId);
-   console.log('this is the data', infoEdit)
+   setEditDate(infoEdit)
   }
 
   useEffect(() => {
     fetchEditForm()
-    console.log('fdsfsfsf')
-  })
+  }, [])
+
+  console.log('yeye', editData);
 
   const { makeOrder } = useMakeOrder();
 
@@ -102,6 +102,12 @@ const AccountEntryForm: React.FC = () => {
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        initialValues={
+          {
+            name: 'ndoc',
+            
+          }
+        }
       >
         
           <div
@@ -430,6 +436,21 @@ const AccountEntryForm: React.FC = () => {
               Сохранить
             </Button>
           </Form.Item>
+          {docId ? (<Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={isLoading}
+              style={{ 
+                outline: "none",
+                backgroundColor: '#28A745',
+                border: '1px solid #116e26'
+              }}
+              
+            >
+              Утвердить
+            </Button>
+          </Form.Item>) : (<></>)}
 
           {/* <Form.Item>
             <Button

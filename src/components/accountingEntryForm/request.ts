@@ -1,5 +1,5 @@
-import axios from "axios";
 import api from "../../api";
+import { httpClient } from "../../httpClient";
 
 interface MyError {
   response?: {
@@ -9,8 +9,8 @@ interface MyError {
 
 export const editFormData = async (id: unknown) => {
   try {
-    const request = await axios.get(api.editForm(id));
-    console.log('req------>: ', request);
+    const request = await httpClient.get(api.editForm(id));
+    console.log('req: ', request);
     return request.data;
   } catch (error: unknown) {
     const myError = error as MyError;
