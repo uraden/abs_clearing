@@ -104,6 +104,16 @@
   }
 }
 
+@media only screen and (max-width: 1125px) {
+  .loginImage {
+    display: none;
+  }
+  .glass {
+    border-radius: 0px;
+    justify-content: flex-end;
+  }
+}
+
 .loginBtn:hover {
   font-weight: 700;
 }

@@ -18,13 +18,14 @@ import { editFormData } from './request'
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
-  const [editData, setEditDate] = useState({})
+  const [editData, setEditData] = useState({})
+
 
   const  {docId} = useParams();
 
   const fetchEditForm = async () =>{
    const infoEdit =  await editFormData(docId);
-   setEditDate(infoEdit)
+   setEditData(infoEdit)
   }
 
   useEffect(() => {
@@ -105,7 +106,7 @@ const AccountEntryForm: React.FC = () => {
        fields={[
         {
           name: ['dtd'],
-          // value:moment(editData.dtd).format("DD.MM.YYYY")
+          value: moment(editData.dtd) 
          },
         {
         name: ['ndoc'],
@@ -168,7 +169,10 @@ const AccountEntryForm: React.FC = () => {
             name="dtd"
             rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
           >
-            <DatePicker placeholder="Выберите дату" format="DD.MM.YYYY" />
+            <DatePicker 
+            placeholder="Выберите дату" 
+            format="DD.MM.YYYY" 
+            />
           </Form.Item>
           <Form.Item
           labelCol={{span: 10}}
@@ -483,7 +487,9 @@ const AccountEntryForm: React.FC = () => {
               Сохранить
             </Button>
           </Form.Item>
-          {docId ? (<Form.Item>
+          {docId ? (
+          <>
+            <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
@@ -497,7 +503,11 @@ const AccountEntryForm: React.FC = () => {
             >
               Утвердить
             </Button>
-          </Form.Item>) : (<></>)}
+          </Form.Item>
+
+          <Button danger>Отбраковать</Button>
+          </>
+          ) : (<></>)}
 
           {/* <Form.Item>
             <Button
