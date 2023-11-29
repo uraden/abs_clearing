@@ -59,7 +59,7 @@ const AccountEntryForm: React.FC = () => {
 
   useEffect(() => {
     fetchEditForm()
-  }, [editData])
+  }, [docId])
 
   console.log('yeye', editData);
 
@@ -92,7 +92,6 @@ const AccountEntryForm: React.FC = () => {
 
       const request = await makeOrder(formattedValues);
       console.log("req: ", request);
-      console.log("iiii", formattedValues);
       confirmForm();
       setLoading(false);
     } catch (err) {
