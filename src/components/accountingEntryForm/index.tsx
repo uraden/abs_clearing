@@ -92,7 +92,9 @@ const AccountEntryForm: React.FC = () => {
 
   return (
     <>
-      <h3 style={{ textAlign: "center", marginBottom: 16 }}>Форма</h3>
+      <h2 style={{ textAlign: "center", marginBottom: 16 }}>
+       {!editData ? 'Новый документ' : 'Изменить документ'} 
+        </h2>
       <Form
         // labelCol={{ span: 10}}
         // wrapperCol={{ span: 14 }}
@@ -191,7 +193,9 @@ const AccountEntryForm: React.FC = () => {
         <div className="inline" 
         style={{ 
           display: "flex", 
-          justifyContent: 'flex-start'
+          justifyContent: 'flex-start',
+          fontSize: '100px',
+          flexWrap: 'wrap'
           }}>
           {role === 2 ? (
             <Form.Item
@@ -260,7 +264,7 @@ const AccountEntryForm: React.FC = () => {
           }}
           name="crBankName"
             >
-            <Input />
+            <Input readOnly={editData ? true : false}/>
           </Form.Item>
 
           <Form.Item
@@ -300,7 +304,8 @@ const AccountEntryForm: React.FC = () => {
         <div className="inline" 
           style={{
             display: 'flex',
-            justifyContent: 'flex-start'
+            justifyContent: 'flex-start',
+            flexWrap: 'wrap'
           }}
         >
           {role == 2 ? (
@@ -351,7 +356,7 @@ const AccountEntryForm: React.FC = () => {
             }}
             name="debBankName"
             >
-            <Input />
+            <Input readOnly={editData ? true : false}/>
           </Form.Item>
 
           <Form.Item
@@ -372,7 +377,8 @@ const AccountEntryForm: React.FC = () => {
 
         <div className="inline" style={{
           display: 'flex',
-          justifyContent: 'flex-start'
+          justifyContent: 'flex-start',
+          flexWrap: 'wrap'
         }}>
           <Form.Item label="Код назначения"
           style={{

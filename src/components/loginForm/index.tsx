@@ -53,7 +53,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div>
-      {/* {contextHolder} */}
+      {contextHolder}
       <h3
         style={{
           marginBottom: 4,
