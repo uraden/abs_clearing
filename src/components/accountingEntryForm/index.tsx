@@ -15,10 +15,39 @@ import { useParams } from "react-router";
 import moment from "moment";
 import { editFormData } from './request'
 
+
+type EditData = {
+  dtd: string; 
+  ndoc: string;
+  crAcc: string;
+  crInn: string;
+  crBankName: string;
+  crMfo: string;
+  sum: string;
+  debAcc: string;
+  debInn: string;
+  debBankName: string;
+  naznCode: string;
+  naznText: string;
+};
+
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
-  const [editData, setEditData] = useState({})
+  const [editData, setEditData] = useState<EditData>({
+    dtd: '',
+    ndoc: '',
+    crAcc: '',
+    crInn: '',
+    crBankName: '',
+    crMfo: '',
+    sum: '',
+    debAcc: '',
+    debInn: '',
+    debBankName: '',
+    naznCode: '',
+    naznText: '',
+  })
 
 
   const  {docId} = useParams();
@@ -96,8 +125,6 @@ const AccountEntryForm: React.FC = () => {
        {!editData ? 'Новый документ' : 'Изменить документ'} 
         </h2>
       <Form
-        // labelCol={{ span: 10}}
-        // wrapperCol={{ span: 14 }}
         layout="horizontal"
         style={{
           padding: "10px",
@@ -170,10 +197,12 @@ const AccountEntryForm: React.FC = () => {
             label="Дата документа:"
             name="dtd"
             rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
+            
           >
             <DatePicker 
             placeholder="Выберите дату" 
             format="DD.MM.YYYY" 
+            inputReadOnly={editData ? true : false}
             />
           </Form.Item>
           <Form.Item
