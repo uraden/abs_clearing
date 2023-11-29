@@ -30,7 +30,7 @@ const AccountEntryForm: React.FC = () => {
 
   useEffect(() => {
     fetchEditForm()
-  }, [])
+  }, [editData])
 
   console.log('yeye', editData);
 
