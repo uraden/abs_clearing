@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export const httpClient = axios.create();
 
 httpClient.interceptors.request.use(
@@ -16,6 +15,7 @@ httpClient.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.log('JAMAL: ', error);
     return Promise.reject(error);
   }
 );

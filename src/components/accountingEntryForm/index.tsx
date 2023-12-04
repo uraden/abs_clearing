@@ -7,17 +7,16 @@ import {
   Select,
   Divider,
   message,
-  InputNumber
+  InputNumber,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useMakeOrder } from "../../pages/accountForm/request";
-import { useParams } from "react-router";
+import { useParams, useLocation } from "react-router";
 import moment from "moment";
-import { editFormData } from './request'
-
+import { editFormData } from "./request";
 
 type EditData = {
-  dtd: string; 
+  dtd: string;
   ndoc: string;
   crAcc: string;
   crInn: string;
@@ -35,35 +34,36 @@ const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [editData, setEditData] = useState<EditData>({
-    dtd: '',
-    ndoc: '',
-    crAcc: '',
-    crInn: '',
-    crBankName: '',
-    crMfo: '',
-    sum: '',
-    debAcc: '',
-    debInn: '',
-    debBankName: '',
-    naznCode: '',
-    naznText: '',
-  })
+    dtd: "",
+    ndoc: "",
+    crAcc: "",
+    crInn: "",
+    crBankName: "",
+    crMfo: "",
+    sum: "",
+    debAcc: "",
+    debInn: "",
+    debBankName: "",
+    naznCode: "",
+    naznText: "",
+  });
+  const location = useLocation();
 
+  const [editable, setEditable] = useState(false);
 
-  const  {docId} = useParams();
-
-  const fetchEditForm = async () =>{
-   const infoEdit =  await editFormData(docId);
-   setEditData(infoEdit)
-  }
+  const { docId } = useParams();
+  const { makeOrder } = useMakeOrder();
+  const fetchEditForm = async () => {
+    const infoEdit = await editFormData(docId);
+    setEditData(infoEdit);
+  };
 
   useEffect(() => {
-    fetchEditForm()
-  }, [docId])
-
-  console.log('yeye', editData);
-
-  const { makeOrder } = useMakeOrder();
+    if (!location.pathname.includes("new-doc")) {
+      setEditable(true);
+      fetchEditForm();
+    }
+  }, [location.pathname]);
 
   const confirmForm = () => {
     message.success(`Created new form`);
@@ -84,9 +84,9 @@ const AccountEntryForm: React.FC = () => {
         crPnfl: 123456,
         crBankName: "BEKHZOD COMPANY",
         statusId: "1",
-        debMfo: '1234',
-        sum: '1234',
-        debInn: '1234',
+        debMfo: "1234",
+        sum: "1234",
+        debInn: "1234",
         dtd: values.dtd ? moment(values?.dtd).format("DD.MM.YYYY") : null,
       };
 
@@ -121,8 +121,8 @@ const AccountEntryForm: React.FC = () => {
   return (
     <>
       <h2 style={{ textAlign: "center", marginBottom: 16 }}>
-       {!editData ? 'Новый документ' : 'Изменить документ'} 
-        </h2>
+        {editable ? "Изменить документ" : "Новый документ"}
+      </h2>
       <Form
         layout="horizontal"
         style={{
@@ -131,82 +131,84 @@ const AccountEntryForm: React.FC = () => {
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-       fields={[
-        {
-          name: ['dtd'],
-          value: moment(editData.dtd) 
-         },
-        {
-        name: ['ndoc'],
-        value:editData.ndoc
-       },
-       {
-        name: ['crAcc'],
-        value: editData.crAcc
-       }, 
-       {
-        name: ['crInn'],
-        value: editData.crInn
-       }, 
-       {
-        name: ['crBankName'],
-        value: editData.crBankName
-       },
-       {
-        name: ['crMfo'],
-        value: editData.crMfo
-       },
-       {
-        name: ['sum'],
-        value: editData.sum
-       },
-       {
-        name: ['debAcc'],
-        value: editData.debAcc
-       },
-       {
-        name: ['debInn'],
-        value: editData.debInn
-       },
-       {
-        name: ['debBankName'],
-        value: editData.debBankName
-       },
-       {
-        name: ['naznCode'],
-        value: editData.naznCode
-       },
-       {
-        name: ['naznText'],
-        value: editData.naznText
-       },
-      ]}
+        fields={
+          editable
+            ? [
+                {
+                  name: ["dtd"],
+                  value: moment(editData.dtd),
+                },
+                {
+                  name: ["ndoc"],
+                  value: editData.ndoc,
+                },
+                {
+                  name: ["crAcc"],
+                  value: editData.crAcc,
+                },
+                {
+                  name: ["crInn"],
+                  value: editData.crInn,
+                },
+                {
+                  name: ["crBankName"],
+                  value: editData.crBankName,
+                },
+                {
+                  name: ["crMfo"],
+                  value: editData.crMfo,
+                },
+                {
+                  name: ["sum"],
+                  value: editData.sum,
+                },
+                {
+                  name: ["debAcc"],
+                  value: editData.debAcc,
+                },
+                {
+                  name: ["debInn"],
+                  value: editData.debInn,
+                },
+                {
+                  name: ["debBankName"],
+                  value: editData.debBankName,
+                },
+                {
+                  name: ["naznCode"],
+                  value: editData.naznCode,
+                },
+                {
+                  name: ["naznText"],
+                  value: editData.naznText,
+                },
+              ]
+            : []
+        }
       >
-        
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-start'
-            }}
-          >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+          }}
+        >
           <Form.Item
-            labelCol={{span: 10}}
+            labelCol={{ span: 10 }}
             wrapperCol={{ span: 14 }}
             className="aaaaa"
             label="Дата документа:"
             name="dtd"
             rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
-            
           >
-            <DatePicker 
-            placeholder="Выберите дату" 
-            format="DD.MM.YYYY" 
-            inputReadOnly={editData ? true : false}
+            <DatePicker
+              placeholder="Выберите дату"
+              format="DD.MM.YYYY"
+              inputReadOnly={editData ? true : false}
             />
           </Form.Item>
           <Form.Item
-          labelCol={{span: 10}}
-          wrapperCol={{ span: 14 }}
+            labelCol={{ span: 10 }}
+            wrapperCol={{ span: 14 }}
             label="№ документа"
             name="ndoc"
             rules={[
@@ -218,17 +220,19 @@ const AccountEntryForm: React.FC = () => {
         </div>
         <Divider />
 
-        <div className="inline" 
-        style={{ 
-          display: "flex", 
-          justifyContent: 'flex-start',
-          fontSize: '100px',
-          flexWrap: 'wrap'
-          }}>
+        <div
+          className="inline"
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            fontSize: "100px",
+            flexWrap: "wrap",
+          }}
+        >
           {role === 2 ? (
             <Form.Item
-            labelCol={{span: 10}}
-            wrapperCol={{ span: 14 }}
+              labelCol={{ span: 10 }}
+              wrapperCol={{ span: 14 }}
               label="Счет плательщика"
               rules={[
                 {
@@ -238,15 +242,14 @@ const AccountEntryForm: React.FC = () => {
               ]}
               name="sum"
             >
-              <Select
-               style={{ width: "100px" }}>
+              <Select style={{ width: "100px" }}>
                 <Select.Option value="demo">Demo</Select.Option>
               </Select>
             </Form.Item>
           ) : (
             <Form.Item
-            // labelCol={{span: 10}}
-            // wrapperCol={{ span: 14 }}
+              // labelCol={{span: 10}}
+              // wrapperCol={{ span: 14 }}
               label="Счет плательщика"
               rules={[
                 {
@@ -256,43 +259,45 @@ const AccountEntryForm: React.FC = () => {
               ]}
               name="crAcc"
             >
-              <InputNumber type="number" 
+              <InputNumber
+                type="number"
                 minLength={16}
                 maxLength={16}
                 style={{
                   width: 184,
-                  display: 'flex'
+                  display: "flex",
                 }}
               />
             </Form.Item>
           )}
 
-          <Form.Item 
-            label="ИНН" 
+          <Form.Item
+            label="ИНН"
             name="crInn"
             // labelCol={{span: 10}}
             // wrapperCol={{ span: 14 }}
             style={{
-              marginLeft: 40
+              marginLeft: 40,
             }}
-            >
-            <Input 
-               style={{
+          >
+            <Input
+              style={{
                 width: 184,
-                display: 'flex'
+                display: "flex",
               }}
             />
           </Form.Item>
-        
-          <Form.Item label="Банк" 
-          // labelCol={{span: 10}}
-          // wrapperCol={{ span: 14 }}
-          style={{
-            marginLeft: 40
-          }}
-          name="crBankName"
-            >
-            <Input readOnly={editData ? true : false}/>
+
+          <Form.Item
+            label="Банк"
+            // labelCol={{span: 10}}
+            // wrapperCol={{ span: 14 }}
+            style={{
+              marginLeft: 40,
+            }}
+            name="crBankName"
+          >
+            <Input readOnly={editData ? true : false} />
           </Form.Item>
 
           <Form.Item
@@ -304,7 +309,7 @@ const AccountEntryForm: React.FC = () => {
             // labelCol={{span: 10}}
             // wrapperCol={{ span: 14 }}
             style={{
-              marginLeft: 40
+              marginLeft: 40,
             }}
           >
             <Input />
@@ -312,28 +317,30 @@ const AccountEntryForm: React.FC = () => {
         </div>
 
         <Divider />
-       
-       <div style={{
-        display: 'flex',
-        justifyContent: 'flex-start'
-        }}>
-       <Form.Item
-          label="Сумма"
-          rules={[{ required: true, message: "Пожалуста введите сумму" }]}
-          name="sum"
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+          }}
         >
-          <Input />
-        </Form.Item>
-       </div>
-       
+          <Form.Item
+            label="Сумма"
+            rules={[{ required: true, message: "Пожалуста введите сумму" }]}
+            name="sum"
+          >
+            <Input />
+          </Form.Item>
+        </div>
 
         <Divider />
 
-        <div className="inline" 
+        <div
+          className="inline"
           style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            flexWrap: 'wrap'
+            display: "flex",
+            justifyContent: "flex-start",
+            flexWrap: "wrap",
           }}
         >
           {role == 2 ? (
@@ -371,20 +378,20 @@ const AccountEntryForm: React.FC = () => {
             // rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
             name="debInn"
             style={{
-              marginLeft: 40
+              marginLeft: 40,
             }}
           >
             <Input />
           </Form.Item>
-       
-          <Form.Item 
+
+          <Form.Item
             label="Банк"
             style={{
-              marginLeft: 40
+              marginLeft: 40,
             }}
             name="debBankName"
-            >
-            <Input readOnly={editData ? true : false}/>
+          >
+            <Input readOnly={editData ? true : false} />
           </Form.Item>
 
           <Form.Item
@@ -394,7 +401,7 @@ const AccountEntryForm: React.FC = () => {
             ]}
             name="crAcc"
             style={{
-              marginLeft: 40
+              marginLeft: 40,
             }}
           >
             <Input />
@@ -403,16 +410,20 @@ const AccountEntryForm: React.FC = () => {
 
         <Divider />
 
-        <div className="inline" style={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          flexWrap: 'wrap'
-        }}>
-          <Form.Item label="Код назначения"
+        <div
+          className="inline"
           style={{
-            width: '20%'
+            display: "flex",
+            justifyContent: "flex-start",
+            flexWrap: "wrap",
           }}
-          name="naznCode"
+        >
+          <Form.Item
+            label="Код назначения"
+            style={{
+              width: "20%",
+            }}
+            name="naznCode"
           >
             <Select
               allowClear
@@ -493,14 +504,14 @@ const AccountEntryForm: React.FC = () => {
             />
           </Form.Item>
 
-          <Form.Item 
-            label="Детали платежа" 
+          <Form.Item
+            label="Детали платежа"
             name="naznText"
             style={{
-              width: '45%',
-              marginLeft: 30
+              width: "45%",
+              marginLeft: 30,
             }}
-            >
+          >
             <TextArea rows={4} />
           </Form.Item>
         </div>
@@ -522,26 +533,27 @@ const AccountEntryForm: React.FC = () => {
             </Button>
           </Form.Item>
           {docId ? (
-          <>
-            <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={isLoading}
-              style={{ 
-                outline: "none",
-                backgroundColor: '#28A745',
-                border: '1px solid #116e26'
-              }}
-              
-            >
-              Утвердить
-            </Button>
-          </Form.Item>
+            <>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={isLoading}
+                  style={{
+                    outline: "none",
+                    backgroundColor: "#28A745",
+                    border: "1px solid #116e26",
+                  }}
+                >
+                  Утвердить
+                </Button>
+              </Form.Item>
 
-          <Button danger>Отбраковать</Button>
-          </>
-          ) : (<></>)}
+              <Button danger>Отбраковать</Button>
+            </>
+          ) : (
+            <></>
+          )}
 
           {/* <Form.Item>
             <Button
