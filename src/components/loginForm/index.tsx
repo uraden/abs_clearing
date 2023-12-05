@@ -42,6 +42,7 @@ const LoginForm: React.FC = () => {
 
     if (response && response.token) {
       localStorage.setItem("token", response.token);
+      localStorage.setItem('username', response.userFullName);
       navigate("/");
     }
     setLoading(false);

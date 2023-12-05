@@ -46,9 +46,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       getItem("Список документов", "account-list"),
       getItem("Архив документов", "account-list-archive"),
     ]),
-    getItem("Долги", "1", <PieChartOutlined />, [
-      getItem("Картотека", "111"),
-    ]),
+    getItem("Долги", "1", <PieChartOutlined />, [getItem("Картотека", "111")]),
     getItem("Справочники", "2", <DesktopOutlined />, [
       getItem("Cправочник филиалов банков", "1111"),
     ]),
@@ -72,7 +70,6 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       getItem("Импорт документов", "8"),
       getItem("Экспорт документов", "8"),
     ]),
-
   ];
 
   const onClick: MenuProps["onClick"] = (e) => {
@@ -89,7 +86,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           outline: "none",
         }}
         onClick={() => {
-          navigate('/login')
+          navigate("/login");
         }}
       >
         Выход
@@ -108,7 +105,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <Header
         style={{
           display: "flex",
@@ -122,11 +119,25 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           onClick={onClick}
           style={{ width: "100%" }}
         />
-        <div style={{ marginRight: 32 }}>
+
+        <div
+          style={{
+            marginRight: 64,
+            color: "white",
+            width: "30%",
+          }}
+        >
+          Опер. день: 05.12.2023
+        </div>
+        <div>
           <Popover trigger="click" title={"Настройки"} content={content}>
-            <Avatar style={{ cursor: "pointer" }} size={40}>
-              USER
-            </Avatar>
+            <Button
+              size="small"
+              style={{ margin: "0 16px", verticalAlign: "middle" }}
+              // onClick={changeUser}
+            >
+              {localStorage.getItem("username") || null}
+            </Button>
           </Popover>
         </div>
       </Header>

@@ -10,10 +10,21 @@ import {
   InputNumber,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useMakeOrder } from "../../pages/accountForm/request";
+import {
+  changeStatus,
+  createOrder,
+  useMakeOrder,
+} from "../../pages/accountForm/request";
 import { useParams, useLocation } from "react-router";
 import moment from "moment";
+import { ToWords } from "to-words";
 import { editFormData } from "./request";
+// @ts-ignore
+import writtenNumber from "written-number";
+
+import n2words from "n2words";
+import _ from "lodash";
+import { status } from "../../assets/defaultData";
 
 type EditData = {
   dtd: string;
@@ -28,6 +39,8 @@ type EditData = {
   debBankName: string;
   naznCode: string;
   naznText: string;
+  statusId: string;
+  id: string;
 };
 
 const AccountEntryForm: React.FC = () => {
@@ -46,13 +59,34 @@ const AccountEntryForm: React.FC = () => {
     debBankName: "",
     naznCode: "",
     naznText: "",
+    statusId: "",
+    id: "",
   });
   const location = useLocation();
-
+  const toWords = new ToWords({
+    localeCode: "ru",
+    converterOptions: {
+      currency: true,
+      ignoreDecimal: false,
+      ignoreZeroCurrency: false,
+      doNotAddOnly: false,
+      // currencyOptions: { // can be used to override defaults for the selected locale
+      //   name: 'Rupee',
+      //   plural: 'Rupees',
+      //   symbol: '₹',
+      //   fractionalUnit: {
+      //     name: 'Paisa',
+      //     plural: 'Paise',
+      //     symbol: '',
+      //   },
+      // }
+    },
+  });
+  const [messageApi, contextHolder] = message.useMessage();
   const [editable, setEditable] = useState(false);
 
   const { docId } = useParams();
-  const { makeOrder } = useMakeOrder();
+  // const { makeOrder } = useMakeOrder();
   const fetchEditForm = async () => {
     const infoEdit = await editFormData(docId);
     setEditData(infoEdit);
@@ -66,16 +100,16 @@ const AccountEntryForm: React.FC = () => {
   }, [location.pathname]);
 
   const confirmForm = () => {
-    message.success(`Created new form`);
+    message.success("Поручение создано");
   };
 
   const failConfirmForm = () => {
     message.error("Couldn't send form");
   };
 
-  const onFinish = async (values: { dtd: string }) => {
+  const onFinish = async (values: any) => {
     setLoading(true);
-
+    console.log("valuesss:: ", values);
     try {
       const formattedValues = {
         ...values,
@@ -90,7 +124,7 @@ const AccountEntryForm: React.FC = () => {
         dtd: values.dtd ? moment(values?.dtd).format("DD.MM.YYYY") : null,
       };
 
-      const request = await makeOrder(formattedValues);
+      const request = await createOrder(formattedValues);
       console.log("req: ", request);
       confirmForm();
       setLoading(false);
@@ -118,11 +152,90 @@ const AccountEntryForm: React.FC = () => {
     option?: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
+  const displayButton = () => {
+    let tempStatus = "";
+    if (editData.statusId === "12" || editData.statusId === "11") {
+      return null;
+    }
+    if (editData.statusId === "10") {
+      tempStatus = _.find(status, { statusId: 12 });
+      return (
+        <Button
+          type="primary"
+          loading={isLoading}
+          style={{
+            outline: "none",
+            backgroundColor: tempStatus.statusColor,
+            border: `1px solid ${tempStatus.statusColor}`,
+          }}
+          onClick={async () => {
+            setLoading(true);
+            const response = await changeStatus({
+              orderId: Number(editData.id),
+              newStatusId: tempStatus.statusId,
+            });
+            if (response.code === 0) {
+              messageApi.open({
+                type: "success",
+                content: response.message,
+              });
+              fetchEditForm();
+            } else if (response.code !== 0) {
+              messageApi.open({
+                type: "error",
+                content: response.message,
+              });
+            }
+            setLoading(false);
+          }}
+        >
+          {tempStatus.statusTitle}
+        </Button>
+      );
+    } else {
+      tempStatus = _.find(status, { statusId: Number(editData.statusId) + 1 });
+      return (
+        <Button
+          type="primary"
+          loading={isLoading}
+          style={{
+            outline: "none",
+            backgroundColor: tempStatus.statusColor,
+            border: `1px solid ${tempStatus.statusColor}`,
+          }}
+          onClick={async () => {
+            setLoading(true);
+            const response = await changeStatus({
+              orderId: Number(editData.id),
+              newStatusId: tempStatus.statusId,
+            });
+            if (response.code === 0) {
+              messageApi.open({
+                type: "success",
+                content: response.message,
+              });
+              fetchEditForm();
+            } else if (response.code !== 0) {
+              messageApi.open({
+                type: "error",
+                content: response.message,
+              });
+            }
+            setLoading(false);
+          }}
+        >
+          {tempStatus.statusTitle}
+        </Button>
+      );
+    }
+  };
+
   return (
     <>
       <h2 style={{ textAlign: "center", marginBottom: 16 }}>
-        {editable ? "Изменить документ" : "Новый документ"}
+        {editable ? "Изменить поручение" : "Новое поручение"}
       </h2>
+      {contextHolder}
       <Form
         layout="horizontal"
         style={{
@@ -195,10 +308,21 @@ const AccountEntryForm: React.FC = () => {
           <Form.Item
             labelCol={{ span: 10 }}
             wrapperCol={{ span: 14 }}
+            label="№ документа"
+            name="ndoc"
+            rules={[
+              { required: true, message: "Пожалуйста выберете № документа" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            labelCol={{ span: 10 }}
+            wrapperCol={{ span: 14 }}
             className="aaaaa"
             label="Дата документа:"
             name="dtd"
-            rules={[{ required: true, message: "Пожалуста выберете Дату" }]}
+            rules={[{ required: true, message: "Пожалуйста выберете Дату" }]}
           >
             <DatePicker
               placeholder="Выберите дату"
@@ -206,19 +330,8 @@ const AccountEntryForm: React.FC = () => {
               inputReadOnly={editData ? true : false}
             />
           </Form.Item>
-          <Form.Item
-            labelCol={{ span: 10 }}
-            wrapperCol={{ span: 14 }}
-            label="№ документа"
-            name="ndoc"
-            rules={[
-              { required: true, message: "Пожалуста выберете № документа" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
         </div>
-        <Divider />
+        <Divider orientation="left">Дебет плательщика</Divider>
 
         <div
           className="inline"
@@ -237,7 +350,7 @@ const AccountEntryForm: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Пожалуйста выберете счет плательшика",
+                  message: "Пожалуйста выберете счет плательщика",
                 },
               ]}
               name="sum"
@@ -254,7 +367,7 @@ const AccountEntryForm: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Пожалуйста выберете счет плательшика",
+                  message: "Пожалуйста выберете счет плательщика",
                 },
               ]}
               name="crAcc"
@@ -303,7 +416,7 @@ const AccountEntryForm: React.FC = () => {
           <Form.Item
             label="МФО Банка"
             rules={[
-              { required: true, message: "Пожалуста выберете МФО Банка" },
+              { required: true, message: "Пожалуйста выберете МФО Банка" },
             ]}
             name="crMfo"
             // labelCol={{span: 10}}
@@ -326,14 +439,34 @@ const AccountEntryForm: React.FC = () => {
         >
           <Form.Item
             label="Сумма"
-            rules={[{ required: true, message: "Пожалуста введите сумму" }]}
+            rules={[{ required: true, message: "Пожалуйста введите сумму" }]}
             name="sum"
           >
-            <Input />
+            <InputNumber
+              // type="number"
+              // formatter={(value) => {
+              //   console.log("valuee: ", value);
+              //   return Number(value).toLocaleString();
+              // }}
+              onChange={(value) => {
+                console.log(
+                  "value: ",
+                  value,
+                  writtenNumber(value, { lang: "ru" })
+                  // n2words(value,{lang: 'ru'})
+                  // num2str()
+                );
+              }}
+              style={{ width: 200 }}
+              // parser={(value) => {
+              //   console.log('par: ',  value.toLocaleString());
+              //   return value.replace(/\$\s?|(,*)/g, "");
+              // }}
+            />
           </Form.Item>
         </div>
 
-        <Divider />
+        <Divider orientation="left">Кредит получателя</Divider>
 
         <div
           className="inline"
@@ -349,7 +482,7 @@ const AccountEntryForm: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Пожалуста выберете cчет получателя",
+                  message: "Пожалуйста выберете cчет получателя",
                 },
               ]}
               name="debInn"
@@ -364,7 +497,7 @@ const AccountEntryForm: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Пожалуста выберете cчет получателя",
+                  message: "Пожалуйста выберете cчет получателя",
                 },
               ]}
               name="debAcc"
@@ -375,7 +508,7 @@ const AccountEntryForm: React.FC = () => {
 
           <Form.Item
             label="ИНН"
-            // rules={[{ required: true, message: "Пожалуста выберете ИНН" }]}
+            // rules={[{ required: true, message: "Пожалуйста выберете ИНН" }]}
             name="debInn"
             style={{
               marginLeft: 40,
@@ -397,7 +530,7 @@ const AccountEntryForm: React.FC = () => {
           <Form.Item
             label="МФО Банка"
             rules={[
-              { required: true, message: "Пожалуста выберете МФО Банка" },
+              { required: true, message: "Пожалуйста выберете МФО Банка" },
             ]}
             name="crAcc"
             style={{
@@ -408,7 +541,7 @@ const AccountEntryForm: React.FC = () => {
           </Form.Item>
         </div>
 
-        <Divider />
+        {/* <Divider /> */}
 
         <div
           className="inline"
@@ -516,7 +649,7 @@ const AccountEntryForm: React.FC = () => {
           </Form.Item>
         </div>
 
-        <Divider />
+        {/* <Divider /> */}
 
         <div
           className="horizontal"
@@ -529,12 +662,13 @@ const AccountEntryForm: React.FC = () => {
               loading={isLoading}
               style={{ outline: "none" }}
             >
-              Сохранить
+              {editable ? "Изменить" : "Создать"}
             </Button>
           </Form.Item>
-          {docId ? (
+          {editable ? (
             <>
-              <Form.Item>
+              {displayButton()}
+              {/* <Form.Item>
                 <Button
                   type="primary"
                   htmlType="submit"
@@ -547,7 +681,7 @@ const AccountEntryForm: React.FC = () => {
                 >
                   Утвердить
                 </Button>
-              </Form.Item>
+              </Form.Item> */}
 
               <Button danger>Отбраковать</Button>
             </>
