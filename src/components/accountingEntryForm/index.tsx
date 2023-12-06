@@ -25,6 +25,7 @@ import writtenNumber from "written-number";
 import n2words from "n2words";
 import _ from "lodash";
 import { status } from "../../assets/defaultData";
+import dayjs from "dayjs";
 
 type EditData = {
   dtd: string;
@@ -258,7 +259,7 @@ useEffect(()=>{
             ? [
                 {
                   name: ["dtd"],
-                  value: moment(editData.dtd),
+                  value: dayjs(editData.dtd),
                 },
                 {
                   name: ["ndoc"],
