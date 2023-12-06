@@ -19,7 +19,7 @@ function App() {
     {
       path: "/",
       element: (
-        <Protected isSignedIn={true}>
+        <Protected>
           <Main />
         </Protected>
       ),
@@ -27,7 +27,7 @@ function App() {
     {
       path: "/new-doc",
       element: (
-        <Protected isSignedIn={true}>
+        <Protected>
           <AccountEntryForm />
         </Protected>
       ),
@@ -35,7 +35,7 @@ function App() {
     {
       path: "/edit/:docId/doc",
       element: (
-        <Protected isSignedIn={true}>
+        <Protected>
           <AccountEntryForm />
         </Protected>
       ),
@@ -43,7 +43,7 @@ function App() {
     {
       path: "/account-list",
       element: (
-        <Protected isSignedIn={true}>
+        <Protected>
           <AccountList />
         </Protected>
       ),
@@ -51,7 +51,7 @@ function App() {
     {
       path: "/account-list-archive",
       element: (
-        <Protected isSignedIn={true}>
+        <Protected>
           <AccountListArchive />
         </Protected>
       ),
