@@ -13,16 +13,15 @@ import TextArea from "antd/es/input/TextArea";
 import {
   changeStatus,
   createOrder,
-  useMakeOrder,
 } from "../../pages/accountForm/request";
 import { useParams, useLocation, } from "react-router";
-import moment from "moment";
+
 import { ToWords } from "to-words";
 import { editFormData } from "./request";
 // @ts-ignore
 import writtenNumber from "written-number";
 
-import n2words from "n2words";
+// import n2words from "n2words";
 import _ from "lodash";
 import { status } from "../../assets/defaultData";
 import dayjs from "dayjs";
@@ -101,8 +100,6 @@ const AccountEntryForm: React.FC = () => {
   const { docId } = useParams();
   const {pathname: urlChange} = useLocation()
 
-  console.log(urlChange)
-  // const { makeOrder } = useMakeOrder();
   const fetchEditForm = async () => {
     const infoEdit = await editFormData(docId);
     setEditData(infoEdit);
@@ -163,12 +160,12 @@ useEffect(()=>{
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
   const displayButton = () => {
-    let tempStatus = "";
+    let tempStatus: { statusColor?: string, statusId?: string, statusTitle?: string } = {};
     if (editData.statusId === "12" || editData.statusId === "11") {
       return null;
     }
     if (editData.statusId === "10") {
-      tempStatus = _.find(status, { statusId: 12 });
+      tempStatus = _.find(status, { statusId: 12 }) || {};
       return (
         <Button
           type="primary"

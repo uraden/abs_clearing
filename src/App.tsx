@@ -1,8 +1,6 @@
 import {
   createBrowserRouter,
   RouterProvider,
-  useLocation,
-  useNavigate,
 } from "react-router-dom";
 import Main from "./pages/mainPage/index.tsx";
 import LoginForm from "./pages/loginPage";
@@ -12,7 +10,6 @@ import AccountEntryForm from "./pages/accountForm";
 import AccountList from "./pages/accountList";
 import NotFound from "./components/notFound/NotFound.tsx";
 import AccountListArchive from "./pages/accountListArchive/index.tsx";
-import { useEffect } from "react";
 
 function App() {
   const router = createBrowserRouter([
