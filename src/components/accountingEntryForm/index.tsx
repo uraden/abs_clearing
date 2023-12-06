@@ -239,6 +239,28 @@ useEffect(()=>{
     }
   };
 
+
+  const validateMinLengthMFO = (_: unknown, value: unknown) => {
+    if (value && value.length < 5) {
+      return Promise.reject(new Error('Минимум 5 символов ввода.'));
+    }
+    return Promise.resolve();
+  };
+
+  const validateAccount  = (_: unknown, value: unknown) => {
+    if (value && value.length < 20) {
+      return Promise.reject(new Error('Минимум 20 символов ввода.'));
+    }
+    return Promise.resolve();
+  };
+
+  const validateINN = (_: unknown, value: unknown) => {
+    if (value && value.length < 9) {
+      return Promise.reject(new Error('Минимум 9 символов ввода.'));
+    }
+    return Promise.resolve();
+  };
+
   return (
     <>
       <h2 style={{ textAlign: "center", marginBottom: 16 }}>
@@ -398,25 +420,28 @@ useEffect(()=>{
                   required: true,
                   message: "Пожалуйста выберете cчет получателя",
                 },
+                { validator: validateAccount },
               ]}
               name="debAcc"
               style={{
                 marginRight: 40,
               }}
             >
-              <Input />
+              <Input maxLength={20}/>
             </Form.Item>
           )}
 
           <Form.Item
             label="ИНН"
-            // rules={[{ required: true, message: "Пожалуйста выберете ИНН" }]}
+            rules={[
+              { validator: validateINN },
+            ]}
             name="debInn"
             style={{
               marginRight: 40,
             }}
           >
-            <Input disabled={editData.debInn ? true : false}/>
+            <Input disabled={editData.debInn ? true : false} maxLength={9}/>
           </Form.Item>
 
           <Form.Item
@@ -430,16 +455,18 @@ useEffect(()=>{
           </Form.Item>
 
           <Form.Item
+          
             label="МФО Банка"
             rules={[
               { required: true, message: "Пожалуйста выберете МФО Банка" },
+              { validator: validateMinLengthMFO },
             ]}
             name="debMfo"
             style={{
               marginRight: 40,
             }}
           >
-            <Input disabled={editData.debMfo ? true : false}/>
+            <Input disabled={editData.debMfo ? true : false} maxLength={5} />
           </Form.Item>
 
           <Form.Item
@@ -542,21 +569,14 @@ useEffect(()=>{
                   required: true,
                   message: "Пожалуйста выберете счет плательщика",
                 },
+                { validator: validateAccount },
               ]}
               name="crAcc"
               style={{
                 marginRight: 40
               }}
             >
-              <InputNumber
-                type="number"
-                minLength={16}
-                maxLength={16}
-                style={{
-                  width: 184,
-                  display: "flex",
-                }}
-              />
+              <Input maxLength={20}/>
             </Form.Item>
           )}
 
@@ -593,6 +613,7 @@ useEffect(()=>{
             label="МФО Банка"
             rules={[
               { required: true, message: "Пожалуйста выберете МФО Банка" },
+              { validator: validateMinLengthMFO },
             ]}
             name="crMfo"
             // labelCol={{span: 10}}
@@ -601,7 +622,7 @@ useEffect(()=>{
               marginRight: 40,
             }}
           >
-            <Input />
+            <Input maxLength={5}/>
           </Form.Item>
 
           <Form.Item
