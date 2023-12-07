@@ -8,9 +8,9 @@ import moment, { MomentInput } from "moment";
 import { status } from "../../assets/defaultData";
 import _ from "lodash";
 
-interface YourRecordType {
-  key: string;
-}
+// interface YourRecordType {
+//   key: string;
+// }
 
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);

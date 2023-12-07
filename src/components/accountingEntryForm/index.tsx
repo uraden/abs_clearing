@@ -16,7 +16,7 @@ import {
 } from "../../pages/accountForm/request";
 import { useParams, useLocation, } from "react-router";
 
-import { ToWords } from "to-words";
+// import { ToWords } from "to-words";
 import { editFormData } from "./request";
 // @ts-ignore
 import writtenNumber from "written-number";
@@ -75,13 +75,13 @@ const AccountEntryForm: React.FC = () => {
     // forderDay: ""
   });
   const location = useLocation();
-  const toWords = new ToWords({
-    localeCode: "ru",
-    converterOptions: {
-      currency: true,
-      ignoreDecimal: false,
-      ignoreZeroCurrency: false,
-      doNotAddOnly: false,
+  // const toWords = new ToWords({
+  //   localeCode: "ru",
+  //   converterOptions: {
+  //     currency: true,
+  //     ignoreDecimal: false,
+  //     ignoreZeroCurrency: false,
+  //     doNotAddOnly: false,
       // currencyOptions: { // can be used to override defaults for the selected locale
       //   name: 'Rupee',
       //   plural: 'Rupees',
@@ -92,8 +92,8 @@ const AccountEntryForm: React.FC = () => {
       //     symbol: '',
       //   },
       // }
-    },
-  });
+  //   },
+  // });
   const [messageApi, contextHolder] = message.useMessage();
   const [editable, setEditable] = useState(false);
 
@@ -159,13 +159,19 @@ useEffect(()=>{
     option?: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
+  interface TempStatus {
+    statusColor?: string
+    statusId?: number
+    statusTitle?: string,
+    typestatusId?: number
+  }
   const displayButton = () => {
-    let tempStatus: { statusColor?: string, statusId?: string, statusTitle?: string } = {};
+    let tempStatus:TempStatus= {};
     if (editData.statusId === "12" || editData.statusId === "11") {
       return null;
     }
     if (editData.statusId === "10") {
-      tempStatus = _.find(status, { statusId: 12 }) || {};
+      tempStatus = _.find(status, { typestatusId: 12 }) as TempStatus || {};
       return (
         <Button
           type="primary"
@@ -200,7 +206,7 @@ useEffect(()=>{
         </Button>
       );
     } else {
-      tempStatus = _.find(status, { statusId: Number(editData.statusId) + 1 });
+      tempStatus = _.find(status, { statusId: Number(editData.statusId) + 1 }) || {};
       return (
         <Button
           type="primary"
@@ -239,21 +245,21 @@ useEffect(()=>{
 
 
   const validateMinLengthMFO = (_: unknown, value: unknown) => {
-    if (value && value.length < 5) {
+    if (typeof value === 'string' && value.length < 5) {
       return Promise.reject(new Error('Минимум 5 символов ввода.'));
     }
     return Promise.resolve();
   };
 
   const validateAccount  = (_: unknown, value: unknown) => {
-    if (value && value.length < 20) {
+    if (typeof value === 'string' && value.length < 20) {
       return Promise.reject(new Error('Минимум 20 символов ввода.'));
     }
     return Promise.resolve();
   };
 
   const validateINN = (_: unknown, value: unknown) => {
-    if (value && value.length < 9) {
+    if (typeof value === 'string' && value.length < 9) {
       return Promise.reject(new Error('Минимум 9 символов ввода.'));
     }
     return Promise.resolve();

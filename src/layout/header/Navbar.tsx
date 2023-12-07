@@ -7,7 +7,7 @@ import {
   BlockOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Avatar, Button, Layout, Menu, Popover, theme } from "antd";
+import { Button, Layout, Menu, Popover, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const { Header, Content, Footer } = Layout;
