@@ -15,14 +15,11 @@ import {
   createOrder,
   useMakeOrder,
 } from "../../pages/accountForm/request";
-import { useParams, useLocation, } from "react-router";
-import moment from "moment";
-import { ToWords } from "to-words";
-import { editFormData } from "./request";
-// @ts-ignore
-import writtenNumber from "written-number";
+import { useParams, useLocation } from "react-router";
 
-import n2words from "n2words";
+import { editFormData } from "./request";
+import { withDecimal } from "../../assets/numberToJs";
+
 import _ from "lodash";
 import { status } from "../../assets/defaultData";
 import dayjs from "dayjs";
@@ -53,6 +50,7 @@ type EditData = {
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
+  const [sum, setSum] = useState(null);
   const [editData, setEditData] = useState<EditData>({
     dtd: "",
     ndoc: "",
@@ -76,40 +74,20 @@ const AccountEntryForm: React.FC = () => {
     // forderDay: ""
   });
   const location = useLocation();
-  const toWords = new ToWords({
-    localeCode: "ru",
-    converterOptions: {
-      currency: true,
-      ignoreDecimal: false,
-      ignoreZeroCurrency: false,
-      doNotAddOnly: false,
-      // currencyOptions: { // can be used to override defaults for the selected locale
-      //   name: 'Rupee',
-      //   plural: 'Rupees',
-      //   symbol: '₹',
-      //   fractionalUnit: {
-      //     name: 'Paisa',
-      //     plural: 'Paise',
-      //     symbol: '',
-      //   },
-      // }
-    },
-  });
   const [messageApi, contextHolder] = message.useMessage();
   const [editable, setEditable] = useState(false);
 
   const { docId } = useParams();
-  const {pathname: urlChange} = useLocation()
+  const { pathname: urlChange } = useLocation();
 
-  console.log(urlChange)
+  console.log(urlChange);
   // const { makeOrder } = useMakeOrder();
   const fetchEditForm = async () => {
     const infoEdit = await editFormData(docId);
     setEditData(infoEdit);
   };
 
-useEffect(()=>{
-}, [urlChange])
+  useEffect(() => {}, [urlChange]);
 
   useEffect(() => {
     if (!location.pathname.includes("new-doc")) {
@@ -128,7 +106,6 @@ useEffect(()=>{
 
   const onFinish = async (values: any) => {
     setLoading(true);
-    console.log("valuesss:: ", values);
     try {
       const formattedValues = {
         ...values,
@@ -240,24 +217,23 @@ useEffect(()=>{
     }
   };
 
-
   const validateMinLengthMFO = (_: unknown, value: unknown) => {
     if (value && value.length < 5) {
-      return Promise.reject(new Error('Минимум 5 символов ввода.'));
+      return Promise.reject(new Error("Минимум 5 символов ввода."));
     }
     return Promise.resolve();
   };
 
-  const validateAccount  = (_: unknown, value: unknown) => {
+  const validateAccount = (_: unknown, value: unknown) => {
     if (value && value.length < 20) {
-      return Promise.reject(new Error('Минимум 20 символов ввода.'));
+      return Promise.reject(new Error("Минимум 20 символов ввода."));
     }
     return Promise.resolve();
   };
 
   const validateINN = (_: unknown, value: unknown) => {
     if (value && value.length < 9) {
-      return Promise.reject(new Error('Минимум 9 символов ввода.'));
+      return Promise.reject(new Error("Минимум 9 символов ввода."));
     }
     return Promise.resolve();
   };
@@ -330,22 +306,22 @@ useEffect(()=>{
                 {
                   name: ["debMfo"],
                   value: editData.debMfo,
-                }, 
+                },
                 {
                   name: ["crName"],
-                  value: editData.crName
-                }, 
+                  value: editData.crName,
+                },
                 {
-                  name: ['crPnfl'],
-                  value: editData.crPnfl
-                }, 
+                  name: ["crPnfl"],
+                  value: editData.crPnfl,
+                },
                 {
-                  name: ['debName'],
-                  value: editData.debName
-                }, 
+                  name: ["debName"],
+                  value: editData.debName,
+                },
                 {
-                  name: ['debPnfl'],
-                  value: editData.debPnfl
+                  name: ["debPnfl"],
+                  value: editData.debPnfl,
                 },
               ]
             : []
@@ -357,7 +333,6 @@ useEffect(()=>{
             justifyContent: "flex-start",
           }}
         >
-          
           <Form.Item
             labelCol={{ span: 10 }}
             wrapperCol={{ span: 14 }}
@@ -386,11 +361,10 @@ useEffect(()=>{
           >
             <Input />
           </Form.Item>
-
         </div>
         <Divider orientation="left">Дебет плательщика</Divider>
 
-         <div
+        <div
           className="inline"
           style={{
             display: "flex",
@@ -428,21 +402,19 @@ useEffect(()=>{
                 marginRight: 40,
               }}
             >
-              <Input maxLength={20}/>
+              <Input maxLength={20} />
             </Form.Item>
           )}
 
           <Form.Item
             label="ИНН"
-            rules={[
-              { validator: validateINN },
-            ]}
+            rules={[{ validator: validateINN }]}
             name="debInn"
             style={{
               marginRight: 40,
             }}
           >
-            <Input disabled={editData.debInn ? true : false} maxLength={9}/>
+            <Input disabled={editData.debInn ? true : false} maxLength={9} />
           </Form.Item>
 
           <Form.Item
@@ -456,7 +428,6 @@ useEffect(()=>{
           </Form.Item>
 
           <Form.Item
-          
             label="МФО Банка"
             rules={[
               { required: true, message: "Пожалуйста выберете МФО Банка" },
@@ -473,7 +444,10 @@ useEffect(()=>{
           <Form.Item
             label="Наименование плательщика"
             rules={[
-              { required: true, message: "Пожалуйста выберете Наименование плательщика" },
+              {
+                required: true,
+                message: "Пожалуйста выберете Наименование плательщика",
+              },
             ]}
             name="debName"
             style={{
@@ -486,13 +460,15 @@ useEffect(()=>{
           <Form.Item
             label="ПИНФЛ плательщика"
             rules={[
-              { required: true, message: "Пожалуйста выберете ПИНФЛ плательщика" },
+              {
+                required: true,
+                message: "Пожалуйста выберете ПИНФЛ плательщика",
+              },
             ]}
             name="debPnfl"
           >
-            <Input disabled={editData.debPnfl ? true : false}/>
+            <Input disabled={editData.debPnfl ? true : false} />
           </Form.Item>
-
         </div>
 
         <Divider />
@@ -515,13 +491,7 @@ useEffect(()=>{
               //   return Number(value).toLocaleString();
               // }}
               onChange={(value) => {
-                console.log(
-                  "value: ",
-                  value,
-                  writtenNumber(value, { lang: "ru" })
-                  // n2words(value,{lang: 'ru'})
-                  // num2str()
-                );
+                setSum(value);
               }}
               style={{ width: 200 }}
               // parser={(value) => {
@@ -530,11 +500,23 @@ useEffect(()=>{
               // }}
             />
           </Form.Item>
+          {sum ? (
+            <div
+              style={{
+                marginLeft: 8,
+                fontSize: 16,
+                fontStyle: "italic",
+                textDecoration: "underline",
+              }}
+            >
+              {withDecimal(sum)}
+            </div>
+          ) : null}
         </div>
 
         <Divider orientation="left">Кредит получателя</Divider>
 
-       <div
+        <div
           className="inline"
           style={{
             display: "flex",
@@ -574,10 +556,10 @@ useEffect(()=>{
               ]}
               name="crAcc"
               style={{
-                marginRight: 40
+                marginRight: 40,
               }}
             >
-              <Input maxLength={20}/>
+              <Input maxLength={20} />
             </Form.Item>
           )}
 
@@ -623,13 +605,16 @@ useEffect(()=>{
               marginRight: 40,
             }}
           >
-            <Input maxLength={5}/>
+            <Input maxLength={5} />
           </Form.Item>
 
           <Form.Item
             label="Наименование получателя"
             rules={[
-              { required: true, message: "Пожалуйста выберете Наименование получателя" },
+              {
+                required: true,
+                message: "Пожалуйста выберете Наименование получателя",
+              },
             ]}
             name="crName"
             style={{
@@ -642,19 +627,21 @@ useEffect(()=>{
           <Form.Item
             label="ПИНФЛ получателя"
             rules={[
-              { required: true, message: "Пожалуйста выберете ПИНФЛ получателя" },
+              {
+                required: true,
+                message: "Пожалуйста выберете ПИНФЛ получателя",
+              },
             ]}
             name="crPnfl"
             style={{
-              marginRight: 40
+              marginRight: 40,
             }}
           >
             <Input />
           </Form.Item>
-
         </div>
 
-      <Divider />
+        <Divider />
 
         <div
           className="inline"
@@ -663,7 +650,7 @@ useEffect(()=>{
             justifyContent: "flex-start",
             flexWrap: "wrap",
           }}
-        >   
+        >
           <Form.Item
             label="Код назначения"
             style={{
@@ -756,7 +743,7 @@ useEffect(()=>{
             name="naznText"
             style={{
               width: "45%",
-              marginRight: '40px'
+              marginRight: "40px",
             }}
           >
             <TextArea rows={4} />
