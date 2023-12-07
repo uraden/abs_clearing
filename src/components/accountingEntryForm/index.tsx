@@ -129,6 +129,8 @@ useEffect(()=>{
     try {
       const formattedValues = {
         ...values,
+        fval: "0",
+        forderDay: "08.12.2023"
       };
 
       const request = await createOrder(formattedValues);
@@ -586,6 +588,9 @@ useEffect(()=>{
 
           <Form.Item
             label="ИНН"
+            rules={[
+              { validator: validateINN },
+            ]}
             name="crInn"
             // labelCol={{span: 10}}
             // wrapperCol={{ span: 14 }}
@@ -598,6 +603,7 @@ useEffect(()=>{
                 width: 184,
                 display: "flex",
               }}
+              maxLength={9}
             />
           </Form.Item>
 
