@@ -10,10 +10,7 @@ import {
   InputNumber,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import {
-  changeStatus,
-  createOrder,
-} from "../../pages/accountForm/request";
+import { changeStatus, createOrder } from "../../pages/accountForm/request";
 import { useParams, useLocation } from "react-router";
 
 import { editFormData } from "./request";
@@ -109,7 +106,9 @@ const AccountEntryForm: React.FC = () => {
       const formattedValues = {
         ...values,
         fval: "0",
-        forderDay: "08.12.2023"
+        forderDay: "08.12.2023",
+        dtd: dayjs(values.dtd).format('DD.MM.YYYY'),
+        sum: values.sum.toString()
       };
 
       const request = await createOrder(formattedValues);
@@ -141,18 +140,18 @@ const AccountEntryForm: React.FC = () => {
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
   interface TempStatus {
-    statusColor?: string
-    statusId?: number
-    statusTitle?: string,
-    typestatusId?: number
+    statusColor?: string;
+    statusId?: number;
+    statusTitle?: string;
+    // typestatusId?: number
   }
   const displayButton = () => {
-    let tempStatus:TempStatus= {};
+    let tempStatus: TempStatus = {};
     if (editData.statusId === "12" || editData.statusId === "11") {
       return null;
     }
     if (editData.statusId === "10") {
-      tempStatus = _.find(status, { typestatusId: 12 }) as TempStatus || {};
+      tempStatus = (_.find(status, { statusId: 12 }) as TempStatus) || {};
       return (
         <Button
           type="primary"
@@ -187,7 +186,8 @@ const AccountEntryForm: React.FC = () => {
         </Button>
       );
     } else {
-      tempStatus = _.find(status, { statusId: Number(editData.statusId) + 1 }) || {};
+      tempStatus =
+        _.find(status, { statusId: Number(editData.statusId) + 1 }) || {};
       return (
         <Button
           type="primary"
@@ -225,27 +225,36 @@ const AccountEntryForm: React.FC = () => {
   };
 
   const validateMinLengthMFO = (_: unknown, value: unknown) => {
-    if (typeof value === 'string' && value.length < 5) {
-      return Promise.reject(new Error('Минимум 5 символов ввода.'));
+    if (typeof value === "string" && value.length < 5) {
+      return Promise.reject(new Error("Минимум 5 символов ввода."));
     }
     return Promise.resolve();
   };
 
-  const validateAccount  = (_: unknown, value: unknown) => {
-    if (typeof value === 'string' && value.length < 20) {
-      return Promise.reject(new Error('Минимум 20 символов ввода.'));
-  // const validateAccount = (_: unknown, value: unknown) => {
-  //   if (value && value.length < 20) {
-  //     return Promise.reject(new Error("Минимум 20 символов ввода."));
+  const validateAccount = (_: unknown, value: unknown) => {
+    if (typeof value === "string" && value.length < 20) {
+      return Promise.reject(new Error("Минимум 20 символов ввода."));
+      // const validateAccount = (_: unknown, value: unknown) => {
+      //   if (value && value.length < 20) {
+      //     return Promise.reject(new Error("Минимум 20 символов ввода."));
     }
     return Promise.resolve();
   };
 
   const validateINN = (_: unknown, value: unknown) => {
-    if (typeof value === 'string' && value.length < 9) {
-      return Promise.reject(new Error('Минимум 9 символов ввода.'));
-    // if (value && value.length < 9) {
-    //   return Promise.reject(new Error("Минимум 9 символов ввода."));
+    if (typeof value === "string" && value.length < 9) {
+      return Promise.reject(new Error("Минимум 9 символов ввода."));
+      // if (value && value.length < 9) {
+      //   return Promise.reject(new Error("Минимум 9 символов ввода."));
+    }
+    return Promise.resolve();
+  };
+
+  const validateDokNumber = (_: unknown, value: unknown) => {
+    if (typeof value === "string" && value.length > 10) {
+      return Promise.reject(new Error("Максимум 10 цифр."));
+      // if (value && value.length < 9) {
+      //   return Promise.reject(new Error("Минимум 9 символов ввода."));
     }
     return Promise.resolve();
   };
@@ -369,9 +378,10 @@ const AccountEntryForm: React.FC = () => {
             name="ndoc"
             rules={[
               { required: true, message: "Пожалуйста выберете № документа" },
+              { validator: validateDokNumber }
             ]}
           >
-            <Input />
+            <Input maxLength={10} type="number" />
           </Form.Item>
         </div>
         <Divider orientation="left">Дебет плательщика</Divider>
@@ -577,9 +587,7 @@ const AccountEntryForm: React.FC = () => {
 
           <Form.Item
             label="ИНН"
-            rules={[
-              { validator: validateINN },
-            ]}
+            rules={[{ validator: validateINN }]}
             name="crInn"
             // labelCol={{span: 10}}
             // wrapperCol={{ span: 14 }}
@@ -800,7 +808,38 @@ const AccountEntryForm: React.FC = () => {
                 </Button>
               </Form.Item> */}
 
-              <Button danger>Отбраковать</Button>
+              {editData.statusId === "11" ? null : (
+                <Button
+                  style={{
+                    outline: 0,
+                  }}
+                  onClick={async () => {
+                    setLoading(true);
+                    const response = await changeStatus({
+                      orderId: Number(editData.id),
+                      newStatusId: 11,
+                    });
+                    if (response.code === 0) {
+                      messageApi.open({
+                        type: "success",
+                        content: response.message,
+                      });
+                      fetchEditForm();
+                    } else if (response.code !== 0) {
+                      messageApi.open({
+                        type: "error",
+                        content: response.message,
+                      });
+                    }
+                    setLoading(false);
+                    console.log("ressponseee: ", response);
+                  }}
+                  danger
+                  loading={isLoading}
+                >
+                  Отбраковать
+                </Button>
+              )}
             </>
           ) : (
             <></>
