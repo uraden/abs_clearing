@@ -73,39 +73,14 @@ const AccountEntryForm: React.FC = () => {
     // forderDay: ""
   });
   const location = useLocation();
-<<<<<<< HEAD
-  // const toWords = new ToWords({
-  //   localeCode: "ru",
-  //   converterOptions: {
-  //     currency: true,
-  //     ignoreDecimal: false,
-  //     ignoreZeroCurrency: false,
-  //     doNotAddOnly: false,
-      // currencyOptions: { // can be used to override defaults for the selected locale
-      //   name: 'Rupee',
-      //   plural: 'Rupees',
-      //   symbol: '₹',
-      //   fractionalUnit: {
-      //     name: 'Paisa',
-      //     plural: 'Paise',
-      //     symbol: '',
-      //   },
-      // }
-  //   },
-  // });
-=======
->>>>>>> NumToWords
   const [messageApi, contextHolder] = message.useMessage();
   const [editable, setEditable] = useState(false);
 
   const { docId } = useParams();
   const { pathname: urlChange } = useLocation();
 
-<<<<<<< HEAD
-=======
   console.log(urlChange);
   // const { makeOrder } = useMakeOrder();
->>>>>>> NumToWords
   const fetchEditForm = async () => {
     const infoEdit = await editFormData(docId);
     setEditData(infoEdit);
@@ -250,38 +225,27 @@ const AccountEntryForm: React.FC = () => {
   };
 
   const validateMinLengthMFO = (_: unknown, value: unknown) => {
-<<<<<<< HEAD
     if (typeof value === 'string' && value.length < 5) {
       return Promise.reject(new Error('Минимум 5 символов ввода.'));
-=======
-    if (value && value.length < 5) {
-      return Promise.reject(new Error("Минимум 5 символов ввода."));
->>>>>>> NumToWords
     }
     return Promise.resolve();
   };
 
-<<<<<<< HEAD
   const validateAccount  = (_: unknown, value: unknown) => {
     if (typeof value === 'string' && value.length < 20) {
       return Promise.reject(new Error('Минимум 20 символов ввода.'));
-=======
-  const validateAccount = (_: unknown, value: unknown) => {
-    if (value && value.length < 20) {
-      return Promise.reject(new Error("Минимум 20 символов ввода."));
->>>>>>> NumToWords
+  // const validateAccount = (_: unknown, value: unknown) => {
+  //   if (value && value.length < 20) {
+  //     return Promise.reject(new Error("Минимум 20 символов ввода."));
     }
     return Promise.resolve();
   };
 
   const validateINN = (_: unknown, value: unknown) => {
-<<<<<<< HEAD
     if (typeof value === 'string' && value.length < 9) {
       return Promise.reject(new Error('Минимум 9 символов ввода.'));
-=======
-    if (value && value.length < 9) {
-      return Promise.reject(new Error("Минимум 9 символов ввода."));
->>>>>>> NumToWords
+    // if (value && value.length < 9) {
+    //   return Promise.reject(new Error("Минимум 9 символов ввода."));
     }
     return Promise.resolve();
   };
