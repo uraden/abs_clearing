@@ -44,12 +44,15 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   const currentYear = new Date().getFullYear();
 
-const logoImg = <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="logo" />
+  const logoImg = (
+    <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="logo" />
+  );
 
   const items: MenuItem[] = [
     getItem(logoImg, ""),
     getItem("Мои Документы", "0", <FileTextOutlined />, [
       getItem("Новый документ", "new-doc"),
+      getItem("Черновик", "draft-form"),
       getItem("Список документов", "account-list"),
       getItem("Архив документов", "account-list-archive"),
       getItem("Счета", "account-page"),
@@ -136,7 +139,7 @@ const logoImg = <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="lo
             marginRight: 64,
             color: "white",
             width: "30%",
-            textAlign: 'end'
+            textAlign: "end",
           }}
         >
           Опер. день: 05.12.2023
