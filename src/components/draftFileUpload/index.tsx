@@ -24,6 +24,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ visible, onClose }) => {
     info: UploadChangeParam<RcFile>
   ) => {
     setFileList(info.fileList);
+    console.log(info.fileList);
   };
 
   const handleUpload = async () => {
@@ -74,6 +75,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ visible, onClose }) => {
       ]}
     >
       <Upload
+        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
         beforeUpload={beforeUpload}
         accept="application/json"
         fileList={fileList}

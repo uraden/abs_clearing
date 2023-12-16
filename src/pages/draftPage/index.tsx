@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button, Space, DatePicker, Tag } from "antd";
-import { getAccountArchiveList } from "./request";
+import { Button, Space, DatePicker, Tag, Card } from "antd";
+import { getDraftDetails, getDraftList } from "./request";
 import CustomTable from "../../components/Reusables/Table";
 import { Link } from "react-router-dom";
 import type { DatePickerProps } from "antd";
@@ -18,6 +18,7 @@ import UploadModal from "../../components/draftFileUpload";
 const DraftForm = () => {
   const [isLoading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const [draftList, setDraftList] = useState();
   const [visible, setVisible] = useState(false);
   const columns = [
     { title: "№ Док.", dataIndex: "nDoc", key: "nDoc" },
@@ -87,8 +88,12 @@ const DraftForm = () => {
       ),
     },
   ];
-
   const getList = async () => {
+    const response = await getDraftList();
+    console.log("response: ", response);
+    setDraftList(response.data);
+  };
+  const getData = async () => {
     setLoading(true);
     // const response = await getAccountArchiveList();
     // console.log("response: ", response);
@@ -139,31 +144,52 @@ const DraftForm = () => {
   };
 
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          width: "95%",
-          justifyContent: "flex-end",
-        }}
-      >
-        <Button
-          onClick={() => setVisible(true)}
-          type="primary"
-          icon={<PlusSquareTwoTone />}
+    <div style={{ display: "flex" }}>
+      <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+        <Card
+          title="History of Drafts"
+          style={{ width: 250, textAlign: "left" }}
         >
-          Загрузить файл
-        </Button>
-        <UploadModal visible={visible} onClose={() => setVisible(false)} />
+          <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+            <p onClick={() => console.log("Click 1")}>Draft list 1</p>
+            <p>Draft list 2</p>
+            <p>Draft list 3</p>
+          </Space>
+        </Card>
+        <Card title="Shablons" style={{ width: 250, textAlign: "left" }}>
+          <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+            <p onClick={() => console.log("Click 1")}>Shablon 1</p>
+            <p>Shablon 2</p>
+            <p>Shablon 3</p>
+          </Space>
+        </Card>
+      </Space>
+      <div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            width: "95%",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button
+            onClick={() => setVisible(true)}
+            type="primary"
+            icon={<PlusSquareTwoTone />}
+          >
+            Загрузить файл
+          </Button>
+          <UploadModal visible={visible} onClose={() => setVisible(false)} />
+        </div>
+        <CustomTable
+          //@ts-ignore
+          isLoading={isLoading}
+          columns={columns}
+          dataSource={dataSource}
+        />
       </div>
-      <CustomTable
-        //@ts-ignore
-        isLoading={isLoading}
-        columns={columns}
-        dataSource={dataSource}
-      />
-    </>
+    </div>
   );
 };
 
