@@ -7,6 +7,8 @@ import type { DatePickerProps } from "antd";
 import moment, { MomentInput } from "moment";
 import { status } from "../../assets/defaultData";
 import _ from "lodash";
+import { PlusSquareTwoTone } from "@ant-design/icons";
+import ExcelExport from "../../components/draftFileUpload/excelmaker";
 
 // interface YourRecordType {
 //   key: string;
@@ -127,7 +129,6 @@ const AccountListArchive = () => {
     setLoading(false);
   };
 
-
   useEffect(() => {
     getList();
   }, []);
@@ -142,12 +143,18 @@ const AccountListArchive = () => {
         style={{
           display: "flex",
           alignItems: "center",
-          width: "18%",
-          justifyContent: "space-evenly",
+          width: "95%",
+          justifyContent: "space-between",
         }}
       >
-        <h3>Выберите дату:</h3>
-        <DatePicker onChange={onChange} />
+        <div style={{ display: "flex" }}>
+          <h3>Выберите дату:</h3>
+          <DatePicker onChange={onChange} />
+        </div>
+        <Button onClick={() => {}} type="primary" icon={<PlusSquareTwoTone />}>
+          Загрузка файла
+        </Button>
+        <ExcelExport />
       </div>
       <CustomTable
         //@ts-ignore
