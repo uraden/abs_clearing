@@ -8,6 +8,7 @@ import {
   Divider,
   message,
   InputNumber,
+  Flex,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { changeStatus, createOrder } from "../../pages/accountForm/request";
@@ -43,10 +44,13 @@ type EditData = {
   // forderDay: string
 };
 
+
+
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [sum, setSum] = useState(null);
+  const [form] = Form.useForm();
   const [editData, setEditData] = useState<EditData>({
     dtd: "",
     ndoc: "",
@@ -76,21 +80,23 @@ const AccountEntryForm: React.FC = () => {
   const { docId } = useParams();
   const { pathname: urlChange } = useLocation();
 
-  console.log(urlChange);
   // const { makeOrder } = useMakeOrder();
   const fetchEditForm = async () => {
     const infoEdit = await editFormData(docId);
     setEditData(infoEdit);
   };
 
-  useEffect(() => {}, [urlChange]);
+  // useEffect(() => {}, [urlChange]);
 
   useEffect(() => {
     if (!location.pathname.includes("new-doc")) {
       setEditable(true);
       fetchEditForm();
+    } else {
+      setEditable(false);
+      form.resetFields();
     }
-  }, [location.pathname]);
+  }, [urlChange]);
 
   const confirmForm = () => {
     message.success("Поручение создано");
@@ -107,8 +113,8 @@ const AccountEntryForm: React.FC = () => {
         ...values,
         fval: "0",
         forderDay: "08.12.2023",
-        dtd: dayjs(values.dtd).format('DD.MM.YYYY'),
-        sum: values.sum.toString()
+        dtd: dayjs(values.dtd).format("DD.MM.YYYY"),
+        sum: values.sum.toString(),
       };
 
       const request = await createOrder(formattedValues);
@@ -271,6 +277,7 @@ const AccountEntryForm: React.FC = () => {
           padding: "10px",
           borderRadius: "10px",
         }}
+        form={form}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         fields={
@@ -378,108 +385,111 @@ const AccountEntryForm: React.FC = () => {
             name="ndoc"
             rules={[
               { required: true, message: "Пожалуйста выберете № документа" },
-              { validator: validateDokNumber }
+              { validator: validateDokNumber },
             ]}
           >
             <Input maxLength={10} type="number" />
           </Form.Item>
         </div>
-        <Divider orientation="left">Дебет плательщика</Divider>
-
+        <Divider orientation="left">Дебет</Divider>
         <div
           className="inline"
           style={{
             display: "flex",
-            justifyContent: "flex-start",
-            flexWrap: "wrap",
+            // justifyContent: "flex-start",
+            // flexWrap: "wrap",
+            flexDirection: "column",
           }}
         >
-          {role == 2 ? (
+          <div style={{ display: "flex" }}>
+            {role == 2 ? (
+              <Form.Item
+                label="Счет плательщика"
+                rules={[
+                  {
+                    required: true,
+                    message: "Пожалуйста выберете cчет плательщика",
+                  },
+                ]}
+                name="debInn"
+              >
+                <Select style={{ width: "100px" }}>
+                  <Select.Option value="demo">Demo</Select.Option>
+                </Select>
+              </Form.Item>
+            ) : (
+              <Form.Item
+                label="Счет плательщика"
+                rules={[
+                  {
+                    required: true,
+                    message: "Пожалуйста выберете cчет плательщика",
+                  },
+                  { validator: validateAccount },
+                ]}
+                name="debAcc"
+                style={{
+                  marginRight: 40,
+                }}
+              >
+                <Input maxLength={20} />
+              </Form.Item>
+            )}
+
             <Form.Item
-              label="Счет получателя"
-              rules={[
-                {
-                  required: true,
-                  message: "Пожалуйста выберете cчет получателя",
-                },
-              ]}
-              name="debInn"
+              label="Банк"
+              style={{
+                marginRight: 40,
+              }}
+              name="debBankName"
             >
-              <Select style={{ width: "100px" }}>
-                <Select.Option value="demo">Demo</Select.Option>
-              </Select>
+              <Input disabled={editData.debBankName ? true : false} />
             </Form.Item>
-          ) : (
+
             <Form.Item
-              label="Счет получателя"
+              label="МФО Банка"
               rules={[
-                {
-                  required: true,
-                  message: "Пожалуйста выберете cчет получателя",
-                },
-                { validator: validateAccount },
+                { required: true, message: "Пожалуйста выберете МФО Банка" },
+                { validator: validateMinLengthMFO },
               ]}
-              name="debAcc"
+              name="debMfo"
               style={{
                 marginRight: 40,
               }}
             >
-              <Input maxLength={20} />
+              <Input disabled={editData.debMfo ? true : false} maxLength={5} />
             </Form.Item>
-          )}
+          </div>
 
-          <Form.Item
-            label="ИНН"
-            rules={[{ validator: validateINN }]}
-            name="debInn"
-            style={{
-              marginRight: 40,
-            }}
-          >
-            <Input disabled={editData.debInn ? true : false} maxLength={9} />
-          </Form.Item>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <Form.Item
+              label="ИНН"
+              rules={[{ validator: validateINN }]}
+              name="debInn"
+              style={{
+                marginRight: 40,
+              }}
+            >
+              <Input disabled={editData.debInn ? true : false} maxLength={9} />
+            </Form.Item>
 
-          <Form.Item
-            label="Банк"
-            style={{
-              marginRight: 40,
-            }}
-            name="debBankName"
-          >
-            <Input disabled={editData.debBankName ? true : false} />
-          </Form.Item>
-
-          <Form.Item
-            label="МФО Банка"
-            rules={[
-              { required: true, message: "Пожалуйста выберете МФО Банка" },
-              { validator: validateMinLengthMFO },
-            ]}
-            name="debMfo"
-            style={{
-              marginRight: 40,
-            }}
-          >
-            <Input disabled={editData.debMfo ? true : false} maxLength={5} />
-          </Form.Item>
-
-          <Form.Item
-            label="Наименование плательщика"
-            rules={[
-              {
-                required: true,
-                message: "Пожалуйста выберете Наименование плательщика",
-              },
-            ]}
-            name="debName"
-            style={{
-              marginRight: 40,
-            }}
-          >
-            <Input disabled={editData.debName ? true : false} />
-          </Form.Item>
-
-          <Form.Item
+            <Form.Item
+              label="Наименование плательщика"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста выберете Наименование плательщика",
+                },
+              ]}
+              name="debName"
+              style={{
+                marginRight: 40,
+              }}
+            >
+              <Input disabled={editData.debName ? true : false} />
+            </Form.Item>
+          </div>
+          {/* <Form.Item
             label="ПИНФЛ плательщика"
             rules={[
               {
@@ -490,7 +500,7 @@ const AccountEntryForm: React.FC = () => {
             name="debPnfl"
           >
             <Input disabled={editData.debPnfl ? true : false} />
-          </Form.Item>
+          </Form.Item>*/}
         </div>
 
         <Divider />
@@ -536,118 +546,126 @@ const AccountEntryForm: React.FC = () => {
           ) : null}
         </div>
 
-        <Divider orientation="left">Кредит получателя</Divider>
+        <Divider orientation="left">Кредит</Divider>
 
         <div
           className="inline"
           style={{
             display: "flex",
-            justifyContent: "flex-start",
-            fontSize: "100px",
-            flexWrap: "wrap",
+            flexDirection: "column",
           }}
         >
-          {role === 2 ? (
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
+            {role === 2 ? (
+              <Form.Item
+                labelCol={{ span: 10 }}
+                wrapperCol={{ span: 14 }}
+                label="Счет получателя"
+                rules={[
+                  {
+                    required: true,
+                    message: "Пожалуйста выберете счет получателя",
+                  },
+                ]}
+                name="sum"
+              >
+                <Select style={{ width: "100px" }}>
+                  <Select.Option value="demo">Demo</Select.Option>
+                </Select>
+              </Form.Item>
+            ) : (
+              <Form.Item
+                // labelCol={{span: 10}}
+                // wrapperCol={{ span: 14 }}
+                label="Счет получателя"
+                rules={[
+                  {
+                    required: true,
+                    message: "Пожалуйста выберете счет получателя",
+                  },
+                  { validator: validateAccount },
+                ]}
+                name="crAcc"
+                style={{
+                  marginRight: 40,
+                }}
+              >
+                <Input maxLength={20} />
+              </Form.Item>
+            )}
+
             <Form.Item
-              labelCol={{ span: 10 }}
-              wrapperCol={{ span: 14 }}
-              label="Счет плательщика"
-              rules={[
-                {
-                  required: true,
-                  message: "Пожалуйста выберете счет плательщика",
-                },
-              ]}
-              name="sum"
-            >
-              <Select style={{ width: "100px" }}>
-                <Select.Option value="demo">Demo</Select.Option>
-              </Select>
-            </Form.Item>
-          ) : (
-            <Form.Item
+              label="Банк"
               // labelCol={{span: 10}}
               // wrapperCol={{ span: 14 }}
-              label="Счет плательщика"
+              style={{
+                marginRight: 40,
+              }}
+              name="crBankName"
+            >
+              <Input readOnly={editData.debBankName ? true : false} />
+            </Form.Item>
+
+            <Form.Item
+              label="МФО Банка"
               rules={[
-                {
-                  required: true,
-                  message: "Пожалуйста выберете счет плательщика",
-                },
-                { validator: validateAccount },
+                { required: true, message: "Пожалуйста выберете МФО Банка" },
+                { validator: validateMinLengthMFO },
               ]}
-              name="crAcc"
+              name="crMfo"
+              // labelCol={{span: 10}}
+              // wrapperCol={{ span: 14 }}
               style={{
                 marginRight: 40,
               }}
             >
-              <Input maxLength={20} />
+              <Input maxLength={5} />
             </Form.Item>
-          )}
-
-          <Form.Item
-            label="ИНН"
-            rules={[{ validator: validateINN }]}
-            name="crInn"
-            // labelCol={{span: 10}}
-            // wrapperCol={{ span: 14 }}
-            style={{
-              marginRight: 40,
-            }}
-          >
-            <Input
+          </div>
+          <div style={{
+            display: 'flex'
+          }}>
+            <Form.Item
+              label="ИНН"
+              rules={[{ validator: validateINN }]}
+              name="crInn"
+              // labelCol={{span: 10}}
+              // wrapperCol={{ span: 14 }}
               style={{
-                width: 184,
-                display: "flex",
+                marginRight: 40,
               }}
-              maxLength={9}
-            />
-          </Form.Item>
+            >
+              <Input
+                style={{
+                  width: 184,
+                  display: "flex",
+                }}
+                maxLength={9}
+              />
+            </Form.Item>
 
-          <Form.Item
-            label="Банк"
-            // labelCol={{span: 10}}
-            // wrapperCol={{ span: 14 }}
-            style={{
-              marginRight: 40,
-            }}
-            name="crBankName"
-          >
-            <Input readOnly={editData.debBankName ? true : false} />
-          </Form.Item>
-
-          <Form.Item
-            label="МФО Банка"
-            rules={[
-              { required: true, message: "Пожалуйста выберете МФО Банка" },
-              { validator: validateMinLengthMFO },
-            ]}
-            name="crMfo"
-            // labelCol={{span: 10}}
-            // wrapperCol={{ span: 14 }}
-            style={{
-              marginRight: 40,
-            }}
-          >
-            <Input maxLength={5} />
-          </Form.Item>
-
-          <Form.Item
-            label="Наименование получателя"
-            rules={[
-              {
-                required: true,
-                message: "Пожалуйста выберете Наименование получателя",
-              },
-            ]}
-            name="crName"
-            style={{
-              marginRight: 40,
-            }}
-          >
-            <Input />
-          </Form.Item>
-
+            <Form.Item
+              label="Наименование получателя"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста выберете Наименование получателя",
+                },
+              ]}
+              name="crName"
+              style={{
+                marginRight: 40,
+              }}
+            >
+              <Input />
+            </Form.Item>
+          </div>
+          {/* 
           <Form.Item
             label="ПИНФЛ получателя"
             rules={[
@@ -662,7 +680,7 @@ const AccountEntryForm: React.FC = () => {
             }}
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
         </div>
 
         <Divider />

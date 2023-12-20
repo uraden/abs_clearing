@@ -28,20 +28,22 @@ const AccoutDocs = () => {
         forderDay ? moment(forderDay).format("DD.MM.YYYY") : null,
     },
     {
+      title: "Плательщик",
+      children: [
+        { title: "МФО", dataIndex: "mfo_2", key: "mfo_2" },
+        { title: "Счет", dataIndex: "account_2", key: "account_2" },
+        { title: "ИНН", dataIndex: "inn_2", key: "inn_2" },
+        { title: "Наименование", dataIndex: "name_2", key: "name_2" },
+        // { title: "ИНН", dataIndex: "inn_1", key: "inn_1" },
+      ],
+    },
+    {
       title: "Получатель",
       children: [
         { title: "МФО", dataIndex: "mfo_1", key: "mfo_1" },
         { title: "Счет", dataIndex: "account_1", key: "account_1" },
         { title: "ИНН", dataIndex: "inn_1", key: "inn_1" },
         { title: "Наименование", dataIndex: "name_1", key: "name_1" },
-      ],
-    },
-    {
-      title: "Плательщик",
-      children: [
-        { title: "МФО", dataIndex: "mfo_2", key: "mfo_2" },
-        { title: "Счет", dataIndex: "account_2", key: "account_2" },
-        // { title: "ИНН", dataIndex: "inn_1", key: "inn_1" },
       ],
     },
     {
@@ -58,8 +60,10 @@ const AccoutDocs = () => {
       render: (statusText: string) => {
         if (statusText) {
           let tempStatus = _.find(status, { statusTitle: statusText });
-          console.log('temppp: ', tempStatus);
-          return <Tag color={tempStatus?.statusColor}>{tempStatus?.statusTitle}</Tag>
+          console.log("temppp: ", tempStatus);
+          return (
+            <Tag color={tempStatus?.statusColor}>{tempStatus?.statusTitle}</Tag>
+          );
         }
       },
     },
@@ -92,9 +96,10 @@ const AccoutDocs = () => {
           crInn: string;
           debMfo: string;
           debPnfl: string;
-          // debInn: string;
+          debInn: string;
           sum: string;
           dtd: string;
+          debName: string;
           forderDay: string;
           status: string;
         }) => ({
@@ -103,10 +108,11 @@ const AccoutDocs = () => {
           mfo_1: item.crMfo,
           account_1: item.crPnfl,
           name_1: item.crName,
+          name_2: item.debName,
           inn_1: item.crInn,
           mfo_2: item.debMfo,
           account_2: item.debPnfl,
-          // inn_2: item.debInn,
+          inn_2: item.debInn,
           total_amount: item.sum,
           dtd: item.dtd,
           forderDay: item.forderDay,
