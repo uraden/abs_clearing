@@ -132,6 +132,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             marginRight: 64,
             color: "white",
             width: "30%",
+            textAlign: 'end'
           }}
         >
           Опер. день: 05.12.2023
@@ -161,7 +162,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           {children}
         </div>
       </Content>
-      <Footer style={{ textAlign: "center" }}>
+      <Footer className="main-footer" style={{ textAlign: "center" }}>
         АО
         <span style={{ fontStyle: "italic" }}>
           {" "}
