@@ -20,7 +20,7 @@ const Main = () => {
       align: "center"
     },
     {
-      title: "Остаток",
+      title: "Входящий остаток",
       dataIndex: "remainder",
     },
     {
@@ -37,7 +37,7 @@ const Main = () => {
       ]
     },
     {
-      title: "Конец",
+      title: "Исходящий остаток",
       dataIndex: "end",
     },
   ];
