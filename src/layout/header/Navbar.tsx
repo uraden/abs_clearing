@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu, Popover, theme } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 const { Header, Content, Footer } = Layout;
 
@@ -44,7 +44,10 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   const currentYear = new Date().getFullYear();
 
+const logoImg = <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="logo" />
+
   const items: MenuItem[] = [
+    getItem(logoImg, ""),
     getItem("Мои Документы", "0", <FileTextOutlined />, [
       getItem("Новый документ", "new-doc"),
       getItem("Список документов", "account-list"),
@@ -115,9 +118,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           display: "flex",
         }}
       >
-        <div style={{ width: 200, marginRight: 8 }}>
+        {/* <Link to="/" style={{ width: 200, marginRight: 8 }} className="logo-div">
           <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="logo" />
-        </div>
+        </Link> */}
         <Menu
           theme="dark"
           defaultSelectedKeys={[activeMenu]}
