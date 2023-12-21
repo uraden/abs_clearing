@@ -22,6 +22,7 @@ const Main = () => {
     {
       title: "Входящий остаток",
       dataIndex: "remainder",
+      align: "right"
     },
     {
       title: "Оборот",
@@ -39,6 +40,7 @@ const Main = () => {
     {
       title: "Исходящий остаток",
       dataIndex: "end",
+      align: "right"
     },
   ];
 
