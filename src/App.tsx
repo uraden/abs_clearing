@@ -8,6 +8,7 @@ import Protected from "./routes/Protected.tsx";
 import "./App.css";
 import AccountEntryForm from "./pages/accountForm";
 import AccountList from "./pages/accountList";
+import AccountPage from "./pages/accountPage"
 import NotFound from "./components/notFound/NotFound.tsx";
 import AccountListArchive from "./pages/accountListArchive/index.tsx";
 
@@ -50,6 +51,14 @@ function App() {
       element: (
         <Protected>
           <AccountListArchive />
+        </Protected>
+      ),
+    },
+    {
+      path: "/account-page",
+      element: (
+        <Protected>
+          <AccountPage />
         </Protected>
       ),
     },

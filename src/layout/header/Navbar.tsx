@@ -52,6 +52,7 @@ const logoImg = <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="lo
       getItem("Новый документ", "new-doc"),
       getItem("Список документов", "account-list"),
       getItem("Архив документов", "account-list-archive"),
+      getItem("Счета", "account-page"),
     ]),
     getItem("Долги", "1", <PieChartOutlined />, [getItem("Картотека", "111q")]),
     getItem("Справочники", "2", <DesktopOutlined />, [
