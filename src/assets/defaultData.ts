@@ -6,7 +6,7 @@ export const status = [
   },
   {
     statusId: 2,
-    statusTitle: "Утвержден",
+    statusTitle: "Утвержден 1",
     statusColor: "#73d13d",
   },
   {
@@ -26,7 +26,7 @@ export const status = [
   },
   {
     statusId: 6,
-    statusTitle: "Утвержден",
+    statusTitle: "Утвержден 2",
     statusColor: "#73d13d",
   },
   {
