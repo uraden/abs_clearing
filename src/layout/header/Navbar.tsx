@@ -80,6 +80,9 @@ const logoImg = <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="lo
     ]),
   ];
 
+  if (items[0]) {
+    items[0].className = "my-logo";
+  }
   const onClick: MenuProps["onClick"] = (e) => {
     setActiveMenu(e.key);
     navigate(`/${e.key}`);

@@ -178,3 +178,7 @@
 .logo-div:hover {
   cursor: pointer;
 }
+
+.my-logo {
+  background-color: transparent !important;
+}
