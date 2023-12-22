@@ -182,3 +182,8 @@
 .my-logo {
   background-color: transparent !important;
 }
+
+.home-footer {
+  padding: 40 0 10 10;
+  text-align: left;
+}
