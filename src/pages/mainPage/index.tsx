@@ -1,7 +1,6 @@
-import { Layout, Table, Divider } from "antd";
+import { Table, Divider } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
-const { Footer } = Layout;
 
 const Main = () => {
   interface DataType {
