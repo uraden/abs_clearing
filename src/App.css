@@ -187,3 +187,15 @@
   padding: 40 0 10 10;
   text-align: left;
 }
+
+.todays_date {
+  font-size: 18px;
+}
+
+.main-table-1-account {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+  align-items: center;
+}

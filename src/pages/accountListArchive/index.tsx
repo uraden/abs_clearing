@@ -15,6 +15,7 @@ import _ from "lodash";
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const [datePickedM, setDatePckedM] = useState('')
 
   const columns = [
     { title: "№ Док.", dataIndex: "nDoc", key: "nDoc" },
@@ -24,13 +25,13 @@ const AccountListArchive = () => {
       key: "dtd",
       render: (dtd: string) => (dtd ? moment(dtd).format("DD.MM.YYYY") : null),
     },
-    {
-      title: "Опер. день",
-      dataIndex: "forderDay",
-      key: "forderDay",
-      render: (forderDay: string) =>
-        forderDay ? moment(forderDay).format("DD.MM.YYYY") : null,
-    },
+    // {
+    //   title: "Опер. день",
+    //   dataIndex: "forderDay",
+    //   key: "forderDay",
+    //   render: (forderDay: string) =>
+    //     forderDay ? moment(forderDay).format("DD.MM.YYYY") : null,
+    // },
     {
       title: "Плательщик",
       children: [
@@ -133,6 +134,7 @@ const AccountListArchive = () => {
   }, []);
 
   const onChange: DatePickerProps["onChange"] = (dateString) => {
+    setDatePckedM(moment(dateString as MomentInput).format("DD.MM.YYYY"))
     console.log(moment(dateString as MomentInput).format("DD.MM.YYYY"));
   };
 
@@ -154,6 +156,8 @@ const AccountListArchive = () => {
         isLoading={isLoading}
         columns={columns}
         dataSource={dataSource}
+        titleOfThePage="Список архивных документов"
+        datePicked={datePickedM}
       />
     </>
   );

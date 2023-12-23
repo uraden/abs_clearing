@@ -1,29 +1,33 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Divider } from "antd";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
 // import { useAccountList } from "../../pages/accountList/request";
 
-const CustomTable: React.FC = ({ isLoading, columns, dataSource }: any) => {
+const CustomTable: React.FC = ({ isLoading, columns, dataSource, titleOfThePage, datePicked }: any) => {
   const location = useLocation();
 
   return (
     <>
-      <h3 style={{ textAlign: "center", marginBottom: 16 }}>
-        Список Документов{" "}
-        <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
-          {" "}
-          {location.pathname === "/account-list"
-            ? `- ${moment().format("DD.MM.YYYY")}`
-            : null}
+      <h1 style={{ textAlign: "center", marginBottom: 16 }}>
+        {titleOfThePage}
+      </h1>
+        
+        <div className="todays_date"> Операционный день
+        <span style={{ fontWeight: 700}}>
+          {location.pathname === "/account-list" || location.pathname === "/draft-form"
+            ? ` - ${moment().format("DD.MM.YYYY")} `
+            : ` - ${datePicked}`}
+            
         </span>
-      </h3>
-
+        </div>
+        <Divider />
       <Table
         loading={isLoading}
         dataSource={dataSource}
         columns={columns}
         bordered
+        style={{marginTop: 40}}
       />
     </>
   );

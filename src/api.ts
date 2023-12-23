@@ -10,4 +10,5 @@ export default {
   draftDetails: () => [baseUrl, "draftDetails"].join("/"),
   draftList: () => [baseUrl, "draftList"].join("/"),
   // orders: () => [baseUrl, 'auth', 'orders'].join('/'),
+  report:(clientId: unknown) => [baseUrl, "account", "report?", `clientId=${clientId}`].join("/"),
 };

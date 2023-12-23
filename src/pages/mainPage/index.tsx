@@ -199,7 +199,7 @@ const Main = () => {
           dataSource={dataCurrencyExRate}
           pagination={false}
           bordered
-          style={{ width: 200 }}
+          style={{ width: 200, marginBottom: 50 }}
           title={() => (
             <tr style={{ textAlign: "center" }}>
               <h3> Курсы валют </h3>
@@ -208,7 +208,7 @@ const Main = () => {
         />
       </div>
 
-      <Divider />
+      {/* <Divider />
 
       <div className="main-table-1">
         <Table
@@ -218,14 +218,14 @@ const Main = () => {
           bordered
           title={() => (
             <tr>
-              <h3> Мои счета </h3>
+              <h3> Остатки и обороты счетов </h3>
             </tr>
           )}
           style={{width: 800}}
         />
-      </div>
+      </div> */}
 
-      <div  
+      {/* <div  
         className="home-footer"
        
       >
@@ -233,7 +233,7 @@ const Main = () => {
         <br />
         20.12.23 16:57 от Фоновый процесс Информация Межбанковские до 20.12.2023
         19:00
-      </div>
+      </div> */}
     </div>
   );
 };

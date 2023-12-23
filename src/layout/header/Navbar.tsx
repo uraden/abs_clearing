@@ -2,7 +2,6 @@ import React, { ReactNode, useEffect, useState } from "react";
 import {
   FileTextOutlined,
   PieChartOutlined,
-  DesktopOutlined,
   FileDoneOutlined,
   BlockOutlined,
 } from "@ant-design/icons";
@@ -50,36 +49,40 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   const items: MenuItem[] = [
     getItem(logoImg, ""),
-    getItem("Мои Документы", "0", <FileTextOutlined />, [
+    getItem("Счета", "account-page", <PieChartOutlined />, [
+      getItem("Мои Счета", "account-page"),
+      getItem("Остатки и обороты счетов", "account-balance-page"),
+    ] ),
+    getItem("Документы", "0", <FileTextOutlined />, [
       getItem("Новый документ", "new-doc"),
-      getItem("Черновик", "draft-form"),
+      // getItem("Черновик", "draft-form"),
       getItem("Список документов", "account-list"),
       getItem("Архив документов", "account-list-archive"),
-      getItem("Счета", "account-page"),
     ]),
-    getItem("Долги", "1", <PieChartOutlined />, [getItem("Картотека", "111q")]),
-    getItem("Справочники", "2", <DesktopOutlined />, [
-      getItem("Cправочник филиалов банков", "1111w"),
-    ]),
+    // getItem("Долги", "1", <PieChartOutlined />, [getItem("Картотека", "111q")]),
+    // getItem("Справочники", "2", <DesktopOutlined />, [
+    //   getItem("Cправочник филиалов банков", "1111w"),
+    // ]),
     getItem("Отчеты", "sub1", <FileDoneOutlined />, [
-      getItem("Выписка лицевых счетов", "33e"),
-      getItem("Сальдово-оборотная ", "44r"),
-      getItem("Справка о работе счета", "551t"),
-      getItem("Ведомость платежных операций", "55y"),
-      getItem("Выгрузка документов ГНИ", "55"),
-      getItem("Удаленные и незавершенные платежи", "55u"),
-      getItem("Справка о работе счета 2", "55i"),
-      getItem("Выписка лицевых счетов 2", "55o"),
-      getItem("Справка о работе счета 3", "55p"),
-      getItem("Справка о работе счета 3 консолидированная", "55a"),
-      getItem("Платежи по корреспондентам", "55s"),
       getItem("Выписка лицевых счетов за период", "55d"),
+      // getItem("Выписка лицевых счетов", "33e"),
+      getItem("Сальдо-оборотная ведомость", "44r"),
+      // getItem("Справка о работе счета", "551t"),
+      getItem("Ведомость платежных операций", "55y"),
+      // getItem("Выгрузка документов ГНИ", "55"),
+      getItem("Удаленные и незавершенные платежи", "55u"),
+      // getItem("Справка о работе счета 2", "55i"),
+      // getItem("Выписка лицевых счетов 2", "55o"),
+      // getItem("Справка о работе счета 3", "55p"),
+      // getItem("Справка о работе счета 3 консолидированная", "55a"),
+      // getItem("Платежи по корреспондентам", "55s"),
       getItem("Отчет об удаленных документах", "55f"),
-      getItem("Справка о работе счета консолидированная", "55g"),
+      // getItem("Справка о работе счета консолидированная", "55g"),
     ]),
     getItem("Сервис", "9", <BlockOutlined />, [
-      getItem("Импорт документов", "8h"),
-      getItem("Экспорт документов", "8j"),
+      getItem("Импорт документов","draft-form",),
+      // getItem("Экспорт документов", "8j"),
+      // getItem("Черновик", "draft-form", ""),
     ]),
   ];
 

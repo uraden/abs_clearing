@@ -336,9 +336,12 @@ const AccountEntryForm: React.FC = () => {
 
   return (
     <>
-      <h2 style={{ textAlign: "center", marginBottom: 16 }}>
+      <h1 style={{ textAlign: "center", marginBottom: 16 }}>
         {editable ? "Изменить поручение" : "Новое поручение"}
-      </h2>
+      </h1>
+
+      <Divider></Divider>
+      
       {contextHolder}
       {notificationContextHolder}
       <Form
@@ -346,6 +349,7 @@ const AccountEntryForm: React.FC = () => {
         style={{
           padding: "10px",
           borderRadius: "10px",
+          marginTop: 40
         }}
         form={form}
         onFinish={onFinish}

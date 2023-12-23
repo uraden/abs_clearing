@@ -20,13 +20,13 @@ const AccoutDocs = () => {
       key: "dtd",
       render: (dtd: string) => (dtd ? moment(dtd).format("DD.MM.YYYY") : null),
     },
-    {
-      title: "Опер. день",
-      dataIndex: "forderDay",
-      key: "forderDay",
-      render: (forderDay: string) =>
-        forderDay ? moment(forderDay).format("DD.MM.YYYY") : null,
-    },
+    // {
+    //   title: "Опер. день",
+    //   dataIndex: "forderDay",
+    //   key: "forderDay",
+    //   render: (forderDay: string) =>
+    //     forderDay ? moment(forderDay).format("DD.MM.YYYY") : null,
+    // },
     {
       title: "Плательщик",
       children: [
@@ -133,6 +133,7 @@ const AccoutDocs = () => {
       isLoading={isLoading}
       columns={columns}
       dataSource={dataSource}
+      titleOfThePage="Список документов"
     />
   );
 };

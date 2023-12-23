@@ -122,20 +122,21 @@ const AccountPage = () => {
       title: "Остаток ",
       dataIndex: "remainder",
       width: "15%",
+      align: 'right'
     },
-    {
-      title: "Статус",
-      dataIndex: "status",
-      filters: statusFilterData,
-      onFilter: (value: string, record) => record.status.startsWith(value),
-      filterSearch: true,
-      width: "10%",
-    },
-    {
-      title: "Отчет",
-      dataIndex: "report",
-      width: "10%",
-    },
+    // {
+    //   title: "Статус",
+    //   dataIndex: "status",
+    //   filters: statusFilterData,
+    //   onFilter: (value: string, record) => record.status.startsWith(value),
+    //   filterSearch: true,
+    //   width: "10%",
+    // },
+    // {
+    //   title: "Отчет",
+    //   dataIndex: "report",
+    //   width: "10%",
+    // },
   ];
 
   const data: DataType[] = [
@@ -222,11 +223,11 @@ const AccountPage = () => {
 
   return (
     <div>
-      <h2 style={{ marginBottom: 20 }}>Счета</h2>
+      <h1 style={{ marginBottom: 50 }}>Счета</h1>
       <Table columns={columns} dataSource={data} onChange={onChange} />
 
       <Modal
-        title="Параметры"
+        title="Выписка лицевых"
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
