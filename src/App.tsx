@@ -8,7 +8,9 @@ import AccountList from "./pages/accountList";
 import AccountPage from "./pages/accountPage";
 import NotFound from "./components/notFound/NotFound.tsx";
 import AccountListArchive from "./pages/accountListArchive/index.tsx";
+import AccountBalancePage from "./pages/accountBalancePage/index.tsx";
 import DraftForm from "./pages/draftPage/index.tsx";
+import Revenue from "./pages/accountBalancePage/revenue/index.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -65,6 +67,22 @@ function App() {
       element: (
         <Protected>
           <AccountPage />
+        </Protected>
+      ),
+    },
+    {
+      path: "/account-balance-page",
+      element: (
+        <Protected>
+          <AccountBalancePage />
+        </Protected>
+      ),
+    },
+    {
+      path: "/account-balance-page/:account/:revenue",
+      element: (
+        <Protected>
+          <Revenue />
         </Protected>
       ),
     },

@@ -8,9 +8,9 @@ const Protected = ({ children }: IProtectedRoute) => {
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      return navigate("/login");
-    }
+    // if (!localStorage.getItem("token")) {
+    //   return navigate("/login");
+    // }
   }, [location.pathname]);
 
   return <Wrapper>{children}</Wrapper>;

@@ -3,8 +3,9 @@ import { httpClient } from "../../httpClient";
 
 export const getAccountArchiveList = async (params = null) => {
   try {
-    const request = await httpClient.post(
-      api.orders(),
+    const request = await httpClient.get(
+      api.orderAll(),
+      // @ts-ignore
       params
         ? {
             params,

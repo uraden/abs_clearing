@@ -1,7 +1,6 @@
-import { Layout, Table, Divider } from "antd";
+import { Table, Divider } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
-const { Footer } = Layout;
 
 const Main = () => {
   interface DataType {
@@ -128,7 +127,7 @@ const Main = () => {
     },
     {
       key: 2,
-      bank_type: "Внутребанковские",
+      bank_type: "Внутрибанковские",
       start_time: "00:00",
       end_time: "23:55"
     }
@@ -172,7 +171,7 @@ const Main = () => {
           style={{ width: 280, marginRight: 20 }}
           title={() => (
             <tr style={{ textAlign: "center" }}>
-              <h3> Срок пароля </h3>
+              <h3> Срок действия пароля </h3>
             </tr>
           )}
           showHeader={false}
@@ -188,7 +187,7 @@ const Main = () => {
           style={{ width: 280, marginRight: 20 }}
           title={() => (
             <tr style={{ textAlign: "center" }}>
-              <h3> Расписание платижей </h3>
+              <h3> Расписание платежей </h3>
             </tr>
           )}
           showHeader={false}
@@ -200,7 +199,7 @@ const Main = () => {
           dataSource={dataCurrencyExRate}
           pagination={false}
           bordered
-          style={{ width: 200 }}
+          style={{ width: 200, marginBottom: 50 }}
           title={() => (
             <tr style={{ textAlign: "center" }}>
               <h3> Курсы валют </h3>
@@ -209,7 +208,7 @@ const Main = () => {
         />
       </div>
 
-      <Divider />
+      {/* <Divider />
 
       <div className="main-table-1">
         <Table
@@ -219,24 +218,22 @@ const Main = () => {
           bordered
           title={() => (
             <tr>
-              <h3> Мои счета </h3>
+              <h3> Остатки и обороты счетов </h3>
             </tr>
           )}
           style={{width: 800}}
         />
-      </div>
+      </div> */}
 
-      <Footer
+      {/* <div  
         className="home-footer"
-        style={{
-          textAlign: "left",
-        }}
+       
       >
         Телефон для справок +998 (78) 150-21-22
         <br />
         20.12.23 16:57 от Фоновый процесс Информация Межбанковские до 20.12.2023
         19:00
-      </Footer>
+      </div> */}
     </div>
   );
 };

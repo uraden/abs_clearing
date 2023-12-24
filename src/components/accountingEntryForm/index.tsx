@@ -15,36 +15,38 @@ import TextArea from "antd/es/input/TextArea";
 import { changeStatus, createOrder } from "../../pages/accountForm/request";
 import { useParams, useLocation } from "react-router";
 
-import { editFormData } from "./request";
+import { createNewOrder, editFormData, getActiveInfo, getActiveList } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
 
 import _ from "lodash";
 import { status } from "../../assets/defaultData";
 import dayjs from "dayjs";
 import { RightCircleFilled } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 type EditData = {
-  dtd: string;
-  ndoc: string;
-  crAcc: string;
-  crInn: string;
-  crBankName: string;
-  crMfo: string;
+  createdDate: string;
+  documentNumber: number | null;
+  creditAccount: string;
+  creditINN: string;
+  creditBankName: string;
+  creditMFO: string;
   sum: string;
-  debAcc: string;
-  debInn: string;
-  debBankName: string;
-  naznCode: string;
-  naznText: string;
+  debitAccount: string;
+  debitINN: string;
+  debitBankName: string;
+  codeNaznachentiya: string;
+  textNaznachentiya: string;
   statusId: string;
   id: string;
-  debMfo: string;
-  crName: string;
+  debitMFO: string;
+  creditName: string;
   crPnfl: string;
-  debName: string;
+  debitName: string;
   debPnfl: string;
   // forderDay: string
 };
+
 
 const AccountEntryForm: React.FC = () => {
   const [role] = useState(1);
@@ -52,61 +54,48 @@ const AccountEntryForm: React.FC = () => {
   const [sum, setSum] = useState(null);
   const [form] = Form.useForm();
   const [editData, setEditData] = useState<EditData>({
-    dtd: "",
-    ndoc: "",
-    crAcc: "",
-    crInn: "",
-    crBankName: "",
-    crMfo: "",
+    createdDate: "",
+    documentNumber: null,
+    creditAccount: "",
+    creditINN: "",
+    creditBankName: "",
+    creditMFO: "",
     sum: "",
-    debAcc: "",
-    debInn: "",
-    debBankName: "",
-    naznCode: "",
-    naznText: "",
+    debitAccount: "",
+    debitINN: "",
+    debitBankName: "",
+    codeNaznachentiya: "",
+    textNaznachentiya: "",
     statusId: "",
     id: "",
-    debMfo: "",
-    crName: "",
+    debitMFO: "",
+    creditName: "",
     crPnfl: "",
-    debName: "",
+    debitName: "",
     debPnfl: "",
     // forderDay: ""
   });
   const location = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate();
   const [notificationApi, notificationContextHolder] =
     notification.useNotification();
   const [editable, setEditable] = useState(false);
   const [creditAccount, setCreditAccount] = useState("");
-  const [debet, setDebet] = useState("");
-  const [testDebetList] = useState({
-    "12345678901234567890": {
-      debName: "Ipoteka Bank uybo buyo zor bank",
-      debInn: 123456789,
-    },
-    "20201232109283743891": {
-      debName: "Agrobank Bank uybo buyo",
-      debInn: 987654321,
-    },
-    "99991929292929292929": {
-      debName: "Ipak Yoli Bank uybo buyo",
-      debInn: 192837465,
-    },
-  });
+  const [accountList, setAccountList] = useState([]);
   const { docId } = useParams();
   const { pathname: urlChange } = useLocation();
   const [errorList] = useState({
-    dtd: "Пожалуйста выберете Дату",
-    ndoc: "Пожалуйста выберете № документа",
-    debInn: "Пожалуйста выберете cчет плательщика",
-    debAcc: "Пожалуйста выберете cчет плательщика",
-    debMfo: "Пожалуйста выберете МФО Банка",
-    debName: "Пожалуйста выберете Наименование плательщика",
+    createdDate: "Пожалуйста выберете Дату",
+    documentNumber: "Пожалуйста выберете № документа",
+    debitINN: "Пожалуйста выберете cчет плательщика",
+    debitAccount: "Пожалуйста выберете cчет плательщика",
+    debitMFO: "Пожалуйста выберете МФО Банка",
+    debitName: "Пожалуйста выберете Наименование плательщика",
     sum: "Пожалуйста введите сумму",
-    crAcc: "Пожалуйста выберете счет получателя",
-    crName: "Пожалуйста выберете Наименование получателя",
-    crMfo: "Пожалуйста выберете МФО Банка",
+    creditAccount: "Пожалуйста выберете счет получателя",
+    creditName: "Пожалуйста выберете Наименование получателя",
+    creditMFO: "Пожалуйста выберете МФО Банка",
   });
 
   const fetchEditForm = async () => {
@@ -114,20 +103,48 @@ const AccountEntryForm: React.FC = () => {
     setEditData(infoEdit);
   };
 
-  const handleDebet = (value: string) => {
+  const checkValue = (name: string) =>
+    form.getFieldValue(name) ? true : false;
+
+  const handleDebet = async (value: string, type: string) => {
     setLoading(true);
+    console.log({ value, type });
     if (value) {
-      setDebet(value);
-      setTimeout(() => {
-        form.setFieldValue("debName", testDebetList[value].debName);
-        form.setFieldValue("debInn", testDebetList[value].debInn);
+      if (type === "debet") {
+        const request = await getActiveInfo({
+          name: value,
+        });
         setLoading(false);
-      }, 3000);
-    } else {
-      form.setFieldValue("debName", "");
-      form.setFieldValue("debInn", "");
-      setLoading(false);
-      setDebet("");
+        if (request.client && request.inn) {
+          form.setFieldValue("debitName", request.client);
+          form.setFieldValue("debitINN", request.inn);
+          form.setFieldValue("debitBankName", request.ownerName);
+          form.setFieldValue("debitMFO", request.ownerBranchMFO);
+        }
+        setLoading(false);
+      } else {
+        const { client, inn, ownerName, ownerBranchMFO } = await getActiveInfo({
+          name: value,
+        });
+        console.log({ client, inn, ownerName, ownerBranchMFO });
+        if (client) {
+          form.setFieldValue("creditName", client);
+        }
+        if (inn) {
+          form.setFieldValue("creditINN", inn);
+        }
+        if (ownerName) {
+          form.setFieldValue("creditBankName", ownerName);
+        }
+        if (ownerBranchMFO) {
+          form.setFieldValue("creditMFO", ownerBranchMFO);
+        }
+        console.log(
+          'form.getFieldValue("creditName");: ',
+          form.getFieldValue("creditName")
+        );
+        setLoading(false);
+      }
     }
   };
 
@@ -141,35 +158,43 @@ const AccountEntryForm: React.FC = () => {
     }
   }, [urlChange]);
 
+  const fetchActiveList = async () => {
+    const request = await getActiveList({
+      clientId: 2,
+    });
+
+    setAccountList(request);
+  };
+
   useEffect(() => {
-    if (urlChange == "/new-doc") {
-      form.setFieldsValue({
-        debBankName: 'АО "Национальный Клиринговый Центр"',
-        debMfo: 12344,
-      });
-    }
+    fetchActiveList();
   }, []);
 
   const confirmForm = () => {
     message.success("Поручение создано");
+    navigate('/account-list');
   };
 
   const failConfirmForm = () => {
     message.error("Couldn't send form");
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async ({createdDate, ...values}: any) => {
     setLoading(true);
+    console.log({values})
     try {
-      const formattedValues = {
-        ...values,
-        fval: "0",
-        forderDay: "08.12.2023",
-        dtd: dayjs(values.dtd).format("DD.MM.YYYY"),
-        sum: values.sum.toString(),
-      };
+      // const formattedValues = {
+      //   ...values,
+      //   fval: "0",
+      //   forderDay: "08.12.2023",
+      //   createdDate: dayjs(values.createdDate).format("DD.MM.YYYY"),
+      //   sum: values.sum.toString(),
+      // };
 
-      const request = await createOrder(formattedValues);
+      const request = await createNewOrder({
+        ...values,
+        createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
+      });
       console.log("req: ", request);
       confirmForm();
       setLoading(false);
@@ -336,9 +361,12 @@ const AccountEntryForm: React.FC = () => {
 
   return (
     <>
-      <h2 style={{ textAlign: "center", marginBottom: 16 }}>
+      <h1 style={{ textAlign: "center", marginBottom: 16 }}>
         {editable ? "Изменить поручение" : "Новое поручение"}
-      </h2>
+      </h1>
+
+      <Divider></Divider>
+
       {contextHolder}
       {notificationContextHolder}
       <Form
@@ -346,6 +374,7 @@ const AccountEntryForm: React.FC = () => {
         style={{
           padding: "10px",
           borderRadius: "10px",
+          marginTop: 40,
         }}
         form={form}
         onFinish={onFinish}
@@ -354,68 +383,68 @@ const AccountEntryForm: React.FC = () => {
           editable
             ? [
                 {
-                  name: ["dtd"],
-                  value: dayjs(editData.dtd),
+                  name: ["createdDate"],
+                  value: dayjs(editData.createdDate),
                 },
                 {
-                  name: ["ndoc"],
-                  value: editData.ndoc,
+                  name: ["documentNumber"],
+                  value: editData.documentNumber,
                 },
                 {
-                  name: ["crAcc"],
-                  value: editData.crAcc,
+                  name: ["creditAccount"],
+                  value: editData.creditAccount,
                 },
                 {
-                  name: ["crInn"],
-                  value: editData.crInn,
+                  name: ["creditINN"],
+                  value: editData.creditINN,
                 },
                 {
-                  name: ["crBankName"],
-                  value: editData.crBankName,
+                  name: ["creditBankName"],
+                  value: editData.creditBankName,
                 },
                 {
-                  name: ["crMfo"],
-                  value: editData.crMfo,
+                  name: ["creditMFO"],
+                  value: editData.creditMFO,
                 },
                 {
                   name: ["sum"],
                   value: editData.sum,
                 },
                 {
-                  name: ["debAcc"],
-                  value: editData.debAcc,
+                  name: ["debitAccount"],
+                  value: editData.debitAccount,
                 },
                 {
-                  name: ["debInn"],
-                  value: editData.debInn,
+                  name: ["debitINN"],
+                  value: editData.debitINN,
                 },
                 {
-                  name: ["debBankName"],
-                  value: editData.debBankName,
+                  name: ["debitBankName"],
+                  value: editData.debitBankName,
                 },
                 {
-                  name: ["naznCode"],
-                  value: editData.naznCode,
+                  name: ["codeNaznachentiya"],
+                  value: editData.codeNaznachentiya,
                 },
                 {
-                  name: ["naznText"],
-                  value: editData.naznText,
+                  name: ["textNaznachentiya"],
+                  value: editData.textNaznachentiya,
                 },
                 {
-                  name: ["debMfo"],
-                  value: editData.debMfo,
+                  name: ["debitMFO"],
+                  value: editData.debitMFO,
                 },
                 {
-                  name: ["crName"],
-                  value: editData.crName,
+                  name: ["creditName"],
+                  value: editData.creditName,
                 },
                 {
                   name: ["crPnfl"],
                   value: editData.crPnfl,
                 },
                 {
-                  name: ["debName"],
-                  value: editData.debName,
+                  name: ["debitName"],
+                  value: editData.debitName,
                 },
                 {
                   name: ["debPnfl"],
@@ -435,11 +464,11 @@ const AccountEntryForm: React.FC = () => {
             labelCol={{ span: 10 }}
             wrapperCol={{ span: 14 }}
             label="№ документа"
-            name="ndoc"
-            // rules={[
-            // { required: true, message: "" },
-            // { validator: validateDokNumber },
-            // ]}
+            name="documentNumber"
+            rules={[
+            { required: true, message: "" },
+            { validator: validateDokNumber },
+            ]}
             style={{
               marginRight: 40,
             }}
@@ -447,11 +476,11 @@ const AccountEntryForm: React.FC = () => {
             <Input maxLength={10} type="number" />
           </Form.Item>
           <Form.Item
-            labelCol={{ span: 10 }}
-            wrapperCol={{ span: 14 }}
+            labelCol={{ span: 11 }}
+            wrapperCol={{ span: 13 }}
             className="aaaaa"
             label="Дата документа:"
-            name="dtd"
+            name="createdDate"
             rules={[{ required: true, message: "" }]}
             style={{
               marginRight: 40,
@@ -524,7 +553,7 @@ const AccountEntryForm: React.FC = () => {
                 },
                 { validator: validateAccount },
               ]}
-              name="debAcc"
+              name="debitAccount"
               style={{
                 marginRight: 40,
               }}
@@ -534,18 +563,14 @@ const AccountEntryForm: React.FC = () => {
                 style={{
                   width: 200,
                 }}
-                onChange={handleDebet}
+                onChange={(value: string) => handleDebet(value, "debet")}
                 allowClear
               >
-                <Select.Option value="12345678901234567890">
-                  12345678901234567890
-                </Select.Option>
-                <Select.Option value="20201232109283743891">
-                  20201232109283743891
-                </Select.Option>
-                <Select.Option value="99991929292929292929">
-                  99991929292929292929
-                </Select.Option>
+                {accountList && accountList.length
+                  ? accountList.map(({ account }: any) => (
+                      <Select.Option value={account}>{account}</Select.Option>
+                    ))
+                  : null}
               </Select>
             </Form.Item>
             <Form.Item
@@ -556,25 +581,25 @@ const AccountEntryForm: React.FC = () => {
                   message: "",
                 },
               ]}
-              name="debName"
+              name="debitName"
               style={{
                 marginRight: 40,
                 width: "32vw",
               }}
             >
               <Input disabled={isLoading} readOnly={true} />
-              {/* <Input disabled={editData.debName ? true : false} /> */}
+              {/* <Input disabled={editData.debitName ? true : false} /> */}
             </Form.Item>
             <Form.Item
               label="ИНН"
               // rules={[{ validator: validateINN }]}
-              name="debInn"
+              name="debitINN"
               style={{
                 marginRight: 40,
               }}
             >
               <Input disabled={isLoading} readOnly={true} />
-              {/* <Input disabled={editData.debInn ? true : false} maxLength={9} /> */}
+              {/* <Input disabled={editData.debitINN ? true : false} maxLength={9} /> */}
             </Form.Item>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -584,27 +609,17 @@ const AccountEntryForm: React.FC = () => {
                 marginRight: 40,
                 width: "32vw",
               }}
-              name="debBankName"
+              name="debitBankName"
             >
               <Input
                 value={"test"}
-                disabled={true}
-                // disabled={editData.debBankName ? true : false}
+                readOnly={true}
+                // disabled={editData.debitBankName ? true : false}
               />
             </Form.Item>
 
-            <Form.Item
-              label="Код Банка"
-              style={{ width: 150 }}
-              rules={
-                [
-                  // { required: true, message: "" },
-                  // { validator: validateMinLengthMFO },
-                ]
-              }
-              name="debMfo"
-            >
-              <Input disabled={true} maxLength={5} />
+            <Form.Item label="Код Банка" style={{ width: 150 }} name="debitMFO">
+              <Input readOnly={true} maxLength={5} />
             </Form.Item>
           </div>
           {/* <Form.Item
@@ -621,7 +636,7 @@ const AccountEntryForm: React.FC = () => {
           </Form.Item>*/}
         </div>
 
-        {/* <Divider /> */}
+    
 
         <Divider orientation="left">Кредит</Divider>
 
@@ -649,7 +664,7 @@ const AccountEntryForm: React.FC = () => {
                 },
                 { validator: validateAccount },
               ]}
-              name="crAcc"
+              name="creditAccount"
               style={{
                 marginRight: 8,
               }}
@@ -664,7 +679,13 @@ const AccountEntryForm: React.FC = () => {
             <Form.Item style={{ marginRight: 8 }}>
               <RightCircleFilled
                 onClick={() => {
-                  console.log('creadd: ', creditAccount)
+                  if (creditAccount) {
+                    form.setFieldValue("creditName", "");
+                    form.setFieldValue("creditINN", "");
+                    form.setFieldValue("creditBankName", "");
+                    form.setFieldValue("creditMFO", "");
+                    handleDebet(creditAccount, "credit");
+                  }
                 }}
                 style={{ fontSize: 24, color: "#1677ff", cursor: "pointer" }}
               />
@@ -677,25 +698,25 @@ const AccountEntryForm: React.FC = () => {
                   message: "",
                 },
               ]}
-              name="crName"
+              name="creditName"
               style={{
                 marginRight: 40,
                 width: "32vw",
               }}
             >
-              <Input disabled={isLoading} />
+              <Input readOnly={checkValue("creditName")} />
             </Form.Item>
             <Form.Item
               label="ИНН"
               rules={[{ validator: validateINN }]}
-              name="crInn"
+              name="creditINN"
               // labelCol={{span: 10}}
               // wrapperCol={{ span: 14 }}
               style={{
                 marginRight: 40,
               }}
             >
-              <Input maxLength={9} disabled={isLoading} />
+              <Input maxLength={9} readOnly={checkValue("creditINN")} />
               {/* <Input
                 style={{
                   width: 184,
@@ -717,9 +738,9 @@ const AccountEntryForm: React.FC = () => {
               style={{
                 marginRight: 40,
               }}
-              name="crBankName"
+              name="creditBankName"
             >
-              <Input disabled={isLoading} />
+              <Input readOnly={checkValue("creditBankName")} />
             </Form.Item>
 
             <Form.Item
@@ -728,66 +749,16 @@ const AccountEntryForm: React.FC = () => {
                 { required: true, message: "" },
                 { validator: validateMinLengthMFO },
               ]}
-              name="crMfo"
+              name="creditMFO"
               // labelCol={{span: 10}}
               // wrapperCol={{ span: 14 }}
               style={{
                 marginRight: 40,
               }}
             >
-              <Input maxLength={5} disabled={isLoading} />
+              <Input maxLength={5} readOnly={checkValue("creditMFO")} />
             </Form.Item>
-            {/* <Form.Item
-              label="ИНН"
-              rules={[{ validator: validateINN }]}
-              name="crInn"
-              // labelCol={{span: 10}}
-              // wrapperCol={{ span: 14 }}
-              style={{
-                marginRight: 40,
-              }}
-            >
-              <Input
-                style={{
-                  width: 184,
-                  display: "flex",
-                }}
-                maxLength={9}
-              />
-            </Form.Item>
-
-            <Form.Item
-              label="Наименование получателя"
-              rules={[
-                {
-                  required: true,
-                  message: "",
-                },
-              ]}
-              name="crName"
-              style={{
-                marginRight: 40,
-              }}
-            >
-              <Input />
-            </Form.Item> */}
           </div>
-          {/* 
-          <Form.Item
-            label="ПИНФЛ получателя"
-            rules={[
-              {
-                required: true,
-                message: "Пожалуйста выберете ПИНФЛ получателя",
-              },
-            ]}
-            name="crPnfl"
-            style={{
-              marginRight: 40,
-            }}
-          >
-            <Input />
-          </Form.Item> */}
         </div>
 
         <Divider />
@@ -803,10 +774,14 @@ const AccountEntryForm: React.FC = () => {
           <Form.Item
             label="Код назначения"
             style={{
-              width: "20%",
+              width: "60%",
               marginRight: 40,
             }}
-            name="naznCode"
+            name="codeNaznachentiya"
+            rules={[
+            { required: true, message: "" },
+            { validator: validateDokNumber },
+            ]}
           >
             <Select
               allowClear
@@ -889,10 +864,10 @@ const AccountEntryForm: React.FC = () => {
 
           <Form.Item
             label="Детали платежа"
-            name="naznText"
+            name="textNaznachentiya"
             style={{
-              width: "45%",
-              marginRight: "40px",
+              width: "60%",
+              // marginRight: "40px",
             }}
           >
             <TextArea rows={4} />

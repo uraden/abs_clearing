@@ -28,13 +28,13 @@ const DraftForm = () => {
       key: "dtd",
       render: (dtd: string) => (dtd ? moment(dtd).format("DD.MM.YYYY") : null),
     },
-    {
-      title: "Опер. день",
-      dataIndex: "forderDay",
-      key: "forderDay",
-      render: (forderDay: string) =>
-        forderDay ? moment(forderDay).format("DD.MM.YYYY") : null,
-    },
+    // {
+    //   title: "Опер. день",
+    //   dataIndex: "forderDay",
+    //   key: "forderDay",
+    //   render: (forderDay: string) =>
+    //     forderDay ? moment(forderDay).format("DD.MM.YYYY") : null,
+    // },
     {
       title: "Плательщик",
       children: [
@@ -60,6 +60,7 @@ const DraftForm = () => {
       key: "total_amount",
       render: (amount: string) =>
         Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+      align: 'right'  
     },
     {
       title: "Статус",
@@ -144,8 +145,12 @@ const DraftForm = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
-      <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+    <div>
+
+      {/* !!!!Removed Card ask Farrukh Aka!!! */}
+
+
+      {/* <Space direction="vertical" size="middle" style={{ display: "flex" }}>
         <Card
           title="History of Drafts"
           style={{ width: 250, textAlign: "left" }}
@@ -163,7 +168,7 @@ const DraftForm = () => {
             <p>Shablon 3</p>
           </Space>
         </Card>
-      </Space>
+      </Space> */}
       <div>
         <div
           style={{
