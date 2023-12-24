@@ -16,30 +16,66 @@ const ExcelExport: React.FC = () => {
 
     // Create a new workbook
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Sheet1");
 
+    workbook.creator = "Alibek";
+    workbook.lastModifiedBy = "Alibek";
+    workbook.created = new Date(2023, 12, 25);
+    workbook.modified = new Date();
+    const worksheet = workbook.addWorksheet("sheet1");
     // Set up the first row with merged cells
-    worksheet.addRow(["Number", "Data", 31]);
-    worksheet.mergeCells("A1:C1");
+    worksheet.columns = [
+      { header: "ОИ" },
+      { header: "Электронное Пл.поруч.через сист.дист.обсл. №" },
+      {},
+      {},
+      { header: "31" },
+    ];
+    worksheet.mergeCells("B1:D1");
+    worksheet.addRow(["ДАТА"]);
+    worksheet.getCell("B2").value = "15.12.2023";
+    worksheet.mergeCells("B2:E2");
 
-    // Set up the second row
-    worksheet.addRow(["", "Date", backendData.date]);
+    worksheet.getCell("A3").value = "Наименование";
+    worksheet.getCell("A4").value = "плательщика";
+    worksheet.getCell("B3").value = '"DASTURCHILAR LABORATORIYASI" MCHJ';
+    worksheet.mergeCells("B3:E4");
 
-    // Set up the third row with merged cells
-    worksheet.addRow(["", "Customer", "", "", "Solder", ""]);
-    worksheet.mergeCells("B3:C3");
-    worksheet.mergeCells("D3:F3");
+    worksheet.getCell("A5").value = "ДЕБЕТ";
+    worksheet.getCell("A6").value = "Счет плательщика";
+    worksheet.getCell("B5").value = "20208000805474605001";
+    worksheet.getCell("D5").value = "ИНН";
+    worksheet.getCell("D6").value = "плательщика";
+    worksheet.getCell("E5").value = "309156313";
+    worksheet.mergeCells("B5:C6");
+    worksheet.mergeCells("E5:E6");
+
+    worksheet.getCell("A7").value = "Наименование";
+    worksheet.getCell("A8").value = "банка плательщика";
+    worksheet.getCell("B7").value =
+      'ТОШКЕНТ Ш., "ИПОТЕКА-БАНК" АТИБ ЮНУСОБОД ФИЛИАЛИ';
+    worksheet.getCell("D7").value = "Код банка";
+    worksheet.getCell("D8").value = "плательщика";
+    worksheet.getCell("E7").value = "00837";
+    worksheet.mergeCells("B7:C8");
+    worksheet.mergeCells("E7:E8");
+    // // Set up the second row
+    // worksheet.addRow(["", "Date", backendData.date]);
+
+    // // Set up the third row with merged cells
+    // worksheet.addRow(["", "Customer", "", "", "Solder", ""]);
+    // worksheet.mergeCells("B3:C3");
+    // worksheet.mergeCells("D3:F3");
 
     // Set up the fourth row
-    worksheet.addRow([
-      "Debit",
-      backendData.debit.customer[0],
-      backendData.debit.customer[1],
-      backendData.debit.customer[2],
-      "",
-      backendData.iin.solder[0],
-      backendData.iin.solder[1],
-    ]);
+    // worksheet.addRow([
+    //   "Debit",
+    //   backendData.debit.customer[0],
+    //   backendData.debit.customer[1],
+    //   backendData.debit.customer[2],
+    //   "",
+    //   backendData.iin.solder[0],
+    //   backendData.iin.solder[1],
+    // ]);
 
     // Save the workbook as an Excel file
     const buffer = await workbook.xlsx.writeBuffer();
