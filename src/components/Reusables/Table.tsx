@@ -4,7 +4,13 @@ import { useLocation } from "react-router-dom";
 import moment from "moment";
 // import { useAccountList } from "../../pages/accountList/request";
 
-const CustomTable: React.FC = ({ isLoading, columns, dataSource, titleOfThePage, datePicked }: any) => {
+const CustomTable: React.FC = ({
+  isLoading,
+  columns,
+  dataSource,
+  titleOfThePage,
+  datePicked,
+}: any) => {
   const location = useLocation();
 
   return (
@@ -12,22 +18,24 @@ const CustomTable: React.FC = ({ isLoading, columns, dataSource, titleOfThePage,
       <h1 style={{ textAlign: "center", marginBottom: 16 }}>
         {titleOfThePage}
       </h1>
-        
-        <div className="todays_date"> Операционный день
-        <span style={{ fontWeight: 700}}>
-          {location.pathname === "/account-list" || location.pathname === "/draft-form"
+
+      <div className="todays_date">
+        {" "}
+        Операционный день
+        <span style={{ fontWeight: 700 }}>
+          {location.pathname === "/account-list" ||
+          location.pathname === "/draft-form"
             ? ` - ${moment().format("DD.MM.YYYY")} `
             : ` - ${datePicked}`}
-            
         </span>
-        </div>
-        <Divider />
+      </div>
+      <Divider />
       <Table
         loading={isLoading}
         dataSource={dataSource}
         columns={columns}
         bordered
-        style={{marginTop: 40}}
+        style={{ marginTop: 40 }}
       />
     </>
   );

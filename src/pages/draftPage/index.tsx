@@ -145,7 +145,7 @@ const DraftForm = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div>
 
       {/* !!!!Removed Card ask Farrukh Aka!!! */}
 

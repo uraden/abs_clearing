@@ -85,15 +85,16 @@ export function numToWords(n: any) {
 }
 
 export function withDecimal(n: any) {
-  var nums = (Math.round((n + Number.EPSILON) * 100) / 100)
-    .toString()
-    .split(".");
-  // var nums = n.toString().split(".");
+  // var nums = (Math.round((n + Number.EPSILON) * 100) / 100)
+  //   .toString()
+  //   .split(".");
+  var nums = n.toString().split(".");
   // console.log('nums:::  ', nums);
   var whole = numToWords(nums[0]);
   if (nums.length == 2) {
     // console.log('nums[1]: ', nums[1], Math.round((n + Number.EPSILON) * 100) / 100);
     var fraction = numToWords(nums[1]);
+    console.log('farcccc: ', fraction, nums);
     return whole + " сум " + fraction + " тийин";
   } else {
     return whole + " сум";

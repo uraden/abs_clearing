@@ -124,14 +124,15 @@ const AccountPage = () => {
       width: "15%",
       align: 'right'
     },
-    // {
-    //   title: "Статус",
-    //   dataIndex: "status",
-    //   filters: statusFilterData,
-    //   onFilter: (value: string, record) => record.status.startsWith(value),
-    //   filterSearch: true,
-    //   width: "10%",
-    // },
+    {
+      title: "Статус",
+      dataIndex: "status",
+      filters: statusFilterData,
+      // @ts-ignore
+      onFilter: (value: string, record) => record.status.startsWith(value),
+      filterSearch: true,
+      width: "10%",
+    },
     // {
     //   title: "Отчет",
     //   dataIndex: "report",
