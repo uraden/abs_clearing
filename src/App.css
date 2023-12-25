@@ -200,6 +200,10 @@
   align-items: center;
 }
 
+.ant-divider-vertical {
+  height: 20.9em !important;
+}
+
 .title {
   margin-bottom: 32px;
   font-size: 36px;
