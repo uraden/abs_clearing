@@ -224,7 +224,7 @@ const AccountPage = () => {
 
   return (
     <div>
-      <h1 style={{ marginBottom: 50 }}>Счета</h1>
+      <div className="title">Мои счета</div>
       <Table columns={columns} dataSource={data} onChange={onChange} />
 
       <Modal

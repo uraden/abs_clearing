@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [datePickedM, setDatePckedM] = useState(dayjs().format('DD.MM.YYYY'));
+  const [datePickedM, setDatePckedM] = useState(dayjs().format("DD.MM.YYYY"));
 
   const columns = [
     { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber" },
@@ -89,7 +89,6 @@ const AccountListArchive = () => {
   ];
 
   const getList = async (date: any) => {
-    console.log('date:: ', date);
     setLoading(true);
     // @ts-ignore
     const response = await getAccountArchiveList({
@@ -146,7 +145,7 @@ const AccountListArchive = () => {
   const onChange: DatePickerProps["onChange"] = (dateString) => {
     let tempDate = dayjs(dateString);
     setDatePckedM(tempDate.format("DD.MM.YYYY"));
-    getList(tempDate)
+    getList(tempDate);
   };
 
   return (
@@ -162,9 +161,20 @@ const AccountListArchive = () => {
         <h3>Выберите дату:</h3>
         <DatePicker onChange={onChange} defaultValue={dayjs()} />
       </div>
-      <h1 style={{ textAlign: "center", marginBottom: 16 }}>
-        Дата: {datePickedM}
-      </h1>
+      <div className="title">
+        Архив документов
+      </div>
+      <div className="todays_date">
+          {" "}
+          Дата:{" "}
+          <span style={{ fontWeight: 700 }}>{datePickedM}</span>
+          {/* <span style={{ fontWeight: 700 }}>
+          {location.pathname === "/account-list" ||
+          location.pathname === "/draft-form"
+            ? ` - ${moment().format("DD.MM.YYYY")} `
+            : ` - ${datePicked}`}
+        </span> */}
+        </div>
       <Table
         loading={isLoading}
         dataSource={dataSource}

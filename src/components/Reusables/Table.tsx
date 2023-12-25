@@ -15,9 +15,9 @@ const CustomTable: React.FC = ({
 
   return (
     <>
-      <h1 style={{ textAlign: "center", marginBottom: 16 }}>
+      <div className="title">
         {titleOfThePage}
-      </h1>
+      </div>
 
       <div className="todays_date">
         {" "}
