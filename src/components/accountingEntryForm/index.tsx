@@ -476,8 +476,8 @@ const AccountEntryForm: React.FC = () => {
             <Input maxLength={10} type="number" />
           </Form.Item>
           <Form.Item
-            labelCol={{ span: 10 }}
-            wrapperCol={{ span: 14 }}
+            labelCol={{ span: 11 }}
+            wrapperCol={{ span: 13 }}
             className="aaaaa"
             label="Дата документа:"
             name="createdDate"
