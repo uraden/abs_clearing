@@ -607,7 +607,7 @@ const AccountEntryFormNew = () => {
                 />
               </Form.Item>
               <Form.Item
-                label="ИНН"
+                label="ИНН плательщика"
                 // rules={[{ validator: validateINN }]}
                 name="debitINN"
                 style={
@@ -628,7 +628,7 @@ const AccountEntryFormNew = () => {
             </div>
 
             <Form.Item
-              label="Банк"
+              label="Банк плательщика"
               style={{}}
               name="debitBankName"
               labelCol={{ span: 8 }}
@@ -645,7 +645,7 @@ const AccountEntryFormNew = () => {
             <Form.Item
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
-              label="Код Банка"
+              label="Код банка плательщика"
               name="debitMFO"
             >
               <Input
@@ -742,7 +742,7 @@ const AccountEntryFormNew = () => {
             </Form.Item>
 
             <Form.Item
-              label="ИНН"
+              label="ИНН получателя"
               rules={[{ validator: validateINN }]}
               name="creditINN"
               labelCol={{ span: 8 }}
@@ -766,7 +766,7 @@ const AccountEntryFormNew = () => {
             </Form.Item>
 
             <Form.Item
-              label="Банк"
+              label="Банк получателя"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
               name="creditBankName"
@@ -781,7 +781,7 @@ const AccountEntryFormNew = () => {
             </Form.Item>
 
             <Form.Item
-              label="Код Банка"
+              label="Код банка получателя"
               rules={[
                 { required: true, message: "" },
                 { validator: validateMinLengthMFO },
@@ -912,7 +912,7 @@ const AccountEntryFormNew = () => {
 
         <div
           className="horizontal"
-          style={{ display: "flex", justifyContent: "flex-start", gap: 16 }}
+          style={{ display: "flex", justifyContent: "center", gap: 16 }}
         >
           <Form.Item>
             <Button
