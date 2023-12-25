@@ -361,9 +361,9 @@ const AccountEntryForm: React.FC = () => {
 
   return (
     <>
-      <h1 style={{ textAlign: "center", marginBottom: 16 }}>
-        {editable ? "Изменить поручение" : "Новое поручение"}
-      </h1>
+      <div className="title">
+        {editable ? "Изменить документ" : "Новый документ"}
+      </div>
 
       <Divider></Divider>
 

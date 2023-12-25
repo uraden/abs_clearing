@@ -199,3 +199,9 @@
   margin-bottom: 20px;
   align-items: center;
 }
+
+.title {
+  margin-bottom: 32px;
+  font-size: 36px;
+  font-weight: bold;
+}

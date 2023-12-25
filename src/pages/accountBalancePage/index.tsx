@@ -117,10 +117,10 @@ export default function AccountBalancePage() {
   return (
     <div>
       <div className="main-table-1-account">
-        <span style={{ marginBottom: 30, fontSize: 36, fontWeight: "bold" }}>
+        <div className="title">
           Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на {" "}
           {dayjs().format("DD.MM.YYYY")}
-        </span>
+        </div>
         <Table
           columns={columns}
           dataSource={data}

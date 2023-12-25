@@ -6,12 +6,12 @@ const Revenue = () => {
   console.log("para: ", params);
   return (
     <div>
-      <span style={{ marginBottom: 30, fontSize: 36, fontWeight: "bold" }}>
+      <div className="title">
         Мониторинг платежных документов
         <br />
         {params.revenue === "debet" ? "Исходящий" : "Поступление"} -{" "}
         {params.account}
-      </span>
+      </div>
       <RevenueTable />
     </div>
   );
