@@ -127,7 +127,7 @@ const Main = () => {
     },
     {
       key: 2,
-      bank_type: "Внутребанковские",
+      bank_type: "Внутрибанковские",
       start_time: "00:00",
       end_time: "23:55"
     }
@@ -171,7 +171,7 @@ const Main = () => {
           style={{ width: 280, marginRight: 20 }}
           title={() => (
             <tr style={{ textAlign: "center" }}>
-              <h3> Срок пароля </h3>
+              <h3> Срок действия пароля </h3>
             </tr>
           )}
           showHeader={false}
@@ -187,7 +187,7 @@ const Main = () => {
           style={{ width: 280, marginRight: 20 }}
           title={() => (
             <tr style={{ textAlign: "center" }}>
-              <h3> Расписание платижей </h3>
+              <h3> Расписание платежей </h3>
             </tr>
           )}
           showHeader={false}
