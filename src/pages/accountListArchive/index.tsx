@@ -165,15 +165,8 @@ const AccountListArchive = () => {
         Архив документов
       </div>
       <div className="todays_date">
-          {" "}
           Дата:{" "}
           <span style={{ fontWeight: 700 }}>{datePickedM}</span>
-          {/* <span style={{ fontWeight: 700 }}>
-          {location.pathname === "/account-list" ||
-          location.pathname === "/draft-form"
-            ? ` - ${moment().format("DD.MM.YYYY")} `
-            : ` - ${datePicked}`}
-        </span> */}
         </div>
       <Table
         loading={isLoading}

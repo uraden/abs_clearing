@@ -6,16 +6,14 @@ import {
   BlockOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, Layout, Menu, Popover, theme } from "antd";
+import { Button, Layout, Menu, Modal, Popover, theme } from "antd";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
+import CustomPassword from "../../components/password";
 const { Header, Content, Footer } = Layout;
 
 const Navbar = ({ children }: { children: ReactNode }) => {
-  // const [collapsed, setCollapsed] = useState(false);
-  // const [men, setMen] = useState(false);
-  // const [marginLeft, setMarginLeft] = useState(false);
-  // const [withLayout, setWithLayout] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(
     location.pathname.replace("/", "")
@@ -43,6 +41,18 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   const currentYear = new Date().getFullYear();
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const logoImg = (
     <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="logo" />
   );
@@ -52,7 +62,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     getItem("Счета", "account-page", <PieChartOutlined />, [
       getItem("Мои Счета", "account-page"),
       getItem("Остатки и обороты счетов", "account-balance-page"),
-    ] ),
+    ]),
     getItem("Документы", "0", <FileTextOutlined />, [
       getItem("Новый документ", "new-doc"),
       // getItem("Черновик", "draft-form"),
@@ -80,7 +90,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       // getItem("Справка о работе счета консолидированная", "55g"),
     ]),
     getItem("Сервис", "9", <BlockOutlined />, [
-      getItem("Импорт документов","draft-form",),
+      getItem("Импорт документов", "draft-form"),
       // getItem("Экспорт документов", "8j"),
       // getItem("Черновик", "draft-form", ""),
     ]),
@@ -115,6 +125,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           outline: "none",
           marginTop: 8,
         }}
+        onClick={showModal}
       >
         Смена пароля
       </Button>
@@ -123,14 +134,19 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
+      <Modal
+        title="Смена пароля"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <CustomPassword />
+      </Modal>
       <Header
         style={{
           display: "flex",
         }}
       >
-        {/* <Link to="/" style={{ width: 200, marginRight: 8 }} className="logo-div">
-          <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="logo" />
-        </Link> */}
         <Menu
           theme="dark"
           defaultSelectedKeys={[activeMenu]}
