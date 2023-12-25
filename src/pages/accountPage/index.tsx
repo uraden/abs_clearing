@@ -9,12 +9,14 @@ import {
   Input,
   Switch,
   Flex,
-  Checkbox
+  Checkbox,
+  Tag
 } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 import { status } from "../../assets/defaultData";
+import _ from "lodash";
 
 interface DataType {
   key: React.Key;
@@ -132,6 +134,14 @@ const AccountPage = () => {
       onFilter: (value: string, record) => record.status.startsWith(value),
       filterSearch: true,
       width: "10%",
+      render: (statusText: string) => {
+        if (statusText) {
+          let tempStatus = _.find(status, { statusTitle: statusText });
+          return (
+            <Tag color={tempStatus?.statusColor}>{tempStatus?.statusTitle}</Tag>
+          );
+        }
+      },
     },
     // {
     //   title: "Отчет",
