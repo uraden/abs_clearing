@@ -1,15 +1,9 @@
 import React from "react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { reportData } from "./request";
 
 export default function AccountBalancePage() {
 
-
-    const fetchEditForm = async () => {
-        const infoEdit = await reportData(1);
-        console.log(infoEdit)
-      };
 
     interface DataType {
         key: string;
@@ -98,8 +92,6 @@ export default function AccountBalancePage() {
     <div>
 
       <div className="main-table-1-account">
-
-        <button onClick={()=> {fetchEditForm()}}>TEST</button>
         <h1 style={{marginBottom: 30}}> Остатки и обороты счетов</h1>
         <Table
           columns={columns}
