@@ -4,6 +4,7 @@ import LoginForm from "./pages/loginPage";
 import Protected from "./routes/Protected.tsx";
 import "./App.css";
 import AccountEntryForm from "./pages/accountForm";
+import AccountEntryFormNew from "./pages/accountFormNew";
 import AccountList from "./pages/accountList";
 import AccountPage from "./pages/accountPage";
 import NotFound from "./components/notFound/NotFound.tsx";
@@ -35,6 +36,14 @@ function App() {
       element: (
         <Protected>
           <AccountEntryForm />
+        </Protected>
+      ),
+    },
+    {
+      path: "/new-ui-doc",
+      element: (
+        <Protected>
+          <AccountEntryFormNew />
         </Protected>
       ),
     },
