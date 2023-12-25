@@ -37,7 +37,7 @@ export const getActiveList = async (params: unknown) => {
     }
   }
 };
-
+                                      
 export const getActiveInfo = async (params: unknown) => {
   try {
     const request = await axios.get(api.accountInfo(), {

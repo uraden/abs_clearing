@@ -774,7 +774,7 @@ const AccountEntryForm: React.FC = () => {
           <Form.Item
             label="Код назначения"
             style={{
-              width: "20%",
+              width: "60%",
               marginRight: 40,
             }}
             name="codeNaznachentiya"
@@ -866,8 +866,8 @@ const AccountEntryForm: React.FC = () => {
             label="Детали платежа"
             name="textNaznachentiya"
             style={{
-              width: "45%",
-              marginRight: "40px",
+              width: "60%",
+              // marginRight: "40px",
             }}
           >
             <TextArea rows={4} />

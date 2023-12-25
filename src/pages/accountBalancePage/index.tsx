@@ -2,10 +2,9 @@ import React from "react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
 
 export default function AccountBalancePage() {
-
-
   interface DataType {
     key: string;
     account: string;
@@ -118,7 +117,10 @@ export default function AccountBalancePage() {
   return (
     <div>
       <div className="main-table-1-account">
-        <h1 style={{marginBottom: 30}}> Остатки и обороты счетов</h1>
+        <span style={{ marginBottom: 30, fontSize: 36, fontWeight: "bold" }}>
+          Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на {" "}
+          {dayjs().format("DD.MM.YYYY")}
+        </span>
         <Table
           columns={columns}
           dataSource={data}

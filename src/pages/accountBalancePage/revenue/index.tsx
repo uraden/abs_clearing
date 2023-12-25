@@ -3,10 +3,15 @@ import RevenueTable from "../../../components/revenueTable";
 
 const Revenue = () => {
   const params = useParams();
-  console.log('para: ', params);
+  console.log("para: ", params);
   return (
     <div>
-      <h1>{params.revenue === 'debet' ? 'Исходящий' : 'Поступление'} - {params.account}</h1>
+      <span style={{ marginBottom: 30, fontSize: 36, fontWeight: "bold" }}>
+        Мониторинг платежных документов
+        <br />
+        {params.revenue === "debet" ? "Исходящий" : "Поступление"} -{" "}
+        {params.account}
+      </span>
       <RevenueTable />
     </div>
   );
