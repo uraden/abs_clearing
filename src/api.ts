@@ -17,4 +17,5 @@ export default {
   orderAll: () => [baseUrl, "order", "all"].join("/"),
   accountReport: () => [baseUrl, "account", "report"].join("/"),
   singleOrder: (oderId: number) => [baseUrl, "order", oderId].join("/"),
+  allAccount: (clientId: unknown) => [baseUrl, "account", "all"].join('/') + `?clientId=${clientId}` 
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   Button,
@@ -7,13 +7,13 @@ import {
   Select,
   DatePicker,
   Input,
-  Switch,
   Flex,
   Checkbox,
   Tag
 } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { getAllAccounts } from './request'
 
 import { status } from "../../assets/defaultData";
 import _ from "lodash";
@@ -27,15 +27,37 @@ interface DataType {
   remainder: string;
   status: string;
   report: unknown;
+  client: string;
+  currencyType: string;
+  mfo: string;
+  amount: string;
+  length: number
 }
 
 const AccountPage = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [responseData, setResponseData] = useState<DataType[]>()
 
   const onChangeCheckBox = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
   };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getAllAccounts();
+        setResponseData(response);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    
+    fetchData();
+  }, []);
+
+
 
   const showModal = () => {
     setOpen(true);
@@ -49,45 +71,24 @@ const AccountPage = () => {
       setConfirmLoading(false);
     }, 2000);
 
-    // try {
-    //     // Your API endpoint for the POST request
-    //     const apiUrl = 'https://your-api-endpoint.com';
-        
-    //     // Your form data
-    //     const formData = {
-    //       // Add your form field values here
-    //       // For example:
-    //       bank: 'selectedBankValue',
-    //       startDate: 'selectedStartDate',
-    //       endDate: 'selectedEndDate',
-    //       // ... add other form field values
-    //     };
-  
-    //     const response = await fetch(apiUrl, {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         // Add any other headers as needed
-    //       },
-    //       body: JSON.stringify(formData),
-    //     });
-  
-    //     // Handle the response, e.g., check if it was successful
-    //     if (response.ok) {
-    //       setOpen(false);
-    //       setConfirmLoading(false);
-    //       // Additional logic if needed
-    //     } else {
-    //       // Handle the error
-    //       console.error('Failed to make the POST request');
-    //     }
-    //   } catch (error) {
-    //     console.error('Error in handleOk:', error);
-    //   }
-
-
-
   };
+
+  const mappedData: DataType[] | undefined = responseData?.map((item) => ({
+    key: item.key,
+    account: item.account,
+    name: item.client,
+    currency: item.currencyType,
+    bank: item.mfo.toString(),
+    // remainder: apiItem.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }), // Format amount as currency
+    remainder: Number(item.amount).toLocaleString('en-US'),
+    status: item.status,
+    report: (
+      <Button size="small" onClick={showModal}>
+        Отчет
+      </Button>
+    ),
+  }));
+
 
   const handleCancel = () => {
     console.log("Clicked cancel button");
@@ -150,78 +151,7 @@ const AccountPage = () => {
     // },
   ];
 
-  const data: DataType[] = [
-    {
-      key: "1",
-      account: "16401000705474605001",
-      name: "DASTURCHILAR LABOROTORIYASI MCHJ",
-      currency: "UZS",
-      bank: "837",
-      remainder: "0.00",
-      status: "Утвержден",
-      report: (
-        <Button size="small" onClick={showModal}>
-          Отчет
-        </Button>
-      ),
-    },
-    {
-      key: "2",
-      account: "17771000705474112007",
-      name: "DASTURCHILAR LABOROTORIYASI MCHJ",
-      currency: "UZS",
-      bank: "837",
-      remainder: "0.00",
-      status: "Введен",
-      report: (
-        <Button size="small" onClick={showModal}>
-          Отчет
-        </Button>
-      ),
-    },
-    {
-      key: "3",
-      account: "30001000705474112007",
-      name: "DASTURCHILAR LABOROTORIYASI MCHJ",
-      currency: "UZS",
-      bank: "227",
-      remainder: "100,000.00",
-      status: "На одобрение",
-      report: (
-        <Button size="small" onClick={showModal}>
-          Отчет
-        </Button>
-      ),
-    },
-    {
-      key: "4",
-      account: "30001000705474112007",
-      name: "NEW TECHNOLOGY MCHJ",
-      currency: "UZS",
-      bank: "227",
-      remainder: "2,01200,000.00",
-      status: "Отправлен",
-      report: (
-        <Button size="small" onClick={showModal}>
-          Отчет
-        </Button>
-      ),
-    },
-    {
-      key: "5",
-      account: "10001044405474112007",
-      name: "YANGI UZBEKISTON MCHJ",
-      currency: "UZS",
-      bank: "227",
-      remainder: "1,71200,000.00",
-      status: "Отбракован",
-      report: (
-        <Button size="small" onClick={showModal}>
-          Отчет
-        </Button>
-      ),
-    },
-  ];
+ 
 
   const onChange: TableProps<DataType>["onChange"] = (
     pagination,
@@ -235,7 +165,12 @@ const AccountPage = () => {
   return (
     <div>
       <div className="title">Мои счета</div>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table 
+        columns={columns} 
+        dataSource={mappedData || []} 
+        onChange={onChange} 
+        pagination={mappedData && mappedData.length > 5 ? {} : false}
+      />
 
       <Modal
         title="Выписка лицевых"
