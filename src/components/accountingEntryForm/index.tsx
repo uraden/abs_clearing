@@ -148,8 +148,10 @@ const AccountEntryForm: React.FC = () => {
     }
   };
 
+  console.log('newwww: ', editable);
+
   useEffect(() => {
-    if (!location.pathname.includes("new-doc")) {
+    if (!location.pathname.includes("new")) {
       setEditable(true);
       fetchEditForm();
     } else {

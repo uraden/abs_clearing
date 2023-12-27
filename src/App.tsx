@@ -51,7 +51,7 @@ function App() {
       path: "/edit/:docId/doc",
       element: (
         <Protected>
-          <AccountEntryForm />
+          <AccountEntryFormNew />
         </Protected>
       ),
     },
