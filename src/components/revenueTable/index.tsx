@@ -1,25 +1,29 @@
 import { Table } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getSingleDebit, getSingleCredit } from './request'
 
 const RevenueTable = () => {
   const [isLoading, setLoading] = useState(false);
+  const [responseData, setResponseData] = useState()
+  const accountnumber = useParams();
 
   const columns = [
     {
       title: "№",
-      dataIndex: "№",
+      dataIndex: "id",
     },
     {
       title: "Документ",
       children: [
         {
           title: "№",
-          dataIndex: "№",
+          dataIndex: "documentNumber",
           align: "center",
         },
         {
           title: "Дата",
-          dataIndex: "Дата",
+          dataIndex: "documentDate",
           align: "center",
         },
       ],
@@ -29,17 +33,17 @@ const RevenueTable = () => {
       children: [
         {
           title: "Филиал",
-          dataIndex: "Филиал",
+          dataIndex: "debitClient",
           align: "center",
         },
         {
           title: "Лицевой счет",
-          dataIndex: "Дата",
+          dataIndex: "debitAccount",
           align: "center",
         },
         {
           title: "ИНН",
-          dataIndex: "Дата",
+          dataIndex: "debitINN",
           align: "center",
         },
       ],
@@ -49,24 +53,24 @@ const RevenueTable = () => {
       children: [
         {
           title: "Филиал",
-          dataIndex: "Филиал",
+          dataIndex: "creditClient",
           align: "center",
         },
         {
           title: "Лицевой счет",
-          dataIndex: "Дата",
+          dataIndex: "creditAccount",
           align: "center",
         },
         {
           title: "ИНН",
-          dataIndex: "Дата",
+          dataIndex: "creditINN",
           align: "center",
         },
       ],
     },
     {
       title: "Сумма",
-      dataIndex: "total_amount",
+      dataIndex: "amount",
       align: "center",
       key: "total_amount",
       render: (amount: string) =>
@@ -74,65 +78,54 @@ const RevenueTable = () => {
     },
     {
       title: "Назначение",
-      dataIndex: "Назначение",
+      dataIndex: "naznacheniya",
       key: "Назначение",
     },
-    // { title: "Дата", dataIndex: "operDate", key: "operDate" },
-    // {
-    //   title: "Номер",
-    //   dataIndex: "doc_no",
-    //   key: "doc_no",
-    //   // render: (dtd: string) => (dtd ? moment(dtd).format("DD.MM.YYYY") : null),
-    // },
-    // // {
-    // //   title: "Опер. день",
-    // //   dataIndex: "forderDay",
-    // //   key: "forderDay",
-    // //   render: (forderDay: string) =>
-    // //     forderDay ? moment(forderDay).format("DD.MM.YYYY") : null,
-    // // },
-    // {
-    //   title: "Тип Документа",
-    //   dataIndex: "typeDoc",
-    //   key: "typeDoc",
-    // },
-    // {
-    //   title: "Информация",
-    //   dataIndex: "Информация",
-    //   key: "Информация",
-    // },
-    // {
-    //   title: "Сумма",
-    //   dataIndex: "total_amount",
-    //   key: "total_amount",
-    //   render: (amount: string) =>
-    //     Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
-    // },
-    // {
-    //   title: "Валюта",
-    //   dataIndex: "currency",
-    //   key: "currency",
-    // },
-    // {
-    //   title: "Вид Операции",
-    //   dataIndex: "Вид Операции",
-    //   key: "Вид Операции",
-    // },
-    // {
-    //   title: "Контрагент",
-    //   dataIndex: "counter-agent",
-    //   key: "counter-agent",
-    // },
+ 
   ];
 
+
+  accountnumber.account === "debit"
+
+  // const myQueryParams = {account: accountnumber.account}
+  const myQueryParamsDebet = {account: '20208000100001203001'}  
+  const myQueryParamsCredit = {account: '20208000900000001001'}
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+         if(accountnumber.account === "debit") {
+          const response = await getSingleDebit(myQueryParamsDebet);
+          setResponseData(response);
+         } else {
+          const response = await getSingleCredit(myQueryParamsCredit);
+          setResponseData(response);
+         }
+
+       
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    
+    fetchData();
+  },[]);
+
+  console.log('this is data', responseData)
+
+  
   return (
+
+    <>
     <Table
       loading={isLoading}
-      dataSource={[]}
+      dataSource={responseData || []}
       columns={columns}
       bordered
       style={{ marginTop: 40 }}
+      pagination={false}
     />
+    </>
   );
 };
 

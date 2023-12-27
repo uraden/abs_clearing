@@ -15,5 +15,7 @@ export default {
   accountInfo: () => [baseUrl, "account", "info"].join('/'), 
   order: () => [baseUrl, "order", "new"].join('/'), 
   orderAll: () => [baseUrl, "order", "all"].join('/'),
-  allAccount: (clientId: unknown) => [baseUrl, "account", "all"].join('/') + `?clientId=${clientId}` 
+  allAccount: (clientId: unknown) => [baseUrl, "account", "all"].join('/') + `?clientId=${clientId}`,
+  accountDebit: () => [baseUrl, "account", "debit"].join('/'),
+  accountCredit: () => [baseUrl, "account", "credit"].join('/'),
 };
