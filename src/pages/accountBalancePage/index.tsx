@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import { getAccountReport } from "./request";
 
 export default function AccountBalancePage() {
   interface DataType {
@@ -114,11 +115,23 @@ export default function AccountBalancePage() {
     },
   ];
 
+  const fetchReport = async () => {
+    const response = await getAccountReport({
+      clientId: 1,
+    });
+
+    console.log('ress: ', response);
+  };
+
+  useEffect(() => {
+    fetchReport();
+  }, []);
+
   return (
     <div>
       <div className="main-table-1-account">
         <div className="title">
-          Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на {" "}
+          Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на{" "}
           {dayjs().format("DD.MM.YYYY")}
         </div>
         <Table

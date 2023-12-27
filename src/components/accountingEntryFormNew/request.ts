@@ -37,7 +37,7 @@ export const getActiveList = async (params: unknown) => {
     }
   }
 };
-                                      
+
 export const getActiveInfo = async (params: unknown) => {
   try {
     const request = await axios.get(api.accountInfo(), {
@@ -57,6 +57,20 @@ export const getActiveInfo = async (params: unknown) => {
 export const createNewOrder = async (body: unknown) => {
   try {
     const request = await axios.post(api.order(), body);
+    console.log("req: ", request);
+    return request.data;
+  } catch (error: unknown) {
+    const myError = error as MyError;
+    if (myError.response) {
+      console.log("requesttt: ", myError.response.data);
+      return myError.response.data;
+    }
+  }
+};
+
+export const getSingleOrder = async (orderId: number) => {
+  try {
+    const request = await axios.get(api.singleOrder(orderId));
     console.log("req: ", request);
     return request.data;
   } catch (error: unknown) {

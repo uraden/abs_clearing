@@ -19,13 +19,14 @@ import {
   editFormData,
   getActiveInfo,
   getActiveList,
+  getSingleOrder,
 } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
 
 import _ from "lodash";
 import { status } from "../../assets/defaultData";
 import dayjs from "dayjs";
-import { RightCircleFilled } from "@ant-design/icons";
+import { DownCircleFilled, RightCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 type EditData = {
@@ -48,6 +49,7 @@ type EditData = {
   crPnfl: string;
   debitName: string;
   debPnfl: string;
+  documentType: string;
   // forderDay: string
 };
 
@@ -76,6 +78,7 @@ const AccountEntryFormNew = () => {
     crPnfl: "",
     debitName: "",
     debPnfl: "",
+    documentType: "",
     // forderDay: ""
   });
   const location = useLocation();
@@ -85,9 +88,11 @@ const AccountEntryFormNew = () => {
     notification.useNotification();
   const [editable, setEditable] = useState(false);
   const [creditAccount, setCreditAccount] = useState("");
+  const [debetAccount, setDebetAccount] = useState("");
   const [accountList, setAccountList] = useState([]);
   const { docId } = useParams();
   const { pathname: urlChange } = useLocation();
+  const [docType, setDocType] = useState("01");
   const [errorList] = useState({
     createdDate: "Пожалуйста выберете Дату",
     documentNumber: "Пожалуйста выберете № документа",
@@ -102,34 +107,46 @@ const AccountEntryFormNew = () => {
   });
 
   const fetchEditForm = async () => {
-    const infoEdit = await editFormData(docId);
+    const infoEdit = await getSingleOrder(Number(docId));
     setEditData(infoEdit);
   };
+
+  useEffect(() => {
+    form.setFieldValue("debitAccount", null);
+    form.setFieldValue("debitName", null);
+    form.setFieldValue("debitINN", null);
+    form.setFieldValue("debitBankName", null);
+    form.setFieldValue("debitMFO", null);
+  }, [docType]);
 
   const checkValue = (name: string) =>
     form.getFieldValue(name) ? true : false;
 
   const handleDebet = async (value: string, type: string) => {
     setLoading(true);
-    console.log({ value, type });
     if (value) {
       if (type === "debet") {
         const request = await getActiveInfo({
           name: value,
         });
         setLoading(false);
-        if (request.client && request.inn) {
+        if (request.client) {
           form.setFieldValue("debitName", request.client);
+        }
+        if (request.inn) {
           form.setFieldValue("debitINN", request.inn);
+        }
+        if (request.ownerName) {
           form.setFieldValue("debitBankName", request.ownerName);
+        }
+        if (request.ownerBranchMFO) {
           form.setFieldValue("debitMFO", request.ownerBranchMFO);
         }
-        setLoading(false);
-      } else {
+      } else if (type === "credit") {
         const { client, inn, ownerName, ownerBranchMFO } = await getActiveInfo({
           name: value,
         });
-        console.log({ client, inn, ownerName, ownerBranchMFO });
+
         if (client) {
           form.setFieldValue("creditName", client);
         }
@@ -142,17 +159,31 @@ const AccountEntryFormNew = () => {
         if (ownerBranchMFO) {
           form.setFieldValue("creditMFO", ownerBranchMFO);
         }
-        console.log(
-          'form.getFieldValue("creditName");: ',
-          form.getFieldValue("creditName")
-        );
         setLoading(false);
       }
+    } else {
+      const { client, inn, ownerName, ownerBranchMFO } = await getActiveInfo({
+        name: value,
+      });
+      if (client) {
+        form.setFieldValue("debitName", client);
+      }
+      if (inn) {
+        form.setFieldValue("debitINN", inn);
+      }
+      if (ownerName) {
+        form.setFieldValue("debitBankName", ownerName);
+      }
+      if (ownerBranchMFO) {
+        form.setFieldValue("debitMFO", ownerBranchMFO);
+      }
+      setLoading(false);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (!location.pathname.includes("new-doc")) {
+    if (!location.pathname.includes("new")) {
       setEditable(true);
       fetchEditForm();
     } else {
@@ -184,31 +215,21 @@ const AccountEntryFormNew = () => {
 
   const onFinish = async ({ createdDate, ...values }: any) => {
     setLoading(true);
-    console.log({ values });
-    try {
-      // const formattedValues = {
-      //   ...values,
-      //   fval: "0",
-      //   forderDay: "08.12.2023",
-      //   createdDate: dayjs(values.createdDate).format("DD.MM.YYYY"),
-      //   sum: values.sum.toString(),
-      // };
 
+    try {
       const request = await createNewOrder({
         ...values,
         createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
       });
-      console.log("req: ", request);
+
       confirmForm();
       setLoading(false);
     } catch (err) {
       failConfirmForm();
-      console.log("error: ", err);
     }
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
-    console.log("Failed:", errorInfo);
     let errors = errorInfo.errorFields.reduce(
       (acc: unknown, { name }: unknown) => {
         let tempError = name[0];
@@ -389,6 +410,10 @@ const AccountEntryFormNew = () => {
                   value: dayjs(editData?.createdDate),
                 },
                 {
+                  name: ["documentType"],
+                  value: editData?.documentType,
+                },
+                {
                   name: ["documentNumber"],
                   value: editData?.documentNumber,
                 },
@@ -456,6 +481,29 @@ const AccountEntryFormNew = () => {
             : []
         }
       >
+        <Form.Item
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 14 }}
+          label="Тип документа"
+          name="documentType"
+          rules={[{ required: true, message: "" }]}
+          style={{
+            marginLeft: "30%",
+          }}
+        >
+          <Select
+            style={{
+              width: 400,
+              display: "flex",
+            }}
+            onChange={(value: string) => setDocType(value)}
+            defaultValue={docType}
+            // allowClear
+          >
+            <Select.Option value="01">Платежное поручение</Select.Option>
+            <Select.Option value="06">Мемориальный ордер</Select.Option>
+          </Select>
+        </Form.Item>
         <Form.Item
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
@@ -533,7 +581,7 @@ const AccountEntryFormNew = () => {
               textDecoration: "underline",
             }}
           >
-            {withDecimal(sum)}
+            <div>{withDecimal(sum)}</div>
           </div>
         ) : null}
 
@@ -568,20 +616,51 @@ const AccountEntryFormNew = () => {
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 20 }}
               >
-                <Select
-                  style={{
-                    width: 400,
-                    display: "flex",
-                  }}
-                  onChange={(value: string) => handleDebet(value, "debet")}
-                  allowClear
-                >
-                  {accountList && accountList.length
-                    ? accountList.map(({ account }: any) => (
-                        <Select.Option value={account}>{account}</Select.Option>
-                      ))
-                    : null}
-                </Select>
+                {docType === "01" ? (
+                  <Select
+                    style={{
+                      width: 400,
+                      display: "flex",
+                    }}
+                    onChange={(value: string) => handleDebet(value, "debet")}
+                    allowClear
+                  >
+                    {accountList && accountList.length
+                      ? accountList.map(({ account }: any) => (
+                          <Select.Option value={account}>
+                            {account}
+                          </Select.Option>
+                        ))
+                      : null}
+                  </Select>
+                ) : (
+                  <div style={{ display: "flex" }}>
+                    <Input
+                      onChange={({ target: { value } }) => {
+                        setDebetAccount(value);
+                      }}
+                      maxLength={20}
+                      style={{ width: 400, display: "flex", marginRight: 10 }}
+                    />
+
+                    <DownCircleFilled
+                      onClick={() => {
+                        if (debetAccount) {
+                          form.setFieldValue("creditName", "");
+                          form.setFieldValue("creditINN", "");
+                          form.setFieldValue("creditBankName", "");
+                          form.setFieldValue("creditMFO", "");
+                          handleDebet(debetAccount, "memorial");
+                        }
+                      }}
+                      style={{
+                        fontSize: 24,
+                        color: "#1677ff",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </div>
+                )}
               </Form.Item>
               <Form.Item
                 labelCol={{ span: 8 }}
@@ -594,35 +673,20 @@ const AccountEntryFormNew = () => {
                   },
                 ]}
                 name="debitName"
-                style={
-                  {
-                    // marginRight: 40,
-                  }
-                }
               >
-                <Input
-                  disabled={isLoading}
-                  readOnly={true}
-                  style={{ width: 400, display: "flex" }}
-                />
+                <Input style={{ width: 400, display: "flex" }} />
               </Form.Item>
               <Form.Item
                 label="ИНН плательщика"
-                // rules={[{ validator: validateINN }]}
+                rules={[
+                  { validator: validateINN },
+                  { required: true, message: "" },
+                ]}
                 name="debitINN"
-                style={
-                  {
-                    // marginRight: 40,
-                  }
-                }
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 20 }}
               >
-                <Input
-                  disabled={isLoading}
-                  readOnly={true}
-                  style={{ width: 400, display: "flex" }}
-                />
+                <Input maxLength={9} style={{ width: 400, display: "flex" }} />
                 {/* <Input disabled={editData.debitINN ? true : false} maxLength={9} /> */}
               </Form.Item>
             </div>
@@ -631,12 +695,12 @@ const AccountEntryFormNew = () => {
               label="Банк плательщика"
               style={{}}
               name="debitBankName"
+              rules={[{ required: true, message: "" }]}
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
             >
               <Input
                 value={"test"}
-                readOnly={true}
                 // disabled={editData.debitBankName ? true : false}
                 style={{ width: 400, display: "flex" }}
               />
@@ -647,12 +711,9 @@ const AccountEntryFormNew = () => {
               wrapperCol={{ span: 20 }}
               label="Код банка плательщика"
               name="debitMFO"
+              rules={[{ required: true, message: "" }]}
             >
-              <Input
-                readOnly={true}
-                maxLength={5}
-                style={{ width: 400, display: "flex" }}
-              />
+              <Input maxLength={5} style={{ width: 400, display: "flex" }} />
             </Form.Item>
           </div>
 
@@ -690,7 +751,7 @@ const AccountEntryFormNew = () => {
                   style={{ width: 400, display: "flex", marginRight: 10 }}
                 />
 
-                <RightCircleFilled
+                <DownCircleFilled
                   onClick={() => {
                     if (creditAccount) {
                       form.setFieldValue("creditName", "");
@@ -743,7 +804,10 @@ const AccountEntryFormNew = () => {
 
             <Form.Item
               label="ИНН получателя"
-              rules={[{ validator: validateINN }]}
+              rules={[
+                { required: true, message: "" },
+                { validator: validateINN },
+              ]}
               name="creditINN"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
@@ -770,6 +834,7 @@ const AccountEntryFormNew = () => {
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
               name="creditBankName"
+              rules={[{ required: true, message: "" }]}
             >
               <Input
                 readOnly={checkValue("creditBankName")}
@@ -808,7 +873,7 @@ const AccountEntryFormNew = () => {
           wrapperCol={{ span: 14 }}
           label="Код назначения"
           style={{
-            marginLeft: "30%",
+            marginLeft: "20%",
           }}
           name="codeNaznachentiya"
           rules={[
@@ -892,7 +957,7 @@ const AccountEntryFormNew = () => {
                   "08303 - Разовый платёж в бюджет между хоз.субъектами – финансовые санкции",
               },
             ]}
-            style={{ width: 400, display: "flex" }}
+            style={{ width: "80%", display: "flex" }}
           />
         </Form.Item>
 
@@ -900,15 +965,14 @@ const AccountEntryFormNew = () => {
           label="Детали платежа"
           name="textNaznachentiya"
           style={{
-            marginLeft: "30%",
+            marginLeft: "20%",
           }}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
+          rules={[{ required: true, message: "" }]}
         >
-          <TextArea rows={4} style={{ width: 400, display: "flex" }} />
+          <TextArea rows={4} style={{ width: "80%", display: "flex" }} />
         </Form.Item>
-
-        {/* <Divider /> */}
 
         <div
           className="horizontal"
@@ -927,20 +991,6 @@ const AccountEntryFormNew = () => {
           {editable ? (
             <>
               {displayButton()}
-              {/* <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  loading={isLoading}
-                  style={{
-                    outline: "none",
-                    backgroundColor: "#28A745",
-                    border: "1px solid #116e26",
-                  }}
-                >
-                  Утвердить
-                </Button>
-              </Form.Item> */}
 
               {editData?.statusId === "11" ? null : (
                 <Button
@@ -966,7 +1016,6 @@ const AccountEntryFormNew = () => {
                       });
                     }
                     setLoading(false);
-                    console.log("ressponseee: ", response);
                   }}
                   danger
                   loading={isLoading}

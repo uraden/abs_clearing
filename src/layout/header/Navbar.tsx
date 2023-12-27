@@ -59,7 +59,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   const items: MenuItem[] = [
     getItem(logoImg, ""),
-    getItem("Счета", "account-page", <PieChartOutlined />, [
+    getItem("Счета", "account-page-home", <PieChartOutlined />, [
       getItem("Мои Счета", "account-page"),
       getItem("Остатки и обороты счетов", "account-balance-page"),
     ]),
