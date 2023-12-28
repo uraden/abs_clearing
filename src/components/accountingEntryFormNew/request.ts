@@ -24,7 +24,7 @@ export const editFormData = async (id: unknown) => {
 
 export const getActiveList = async (params: unknown) => {
   try {
-    const request = await axios.get(api.accountActives(), {
+    const request = await httpClient.get(api.accountActives(), {
       params,
     });
     console.log("req: ", request);
@@ -40,7 +40,7 @@ export const getActiveList = async (params: unknown) => {
 
 export const getActiveInfo = async (params: unknown) => {
   try {
-    const request = await axios.get(api.accountInfo(), {
+    const request = await httpClient.get(api.accountInfo(), {
       params,
     });
     console.log("req: ", request);
@@ -56,7 +56,7 @@ export const getActiveInfo = async (params: unknown) => {
 
 export const createNewOrder = async (body: unknown) => {
   try {
-    const request = await axios.post(api.order(), body);
+    const request = await httpClient.post(api.order(), body);
     console.log("req: ", request);
     return request.data;
   } catch (error: unknown) {
@@ -70,7 +70,7 @@ export const createNewOrder = async (body: unknown) => {
 
 export const getSingleOrder = async (orderId: number) => {
   try {
-    const request = await axios.get(api.singleOrder(orderId));
+    const request = await httpClient.get(api.singleOrder(orderId));
     console.log("req: ", request);
     return request.data;
   } catch (error: unknown) {

@@ -1,7 +1,7 @@
 const baseUrl = import.meta.env.VITE_BASEURL;
 
 export default {
-  login: () => [baseUrl, "auth", "authenticate"].join("/"),
+  login: () => [baseUrl, "auth", "login"].join("/"),
   orders: () => [baseUrl, "orders"].join("/"),
   newOrder: () => [baseUrl, "newOrder"].join("/"),
   // editForm: (orderId: unknown) =>

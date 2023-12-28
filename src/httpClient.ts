@@ -4,7 +4,7 @@ export const httpClient = axios.create();
 
 httpClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
     if (token) {
       // @ts-ignore
       config.headers = {
@@ -15,7 +15,6 @@ httpClient.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.log('JAMAL: ', error);
     return Promise.reject(error);
   }
 );

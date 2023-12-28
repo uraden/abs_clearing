@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 // ];
 
 type FieldType = {
-  login?: string;
+  username?: string;
   password?: string;
 };
 
@@ -25,7 +25,7 @@ const LoginForm: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
   }, []);
 
   const onFinish = async (values: unknown) => {
@@ -40,9 +40,9 @@ const LoginForm: React.FC = () => {
       });
     }
 
-    if (response && response.token) {
-      localStorage.setItem("token", response.token);
-      localStorage.setItem('username', response.userFullName);
+    if (response && response.accessToken) {
+      localStorage.setItem("accessToken", response.accessToken);
+      // localStorage.setItem('username', response.userFullName);
       navigate("/");
     }
     setLoading(false);
@@ -78,7 +78,7 @@ const LoginForm: React.FC = () => {
       >
         <Form.Item<FieldType>
           label={<label style={{ color: "white" }}>Username</label>}
-          name="login"
+          name="username"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
           <Input />
