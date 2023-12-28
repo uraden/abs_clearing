@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 const NotFound = () => {
   return (
     <div className="not-found-bg">
-      <img
+      {/* <img
         className="not-found-page"
         src="https://i.ibb.co/W6tgcKQ/softcodeon.gif"
-      />
+      /> */}
       <h1 className="not-found-error-text">
-        Упс, похоже, мы не можем найти ресурс, который вы ищете.
+        Упс, к сожалению у вас нету доступа к этой странице.
       </h1>
       <div>
         <Link to="/">
