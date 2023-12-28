@@ -3,11 +3,10 @@ import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import { getAccountReport } from "./request";
+// import { getAccountReport } from "./request";
 
-export default function AccountBalancePage() {
-
-  const [responseData, setResponseData] = useState<DataType[]>()
+export default function BalanceSheetPage() {
+  const [responseData, setResponseData] = useState<DataType[]>();
 
   interface DataType {
     key: string;
@@ -21,18 +20,18 @@ export default function AccountBalancePage() {
     beginAmount: number;
   }
 
-  const mappedData: DataType[] | undefined = responseData
-  ? responseData.map((item) => ({
-      key: item.key,
-      account: item.account,
-      branchMFO: item.branchMFO,
-      beginAmount: item.beginAmount,
-      endAmount: item.endAmount,
-      debit: item.debit,
-      credit: item.credit
-   
-    }))
-  : undefined;
+  //   const mappedData: DataType[] | undefined = responseData
+  //   ? responseData.map((item) => ({
+  //       key: item.key,
+  //       account: item.account,
+  //       branchMFO: item.branchMFO,
+  //       beginAmount: item.beginAmount,
+  //       endAmount: item.endAmount,
+  //       debit: item.debit,
+  //       credit: item.credit
+
+  //     }))
+  //   : undefined;
 
   const columns: ColumnsType<DataType> = [
     {
@@ -139,8 +138,8 @@ export default function AccountBalancePage() {
       clientId: 1,
     });
 
-    setResponseData(response)
-    console.log('ress: ', response);
+    setResponseData(response);
+    console.log("ress: ", response);
   };
 
   useEffect(() => {
@@ -153,12 +152,15 @@ export default function AccountBalancePage() {
     <div>
       <div className="main-table-1-account">
         <div className="title">
-          Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на{" "}
-          {dayjs().format("DD.MM.YYYY")}
+          Сальдо-оборотная ведомость
+        </div>
+        <div className="date-blance-sheet" style={{textAlign: 'left', width: '100%', marginLeft: 40, marginBottom: 10, fontSize: 15}}>
+          с {dayjs().format("DD.MM.YYYY")} - по{" "}
+          {dayjs().subtract(5, "day").format("DD.MM.YYYY")}
         </div>
         <Table
           columns={columns}
-          dataSource={mappedData}
+          dataSource={data}
           pagination={false}
           bordered
           style={{ width: "100%", marginBottom: 50 }}

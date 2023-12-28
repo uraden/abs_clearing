@@ -13,6 +13,7 @@ import AccountBalancePage from "./pages/accountBalancePage/index.tsx";
 import DraftForm from "./pages/draftPage/index.tsx";
 import Revenue from "./pages/accountBalancePage/revenue/index.tsx";
 import AccountReport from "./pages/accountPeriodReports/index.tsx";
+import BalanceSheetPage from "./pages/balanceSheetPage/index.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -101,6 +102,14 @@ function App() {
       element: (
         <Protected>
           <AccountReport />
+        </Protected>
+      ),
+    },
+    {
+      path: "/balance-sheet",
+      element: (
+        <Protected>
+          <BalanceSheetPage />
         </Protected>
       ),
     },

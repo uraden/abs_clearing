@@ -10,6 +10,7 @@ import { Button, Layout, Menu, Modal, Popover, theme } from "antd";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import CustomPassword from "../../components/password";
+
 const { Header, Content, Footer } = Layout;
 
 const Navbar = ({ children }: { children: ReactNode }) => {
@@ -77,7 +78,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     getItem("Отчеты", "sub1", <FileDoneOutlined />, [
       getItem("Выписка лицевых счетов за период", "account-period-reports"),
       // getItem("Выписка лицевых счетов", "33e"),
-      getItem("Сальдо-оборотная ведомость", "44r"),
+      getItem("Сальдо-оборотная ведомость", "balance-sheet"),
       // getItem("Справка о работе счета", "551t"),
       getItem("Ведомость платежных операций", "55y"),
       // getItem("Выгрузка документов ГНИ", "55"),
@@ -140,8 +141,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        footer={null}
       >
-        <CustomPassword />
+        <CustomPassword onClose={() => setIsModalOpen(false)}  />
       </Modal>
       <Header
         style={{

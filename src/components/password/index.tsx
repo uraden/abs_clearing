@@ -1,5 +1,6 @@
 import { Form, Input } from "antd";
-import { useEffect } from "react";
+// import { useEffect } from "react";
+import {changePassword} from "./request"
 
 const formItemLayout = {
   labelCol: {
@@ -12,11 +13,31 @@ const formItemLayout = {
   },
 };
 
-const Password = () => {
+const Password = ({ onClose }) => {
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+  const onFinish = async (values: unknown) => {
+    try {
+      // Check if "confirm" and "newPassword" are the same
+      if (values.confirm !== values.newPassword) {
+        message.error("Новый пароль не совпадает с подтверждением!");
+        return;
+      }
+
+      // Make a request to changePassword API
+      const result = await await changePassword({
+        "id": "10",
+        "oldPassword": values.currentPassword,
+        "newPassword": values.newPassword,
+      });
+
+      console.log('PAssword UPDATE', result)
+      onClose();
+    } catch (error) {
+      // Handle the error from the API request
+      console.error("Password change failed:", error);
+      message.error("Не удалось изменить пароль. Пожалуйста, попробуйте еще раз.");
+    }
   };
 
   return (
@@ -80,6 +101,7 @@ const Password = () => {
       >
         <Input.Password />
       </Form.Item>
+    <button style={{ background: "#00b96b", borderColor: "#00b96b", color: "white" }}> Обновить пароль </button>
     </Form>
   );
 };
