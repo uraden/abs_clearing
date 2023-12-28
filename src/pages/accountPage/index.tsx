@@ -73,21 +73,23 @@ const AccountPage = () => {
 
   };
 
-  const mappedData: DataType[] | undefined = responseData?.map((item) => ({
-    key: item.key,
-    account: item.account,
-    name: item.client,
-    currency: item.currencyType,
-    bank: item.mfo.toString(),
-    // remainder: apiItem.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }), // Format amount as currency
-    remainder: Number(item.amount).toLocaleString('en-US'),
-    status: item.status,
-    report: (
-      <Button size="small" onClick={showModal}>
-        Отчет
-      </Button>
-    ),
-  }));
+  const mappedData: DataType[] | undefined = responseData
+  ? responseData.map((item) => ({
+      key: item.key,
+      account: item.account,
+      name: item.client,
+      currency: item.currencyType,
+      bank: item.mfo.toString(),
+      remainder: Number(item.amount).toLocaleString('en-US'),
+      status: item.status,
+      report: (
+        <Button size="small" onClick={showModal}>
+          Отчет
+        </Button>
+      ),
+    }))
+  : undefined;
+
 
 
   const handleCancel = () => {
