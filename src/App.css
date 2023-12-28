@@ -125,8 +125,6 @@
   align-items: center;
 }
 
-
-
 .not-found-page {
   display: block;
   margin-left: auto;
@@ -172,7 +170,7 @@
 
 .main-table-2 {
   display: flex;
-  margin: 0px 20px 0px 20px
+  margin: 0px 20px 0px 20px;
 }
 
 .logo-div:hover {
@@ -208,4 +206,19 @@
   margin-bottom: 32px;
   font-size: 36px;
   font-weight: bold;
+}
+
+.report-wrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 17px;
+  font-weight: 500;
+  gap: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.report-items-between {
+  display: flex;
+  justify-content: space-between;
 }
