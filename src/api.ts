@@ -17,7 +17,7 @@ export default {
   orderAll: () => [baseUrl, "order", "all"].join("/"),
   accountReport: () => [baseUrl, "account", "report"].join("/"),
   singleOrder: (oderId: number) => [baseUrl, "order", oderId].join("/"),
-  allAccount: (clientId: unknown) => [baseUrl, "account", "all"].join('/') + `?clientId=${clientId}`,
+  allAccount: () => [baseUrl, "account", "all"].join('/'),
   accountDebit: () => [baseUrl, "account", "debit"].join('/'),
   accountCredit: () => [baseUrl, "account", "credit"].join('/'),
   editPassword: () => [baseUrl, "user", "edit"].join('/')

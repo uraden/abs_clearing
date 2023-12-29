@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { Link } from "react-router-dom";
-import dayjs from "dayjs";
+import * as XLSX from 'xlsx';
+import {
+  FileExcelOutlined
+} from "@ant-design/icons";
+
+
 // import { getAccountReport } from "./request";
 
 export default function BalanceSheetPage() {
@@ -15,9 +19,9 @@ export default function BalanceSheetPage() {
     debit: string;
     credit: string;
     end: string;
-    branchMFO: string;
-    endAmount: number;
-    beginAmount: number;
+    // branchMFO: string;
+    // endAmount: number;
+    // beginAmount: number;
   }
 
   //   const mappedData: DataType[] | undefined = responseData
@@ -77,17 +81,17 @@ export default function BalanceSheetPage() {
           title: "Дебет",
           dataIndex: "debit",
           align: "right",
-          render: (debet: string, { account }: DataType) => {
-            return <Link to={`${account}/debet`}>{debet}</Link>;
-          },
+          // render: (debet: string, { account }: DataType) => {
+          //   return <Link to={`${account}/debet`}>{debet}</Link>;
+          // },
         },
         {
           title: "Кредит",
           dataIndex: "credit",
           align: "right",
-          render: (credit: string, { account }: DataType) => {
-            return <Link to={`${account}/credit`}>{credit}</Link>;
-          },
+          // render: (credit: string, { account }: DataType) => {
+          //   return <Link to={`${account}/credit`}>{credit}</Link>;
+          // },
         },
       ],
     },
@@ -146,7 +150,28 @@ export default function BalanceSheetPage() {
     fetchReport();
   }, []);
 
-  // const mappedData: DataType[] | undefined = responseData
+ // this is used for the Excel export
+ const downloadExcel = (data) => {
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+  //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+  XLSX.writeFile(workbook, "DataSheet.xlsx");
+};
+
+console.log('ayuuu', data)
+
+const mappedExcelData = data.map((item) => ({
+  "Филиал": item.branchMFO,
+  "Лицевой счет": item.account,
+  "Входящий остаток": item.beginAmount,
+  "Дебет": item.debit,
+  "Кредит": item.credit,
+  "Исходящий остаток": item.endAmount
+}))
+
+
 
   return (
     <div>
@@ -154,10 +179,10 @@ export default function BalanceSheetPage() {
         <div className="title">
           Сальдо-оборотная ведомость
         </div>
-        <div className="date-blance-sheet" style={{textAlign: 'left', width: '100%', marginLeft: 40, marginBottom: 10, fontSize: 15}}>
-          с {dayjs().format("DD.MM.YYYY")} - по{" "}
-          {dayjs().subtract(5, "day").format("DD.MM.YYYY")}
-        </div>
+        
+        <button onClick={()=>downloadExcel(heello)} style={{background: 'none'}}>
+        <FileExcelOutlined />
+</button>
         <Table
           columns={columns}
           dataSource={data}

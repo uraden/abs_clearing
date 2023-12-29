@@ -13,6 +13,7 @@ import AccountBalancePage from "./pages/accountBalancePage/index.tsx";
 import DraftForm from "./pages/draftPage/index.tsx";
 import Revenue from "./pages/accountBalancePage/revenue/index.tsx";
 import BalanceSheetPage from "./pages/balanceSheetPage/index.tsx";
+import BalancePeriodSheetPage from "./pages/balancePeriodSheetPage/index.tsx";
 import AccountPeriodReport from "./pages/accountPeriodReports/index.tsx";
 import AccountRecentReport from "./pages/accountRecentReports/index.tsx";
 
@@ -119,6 +120,14 @@ function App() {
       element: (
         <Protected>
           <BalanceSheetPage />
+        </Protected>
+      ),
+    },
+    {
+      path: "/balance-period-sheet",
+      element: (
+        <Protected>
+          <BalancePeriodSheetPage />
         </Protected>
       ),
     },

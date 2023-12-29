@@ -10,7 +10,7 @@ interface MyError {
 
 export const getAllAccounts = async () => {
     try{ 
-        const request = await httpClient.get(api.allAccount(1))
+        const request = await httpClient.get(api.allAccount())
         return request.data
     } catch (error: unknown) {
     const myError = error as MyError;

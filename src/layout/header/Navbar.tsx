@@ -65,8 +65,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       getItem("Остатки и обороты счетов", "account-balance-page"),
     ]),
     getItem("Документы", "0", <FileTextOutlined />, [
-      getItem("Новый документ", "new-doc"),
-      getItem("Новый документ новый дизаен", "new-ui-doc"),
+      // getItem("Новый документ", "new-doc"),
+      getItem("Новый документ", "new-ui-doc"),
       // getItem("Черновик", "draft-form"),
       getItem("Список документов", "account-list"),
       getItem("Архив документов", "account-list-archive"),
@@ -80,6 +80,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       getItem("Выписка лицевых счетов за период", "account-period-reports"),
       // getItem("Выписка лицевых счетов", "33e"),
       getItem("Сальдо-оборотная ведомость", "balance-sheet"),
+      getItem("Сальдо-оборотная ведомость за период", "balance-period-sheet"),
       // getItem("Справка о работе счета", "551t"),
       getItem("Ведомость платежных операций", "55y"),
       // getItem("Выгрузка документов ГНИ", "55"),
