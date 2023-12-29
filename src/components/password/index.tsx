@@ -16,15 +16,22 @@ const formItemLayout = {
 const Password = ({ onClose }) => {
   const [form] = Form.useForm();
 
-  const onFinish = async (values: unknown) => {
+  interface MyFormValues {
+    currentPassword: string;
+    newPassword: string;
+    confirm: string;
+    message: string;
+  }
+  
+
+  const onFinish = async (values: MyFormValues) => {
     try {
-      // Check if "confirm" and "newPassword" are the same
+     
       if (values.confirm !== values.newPassword) {
         message.error("Новый пароль не совпадает с подтверждением!");
         return;
       }
 
-      // Make a request to changePassword API
       const result = await await changePassword({
         "id": "10",
         "oldPassword": values.currentPassword,
