@@ -215,7 +215,7 @@ const AccountEntryFormNew = () => {
 
   const onFinish = async ({ createdDate, ...values }: any) => {
     setLoading(true);
-
+    console.log('valuess: ', values);
     try {
       const request = await createNewOrder({
         ...values,
@@ -237,7 +237,7 @@ const AccountEntryFormNew = () => {
       },
       []
     );
-
+    console.log('errorInfo: ', errorInfo);
     // console.log('errors.join(),: ', errors.join(''));
     notificationApi.error({
       message: "Ошибка",
@@ -402,6 +402,9 @@ const AccountEntryFormNew = () => {
         form={form}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        initialValues={{
+          documentType: docType
+        }}
         fields={
           editable
             ? [
@@ -497,7 +500,6 @@ const AccountEntryFormNew = () => {
               display: "flex",
             }}
             onChange={(value: string) => setDocType(value)}
-            defaultValue={docType}
             // allowClear
           >
             <Select.Option value="01">Платежное поручение</Select.Option>
@@ -519,7 +521,7 @@ const AccountEntryFormNew = () => {
         >
           <Input
             maxLength={10}
-            type="number"
+            // type="number"
             style={{ display: "flex", width: 400 }}
             className="aaaaaaaa"
           />
