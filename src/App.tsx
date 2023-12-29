@@ -12,7 +12,8 @@ import AccountListArchive from "./pages/accountListArchive/index.tsx";
 import AccountBalancePage from "./pages/accountBalancePage/index.tsx";
 import DraftForm from "./pages/draftPage/index.tsx";
 import Revenue from "./pages/accountBalancePage/revenue/index.tsx";
-import AccountReport from "./pages/accountPeriodReports/index.tsx";
+import AccountPeriodReport from "./pages/accountPeriodReports/index.tsx";
+import AccountRecentReport from "./pages/accountRecentReports/index.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -97,10 +98,18 @@ function App() {
       ),
     },
     {
+      path: "/account-recent-reports",
+      element: (
+        <Protected>
+          <AccountRecentReport />
+        </Protected>
+      ),
+    },
+    {
       path: "/account-period-reports",
       element: (
         <Protected>
-          <AccountReport />
+          <AccountPeriodReport />
         </Protected>
       ),
     },

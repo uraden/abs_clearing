@@ -75,6 +75,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     //   getItem("Cправочник филиалов банков", "1111w"),
     // ]),
     getItem("Отчеты", "sub1", <FileDoneOutlined />, [
+      getItem("Выписка лицевых счетов", "account-recent-reports"),
       getItem("Выписка лицевых счетов за период", "account-period-reports"),
       // getItem("Выписка лицевых счетов", "33e"),
       getItem("Сальдо-оборотная ведомость", "44r"),
