@@ -20,5 +20,7 @@ export default {
   allAccount: () => [baseUrl, "account", "all"].join('/'),
   accountDebit: () => [baseUrl, "account", "debit"].join('/'),
   accountCredit: () => [baseUrl, "account", "credit"].join('/'),
-  editPassword: () => [baseUrl, "user", "edit"].join('/')
+  editPassword: () => [baseUrl, "user", "edit"].join('/'),
+  repotrIo: () => [baseUrl, "account", "report-io"].join('/'),
+  accountAll: () => [baseUrl, "account", "all"].join("/"),
 };
