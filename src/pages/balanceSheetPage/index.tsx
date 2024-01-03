@@ -150,26 +150,72 @@ export default function BalanceSheetPage() {
     fetchReport();
   }, []);
 
- // this is used for the Excel export
- const downloadExcel = (data) => {
-  const worksheet = XLSX.utils.json_to_sheet(data);
+
+console.log('11111', data)
+
+
+
+
+
+const myData = [
+  {
+    "Филиал": 100000,
+    "Лицевой счет": 199090901,
+    "Входящий остаток": 142341,
+    "Oborot": {
+      "Дебет": 32,
+      "Кредит": 43,
+    },
+    "Исходящий остаток": 499995,
+  },
+  {
+    "Филиал": 12,
+    "Лицевой счет": 11,
+    "Входящий остаток": 11,
+    "Oborot": {
+      "Дебет": 32,
+      "Кредит": 43,
+    },
+    "Исходящий остаток": 45,
+  },
+];
+
+const handleExportToExcel = () => {
+  // Convert your modified data to an array of arrays
+  const worksheetData = myData.map((row) => [
+    row['Филиал'],
+    row['Лицевой счет'],
+    row['Входящий остаток'],
+    row['Oborot']['Дебет'],
+    row['Oborot']['Кредит'],
+    row['Исходящий остаток'],
+  ]);
+
+  // Create a new worksheet
+  const worksheet = XLSX.utils.aoa_to_sheet([
+    // Header row
+    ['Филиал', 'Лицевой счет', 'Входящий остаток', 'Oborot', '', 'Исходящий остаток'], // Change here: Include "Odobreno" directly
+    // Sub-header row
+    ['', '', '', 'Дебет', 'Кредит', '', ''],
+    ...worksheetData,
+  ]);
+
+  // Create a new workbook
   const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-  //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
-  //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
-  XLSX.writeFile(workbook, "DataSheet.xlsx");
+  // Add the worksheet to the workbook
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+  worksheet['!merges'] = [
+    { s: { r: 0, c: 0 }, e: { r: 1, c: 0 } }, 
+    { s: { r: 0, c: 1 }, e: { r: 1, c: 1 } },
+    { s: { r: 0, c: 2 }, e: { r: 1, c: 2 } }, 
+    { s: { r: 0, c: 3 }, e: { r: 0, c: 4 } },
+    { s: { r: 0, c: 5 }, e: { r: 1, c: 5 } }, 
+  ];
+  // Save the workbook to a file
+  XLSX.writeFile(workbook, 'modified_nested_columns.xlsx');
 };
 
-console.log('ayuuu', data)
-
-const mappedExcelData = data.map((item) => ({
-  "Филиал": item.branchMFO,
-  "Лицевой счет": item.account,
-  "Входящий остаток": item.beginAmount,
-  "Дебет": item.debit,
-  "Кредит": item.credit,
-  "Исходящий остаток": item.endAmount
-}))
 
 
 
@@ -180,7 +226,7 @@ const mappedExcelData = data.map((item) => ({
           Сальдо-оборотная ведомость
         </div>
         
-        <button onClick={()=>downloadExcel(heello)} style={{background: 'none'}}>
+        <button onClick={handleExportToExcel} style={{background: 'none'}}>
         <FileExcelOutlined />
 </button>
         <Table
