@@ -647,12 +647,14 @@ const AccountEntryFormNew = () => {
 
                     <DownCircleFilled
                       onClick={() => {
+                        // console.log('debet: ', debetAccount);
+                        
                         if (debetAccount) {
                           form.setFieldValue("creditName", "");
                           form.setFieldValue("creditINN", "");
                           form.setFieldValue("creditBankName", "");
                           form.setFieldValue("creditMFO", "");
-                          handleDebet(debetAccount, "memorial");
+                          handleDebet(debetAccount, "debet");
                         }
                       }}
                       style={{
@@ -796,7 +798,7 @@ const AccountEntryFormNew = () => {
               wrapperCol={{ span: 20 }}
             >
               <Input
-                readOnly={checkValue("creditName")}
+                // readOnly={checkValue("creditName")}
                 style={{
                   width: 400,
                   display: "flex",
@@ -816,7 +818,7 @@ const AccountEntryFormNew = () => {
             >
               <Input
                 maxLength={9}
-                readOnly={checkValue("creditINN")}
+                // readOnly={checkValue("creditINN")}
                 style={{
                   width: 400,
                   display: "flex",
@@ -839,7 +841,7 @@ const AccountEntryFormNew = () => {
               rules={[{ required: true, message: "" }]}
             >
               <Input
-                readOnly={checkValue("creditBankName")}
+                // readOnly={checkValue("creditBankName")}
                 style={{
                   width: 400,
                   display: "flex",
@@ -859,7 +861,7 @@ const AccountEntryFormNew = () => {
             >
               <Input
                 maxLength={5}
-                readOnly={checkValue("creditMFO")}
+                // readOnly={checkValue("creditMFO")}
                 style={{
                   width: 400,
                   display: "flex",

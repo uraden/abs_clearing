@@ -23,4 +23,6 @@ export default {
   editPassword: () => [baseUrl, "user", "edit"].join('/'),
   repotrIo: () => [baseUrl, "account", "report-io"].join('/'),
   accountAll: () => [baseUrl, "account", "all"].join("/"),
+  profile: () => [baseUrl, "user"].join("/"),
+  operDays: () => [baseUrl, "oper-day", "all"].join("/"),
 };
