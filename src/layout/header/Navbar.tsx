@@ -66,7 +66,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     ]),
     getItem("Документы", "0", <FileTextOutlined />, [
       // getItem("Новый документ", "new-doc"),
-      getItem("Новый документ", "new-ui-doc"),
+      getItem("Новый документ", "new-doc"),
       // getItem("Черновик", "draft-form"),
       getItem("Список документов", "account-list"),
       getItem("Архив документов", "account-list-archive"),
