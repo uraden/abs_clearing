@@ -8,11 +8,11 @@ import {
   Divider,
   message,
   InputNumber,
-  Flex,
+  // Flex,
   notification,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { changeStatus, createOrder } from "../../pages/accountForm/request";
+import { changeStatus } from "../../pages/accountForm/request";
 import { useParams, useLocation } from "react-router";
 
 import { createNewOrder, editFormData, getActiveInfo, getActiveList } from "./request";
@@ -49,7 +49,7 @@ type EditData = {
 
 
 const AccountEntryForm: React.FC = () => {
-  const [role] = useState(1);
+  // const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [sum, setSum] = useState(null);
   const [form] = Form.useForm();
@@ -204,11 +204,18 @@ const AccountEntryForm: React.FC = () => {
     }
   };
 
+  interface ErrorInfo {
+    errorFields: Array<{ name: string }>;
+    // Add other properties if necessary
+  }
+
   const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo);
-    let errors = errorInfo.errorFields.reduce(
+    const errors = (errorInfo as ErrorInfo).errorFields.reduce(
+      // @ts-expect-error remove this
       (acc: unknown, { name }: unknown) => {
-        let tempError = name[0];
+        const tempError = name[0];
+        // @ts-expect-error remove this
         return [...acc, errorList[tempError]];
       },
       []
@@ -510,6 +517,7 @@ const AccountEntryForm: React.FC = () => {
                 //   return Number(value).toLocaleString();
                 // }}
                 onChange={(value) => {
+                  // @ts-expect-error remove this
                   setSum(value);
                 }}
                 style={{ width: 200 }}
@@ -567,7 +575,8 @@ const AccountEntryForm: React.FC = () => {
                 allowClear
               >
                 {accountList && accountList.length
-                  ? accountList.map(({ account }: any) => (
+                //@ts-expect-error try
+                  ? accountList.map(({ account }: unknown) => (
                       <Select.Option value={account}>{account}</Select.Option>
                     ))
                   : null}

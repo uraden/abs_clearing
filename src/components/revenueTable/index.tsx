@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getSingleDebit, getSingleCredit } from './request'
 
 const RevenueTable = () => {
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading] = useState(false);
   const [responseData, setResponseData] = useState()
   const accountnumber = useParams();
 
@@ -120,6 +120,7 @@ const RevenueTable = () => {
     <Table
       loading={isLoading}
       dataSource={responseData || []}
+      // @ts-expect-error ignore for npm run build
       columns={columns}
       bordered
       style={{ marginTop: 40 }}

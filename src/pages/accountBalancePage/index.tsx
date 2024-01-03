@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
@@ -21,6 +21,7 @@ export default function AccountBalancePage() {
     beginAmount: number;
   }
 
+  //@ts-expect-errortry
   const mappedData: DataType[] | undefined = responseData
   ? responseData.map((item) => ({
       key: item.key,
@@ -99,40 +100,40 @@ export default function AccountBalancePage() {
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: "1",
-      account: "1610451354008825",
-      remainder: "0.00",
-      debit: "10,000",
-      credit: "12,000",
-      end: "2,000",
-    },
-    {
-      key: "2",
-      account: "2020153305612412",
-      remainder: "3,814,622",
-      debit: "10,000",
-      credit: "12,000",
-      end: "2,000",
-    },
-    {
-      key: "3",
-      account: "1006833431150330",
-      remainder: "0.00",
-      debit: "10,000",
-      credit: "12,000",
-      end: "2,000",
-    },
-    {
-      key: "4",
-      account: "2020158885612412",
-      remainder: "0.00",
-      debit: "10,000",
-      credit: "12,000",
-      end: "2,000",
-    },
-  ];
+  // const data: DataType[] = [
+  //   {
+  //     key: "1",
+  //     account: "1610451354008825",
+  //     remainder: "0.00",
+  //     debit: "10,000",
+  //     credit: "12,000",
+  //     end: "2,000",
+  //   },
+  //   {
+  //     key: "2",
+  //     account: "2020153305612412",
+  //     remainder: "3,814,622",
+  //     debit: "10,000",
+  //     credit: "12,000",
+  //     end: "2,000",
+  //   },
+  //   {
+  //     key: "3",
+  //     account: "1006833431150330",
+  //     remainder: "0.00",
+  //     debit: "10,000",
+  //     credit: "12,000",
+  //     end: "2,000",
+  //   },
+  //   {
+  //     key: "4",
+  //     account: "2020158885612412",
+  //     remainder: "0.00",
+  //     debit: "10,000",
+  //     credit: "12,000",
+  //     end: "2,000",
+  //   },
+  // ];
 
   const fetchReport = async () => {
     const response = await getAccountReport({

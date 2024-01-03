@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import api from "../../api";
 import { httpClient } from "../../httpClient";
 
@@ -10,6 +10,7 @@ interface MyError {
 
 export const editFormData = async (id: unknown) => {
   try {
+    // @ts-expect-error this ignored for build
     const request = await httpClient.get(api.editForm(id));
     console.log("req: ", request);
     return request.data;

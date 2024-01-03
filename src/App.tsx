@@ -3,7 +3,7 @@ import Main from "./pages/mainPage/index.tsx";
 import LoginForm from "./pages/loginPage";
 import Protected from "./routes/Protected.tsx";
 import "./App.css";
-import AccountEntryForm from "./pages/accountForm";
+// import AccountEntryForm from "./pages/accountForm";
 import AccountEntryFormNew from "./pages/accountFormNew";
 import AccountList from "./pages/accountList";
 import AccountPage from "./pages/accountPage";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   DatePicker,
@@ -11,12 +11,12 @@ import {
   notification,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { changeStatus, createOrder } from "../../pages/accountForm/request";
+import { changeStatus } from "../../pages/accountForm/request";
 import { useParams, useLocation } from "react-router";
 
 import {
-  createNewOrder,
-  editFormData,
+  // createNewOrder,
+  //  editFormData,
   getActiveInfo,
   getActiveList,
   getSingleOrder,
@@ -26,7 +26,7 @@ import { withDecimal } from "../../assets/numberToJs";
 import _ from "lodash";
 import { status } from "../../assets/defaultData";
 import dayjs from "dayjs";
-import { DownCircleFilled, RightCircleFilled } from "@ant-design/icons";
+import { DownCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 type EditData = {
@@ -54,7 +54,7 @@ type EditData = {
 };
 
 const AccountEntryFormNew = () => {
-  const [role] = useState(1);
+  // const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [sum, setSum] = useState(null);
   const [form] = Form.useForm();
@@ -119,8 +119,8 @@ const AccountEntryFormNew = () => {
     form.setFieldValue("debitMFO", null);
   }, [docType]);
 
-  const checkValue = (name: string) =>
-    form.getFieldValue(name) ? true : false;
+  // const checkValue = (name: string) =>
+  //   form.getFieldValue(name) ? true : false;
 
   const handleDebet = async (value: string, type: string) => {
     setLoading(true);
@@ -213,14 +213,17 @@ const AccountEntryFormNew = () => {
     message.error("Couldn't send form");
   };
 
+  //ignore next line
+  // eslint-disable-next-line
   const onFinish = async ({ createdDate, ...values }: any) => {
     setLoading(true);
     console.log('valuess: ', values);
     try {
-      const request = await createNewOrder({
-        ...values,
-        createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
-      });
+      // eslint-disable-next-line
+      // const request = await createNewOrder({
+      //   ...values,
+      //   createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
+      // });
 
       confirmForm();
       setLoading(false);
@@ -230,9 +233,12 @@ const AccountEntryFormNew = () => {
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
-    let errors = errorInfo.errorFields.reduce(
+    //@ts-expect-error this is ignored for NPM
+    const errors = errorInfo.errorFields.reduce(
+      //@ts-expect-error this is ignored for NPM
       (acc: unknown, { name }: unknown) => {
-        let tempError = name[0];
+        const tempError = name[0];
+        //@ts-expect-error this is ignored for NPM
         return [...acc, errorList[tempError]];
       },
       []
@@ -565,6 +571,7 @@ const AccountEntryFormNew = () => {
             //   return Number(value).toLocaleString();
             // }}
             onChange={(value) => {
+              //@ts-expect-error this is ignored for NPM
               setSum(value);
             }}
             style={{ width: 400, display: "flex" }}

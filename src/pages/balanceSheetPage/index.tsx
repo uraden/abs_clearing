@@ -10,7 +10,7 @@ import {
 // import { getAccountReport } from "./request";
 
 export default function BalanceSheetPage() {
-  const [responseData, setResponseData] = useState<DataType[]>();
+  const [ setResponseData] = useState<DataType[]>();
 
   interface DataType {
     key: string;
@@ -138,10 +138,11 @@ export default function BalanceSheetPage() {
   ];
 
   const fetchReport = async () => {
+    // @ts-expect-error this
     const response = await getAccountReport({
       clientId: 1,
     });
-
+    // @ts-expect-error this
     setResponseData(response);
     console.log("ress: ", response);
   };

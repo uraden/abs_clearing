@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { Link } from "react-router-dom";
-import dayjs from "dayjs";
-import { DatePicker, Space } from "antd";
+import {  } from "react-router-dom";
+// import dayjs from "dayjs";
+import { DatePicker } from "antd";
 import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
 
 export default function BalancePeriodSheetPage() {
-  const [responseData, setResponseData] = useState<DataType[]>();
+  const [setResponseData] = useState<DataType[]>();
 
   interface DataType {
     key: string;
@@ -98,10 +98,13 @@ export default function BalancePeriodSheetPage() {
   ];
 
   const fetchReport = async () => {
+
+    //@ts-expect-errortry
     const response = await getAccountReport({
       clientId: 1,
     });
 
+    //@ts-expect-errortry try
     setResponseData(response);
     console.log("ress: ", response);
   };

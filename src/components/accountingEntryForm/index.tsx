@@ -8,11 +8,10 @@ import {
   Divider,
   message,
   InputNumber,
-  Flex,
   notification,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { changeStatus, createOrder } from "../../pages/accountForm/request";
+import { changeStatus } from "../../pages/accountForm/request";
 import { useParams, useLocation } from "react-router";
 
 import { createNewOrder, editFormData, getActiveInfo, getActiveList } from "./request";
@@ -47,11 +46,15 @@ type EditData = {
   // forderDay: string
 };
 
+interface ErrorList {
+  [key: string]: string;
+}
+
 
 const AccountEntryForm: React.FC = () => {
-  const [role] = useState(1);
+  // const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
-  const [sum, setSum] = useState(null);
+  const [sum, setSum] = useState<unknown | null>(null);
   const [form] = Form.useForm();
   const [editData, setEditData] = useState<EditData>({
     createdDate: "",
@@ -85,7 +88,7 @@ const AccountEntryForm: React.FC = () => {
   const [accountList, setAccountList] = useState([]);
   const { docId } = useParams();
   const { pathname: urlChange } = useLocation();
-  const [errorList] = useState({
+  const [errorList] = useState<ErrorList>({
     createdDate: "Пожалуйста выберете Дату",
     documentNumber: "Пожалуйста выберете № документа",
     debitINN: "Пожалуйста выберете cчет плательщика",
@@ -206,10 +209,16 @@ const AccountEntryForm: React.FC = () => {
     }
   };
 
+  interface ErrorInfo {
+    errorFields: Array<{ name: string }>;
+    // Add other properties if necessary
+  }
+
   const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo);
-    let errors = errorInfo.errorFields.reduce(
-      (acc: unknown, { name }: unknown) => {
+    
+    let errors = (errorInfo as ErrorInfo).errorFields.reduce(
+      (acc: any[], { name }: { name: string }) => {
         let tempError = name[0];
         return [...acc, errorList[tempError]];
       },

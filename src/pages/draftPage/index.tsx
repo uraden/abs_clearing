@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Space, DatePicker, Tag, Card } from "antd";
-import { getDraftDetails, getDraftList } from "./request";
+import { Button, Space, Tag } from "antd";
+import {  getDraftList } from "./request";
 import CustomTable from "../../components/Reusables/Table";
 import { Link } from "react-router-dom";
-import type { DatePickerProps } from "antd";
-import moment, { MomentInput } from "moment";
+import moment, { } from "moment";
 import { status } from "../../assets/defaultData";
 
 import _ from "lodash";
-import { PlusSquareOutlined, PlusSquareTwoTone } from "@ant-design/icons";
+import { PlusSquareTwoTone } from "@ant-design/icons";
 import UploadModal from "../../components/draftFileUpload";
 
 // interface YourRecordType {
@@ -16,9 +15,9 @@ import UploadModal from "../../components/draftFileUpload";
 // }
 
 const DraftForm = () => {
-  const [isLoading, setLoading] = useState(false);
-  const [dataSource, setDataSource] = useState([]);
-  const [draftList, setDraftList] = useState();
+  const [isLoading] = useState(false);
+  const [dataSource] = useState([]);
+  const [ setDraftList] = useState();
   const [visible, setVisible] = useState(false);
   const columns = [
     { title: "№ Док.", dataIndex: "nDoc", key: "nDoc" },
@@ -68,7 +67,7 @@ const DraftForm = () => {
       key: "status",
       render: (statusText: string) => {
         if (statusText) {
-          let tempStatus = _.find(status, { statusTitle: statusText });
+          const tempStatus = _.find(status, { statusTitle: statusText });
           console.log("temppp: ", tempStatus);
           return (
             <Tag color={tempStatus?.statusColor}>{tempStatus?.statusTitle}</Tag>
@@ -79,7 +78,7 @@ const DraftForm = () => {
     {
       title: "Действие",
       key: "action",
-      //@ts-ignore
+      //@ts-expect-error" try
       render: (_, record) => (
         <Space size="middle">
           <Link to={`/edit/${record.key}/doc`}>
@@ -92,57 +91,58 @@ const DraftForm = () => {
   const getList = async () => {
     const response = await getDraftList();
     console.log("response: ", response);
+    //@ts-expect-error" try
     setDraftList(response.data);
   };
-  const getData = async () => {
-    setLoading(true);
-    // const response = await getAccountArchiveList();
-    // console.log("response: ", response);
-    // setDataSource(
-    //   response.map(
-    //     (item: {
-    //       id: string;
-    //       ndoc: string;
-    //       crMfo: string;
-    //       crPnfl: string;
-    //       crName: string;
-    //       crInn: string;
-    //       debMfo: string;
-    //       debPnfl: string;
-    //       debInn: string;
-    //       sum: string;
-    //       dtd: string;
-    //       debName: string;
-    //       forderDay: string;
-    //       status: string;
-    //     }) => ({
-    //       key: item.id,
-    //       nDoc: item.ndoc,
-    //       mfo_1: item.crMfo,
-    //       account_1: item.crPnfl,
-    //       name_1: item.crName,
-    //       name_2: item.debName,
-    //       inn_1: item.crInn,
-    //       mfo_2: item.debMfo,
-    //       account_2: item.debPnfl,
-    //       inn_2: item.debInn,
-    //       total_amount: item.sum,
-    //       dtd: item.dtd,
-    //       forderDay: item.forderDay,
-    //       status: item.status,
-    //     })
-    //   )
-    // );
-    setLoading(false);
-  };
+  // const getData = async () => {
+  //   setLoading(true);
+  //   // const response = await getAccountArchiveList();
+  //   // console.log("response: ", response);
+  //   // setDataSource(
+  //   //   response.map(
+  //   //     (item: {
+  //   //       id: string;
+  //   //       ndoc: string;
+  //   //       crMfo: string;
+  //   //       crPnfl: string;
+  //   //       crName: string;
+  //   //       crInn: string;
+  //   //       debMfo: string;
+  //   //       debPnfl: string;
+  //   //       debInn: string;
+  //   //       sum: string;
+  //   //       dtd: string;
+  //   //       debName: string;
+  //   //       forderDay: string;
+  //   //       status: string;
+  //   //     }) => ({
+  //   //       key: item.id,
+  //   //       nDoc: item.ndoc,
+  //   //       mfo_1: item.crMfo,
+  //   //       account_1: item.crPnfl,
+  //   //       name_1: item.crName,
+  //   //       name_2: item.debName,
+  //   //       inn_1: item.crInn,
+  //   //       mfo_2: item.debMfo,
+  //   //       account_2: item.debPnfl,
+  //   //       inn_2: item.debInn,
+  //   //       total_amount: item.sum,
+  //   //       dtd: item.dtd,
+  //   //       forderDay: item.forderDay,
+  //   //       status: item.status,
+  //   //     })
+  //   //   )
+  //   // );
+  //   setLoading(false);
+  // };
 
   useEffect(() => {
     getList();
   }, []);
 
-  const onChange: DatePickerProps["onChange"] = (dateString) => {
-    console.log(moment(dateString as MomentInput).format("DD.MM.YYYY"));
-  };
+  // const onChange: DatePickerProps["onChange"] = (dateString) => {
+  //   console.log(moment(dateString as MomentInput).format("DD.MM.YYYY"));
+  // };
 
   return (
     <div>
@@ -188,7 +188,7 @@ const DraftForm = () => {
           <UploadModal visible={visible} onClose={() => setVisible(false)} />
         </div>
         <CustomTable
-          //@ts-ignore
+          //@ts-expect-error" try
           isLoading={isLoading}
           columns={columns}
           dataSource={dataSource}

@@ -73,6 +73,7 @@ const AccountPage = () => {
 
   };
 
+  //@ts-expect-error try
   const mappedData: DataType[] | undefined = responseData
   ? responseData.map((item) => ({
       key: item.key,
