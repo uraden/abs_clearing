@@ -10,8 +10,27 @@ import { Button, Layout, Menu, Modal, Popover, theme } from "antd";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import CustomPassword from "../../components/password";
+import { getOperdays, getProfile } from "../../assets/reusable/requests";
+import dayjs from "dayjs";
 
 const { Header, Content, Footer } = Layout;
+
+interface IProfile {
+  clientId: number;
+  clientName: string;
+  fullName: string;
+  id: number;
+  roleDescription: string;
+  roleId: number;
+  roleName: string;
+  userName: string;
+}
+
+interface IOperday {
+  date: string;
+  id: number;
+  isActive: boolean;
+}
 
 const Navbar = ({ children }: { children: ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,6 +42,21 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate();
+  const [profile, setProfile] = useState<IProfile>({
+    clientId: 0,
+    clientName: "",
+    fullName: "",
+    id: 0,
+    roleDescription: "",
+    roleId: 0,
+    roleName: "",
+    userName: "",
+  });
+  const [operDay, setOperday] = useState<IOperday>({
+    date: "",
+    id: 0,
+    isActive: false,
+  });
 
   type MenuItem = Required<MenuProps>["items"][number];
 
@@ -39,6 +73,21 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       label,
     } as MenuItem;
   }
+
+  const fetchProfile = async () => {
+    const response = await getProfile();
+    setProfile(response);
+  };
+
+  const fetchOperdays = async () => {
+    const response = await getOperdays();
+    setOperday(response.find((day: IOperday) => day.isActive));
+  };
+
+  useEffect(() => {
+    fetchProfile();
+    fetchOperdays();
+  }, []);
 
   const currentYear = new Date().getFullYear();
 
@@ -66,7 +115,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     ]),
     getItem("Документы", "0", <FileTextOutlined />, [
       // getItem("Новый документ", "new-doc"),
-      getItem("Новый документ", "new-ui-doc"),
+      getItem("Новый документ", "new-doc"),
       // getItem("Черновик", "draft-form"),
       getItem("Список документов", "account-list"),
       getItem("Архив документов", "account-list-archive"),
@@ -149,7 +198,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <CustomPassword onClose={() => setIsModalOpen(false)}  />
+        <CustomPassword onClose={() => setIsModalOpen(false)} />
       </Modal>
       <Header
         style={{
@@ -173,7 +222,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             textAlign: "end",
           }}
         >
-          Опер. день: 05.12.2023
+          Опер. день: {dayjs(operDay.date).format("DD.MM.YYYY")}
         </div>
         <div>
           <Popover trigger="click" title={"Настройки"} content={content}>
@@ -182,7 +231,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
               style={{ margin: "0 16px", verticalAlign: "middle" }}
               // onClick={changeUser}
             >
-              {localStorage.getItem("username") || null}
+              {profile.fullName}
             </Button>
           </Popover>
         </div>

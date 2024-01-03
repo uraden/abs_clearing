@@ -19,6 +19,11 @@ type FieldType = {
   password?: string;
 };
 
+interface ILogin {
+  accessToken?: string;
+  status?: number;
+}
+
 const LoginForm: React.FC = () => {
   const [api, contextHolder] = notification.useNotification();
   const [isLoading, setLoading] = useState(false);
@@ -30,19 +35,19 @@ const LoginForm: React.FC = () => {
 
   const onFinish = async (values: unknown) => {
     setLoading(true);
-    const response = await login(values);
-    console.log("responsett: ", response);
+    const response = (await login(values)) as ILogin;
+    console.log("responsetssst: ", response);
     if (response && response.status === 401) {
       api.error({
-        message: response.detail,
-        description: response.title,
+        message: "Ошибка при авторизации",
+        description:
+          "Username или пароль неверный, либо такой username не существует",
         duration: 4,
       });
     }
 
     if (response && response.accessToken) {
       localStorage.setItem("accessToken", response.accessToken);
-      // localStorage.setItem('username', response.userFullName);
       navigate("/");
     }
     setLoading(false);
