@@ -16,6 +16,11 @@ import {
 } from "../accountRecentReports/request";
 // import moment from "moment";
 import dayjs from "dayjs";
+import * as XLSX from 'xlsx';
+
+import * as ExcelJS from 'exceljs';
+
+
 
 const { RangePicker } = DatePicker;
 
@@ -165,6 +170,162 @@ const AccountReport = () => {
   const onFinishFailed = (errorInfo: unknown) => {
     console.log("errorInfo: ", errorInfo);
   };
+
+
+
+
+
+
+
+
+
+  const fakeData = [
+    {
+      'BO': '01',
+      'MFO': '00014',
+      'Счет': '21596000400447893001',
+      '№ Док': '0000004565',
+      'Дебет': '123430608000.00',
+      'Кредит': '500',
+    },
+    
+ 
+  {
+    'BO': '01',
+    'MFO': '00014',
+    'Счет': '21596000400447893001',
+    '№ Док': '0000004565',
+    'Дебет': 'МКМ',
+    'Кредит': '50,00',
+  }   ,
+  {
+    'BO': '01',
+    'MFO': '00014',
+    'Счет': '21596000400447893001',
+    '№ Док': '0000004565',
+    'Дебет': 'МКМ',
+    'Кредит': '50,00',
+  }   ,
+  {
+    'BO': '01',
+    'MFO': '00014',
+    'Счет': '21596000400447893001',
+    '№ Док': '0000004565',
+    'Дебет': 'МКМ',
+    'Кредит': '50,00',
+  }, {
+    'BO': '',
+    'MFO': '',
+    'Счет': '',
+    '№ Док': '',
+    'Дебет': '',
+    'Кредит': '',
+    'total': 'ИТОГО:',
+    'totalDebit': '861495.00',
+    'totalCredit': '80000.00',
+  }     
+  ]
+
+
+
+
+  // excel
+  const generateExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sheet1');
+  
+    // Create a worksheet
+    worksheet.addRow(['', '', '', '', 'Form', '01/01/2024']);
+    const greyRow = worksheet.lastRow;
+    greyRow.eachCell((cell, colNumber) => {
+    if (colNumber <= 6) {
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFC0C0C0' } }; // Grey background color
+    }
+  });
+
+    worksheet.addRow([]);
+  
+    const titleRow = worksheet.addRow(['Title of the File']);
+    titleRow.getCell(1).alignment = { horizontal: 'center' };
+    titleRow.getCell(1).font = { bold: true };
+  
+    worksheet.addRow([]);
+    worksheet.addRow(['Код филиала', '01203']);
+    worksheet.addRow(['Номер счета клиента', '21596000800447893003']);
+    worksheet.addRow(['Наименование клиента', '"Freedom Finance" MCHJ']);
+    worksheet.addRow(['Дата последней. Операции', '26/12/2023']);
+    worksheet.addRow([]);
+  
+    const incomingBalanceRow = worksheet.addRow(['Входящий  Остаток', 1000000.00]);
+    incomingBalanceRow.getCell(2).numFmt = '0,000.00';
+    incomingBalanceRow.getCell(2).alignment = { horizontal: 'right' };
+  
+    const outgoingBalanceRow = worksheet.addRow(['Исходящий Остаток', 1000000.00]);
+    outgoingBalanceRow.getCell(2).numFmt = '0,000.00';
+    outgoingBalanceRow.getCell(2).alignment = { horizontal: 'right' };
+  
+    worksheet.addRow([]);
+
+    const headerRow = worksheet.addRow(['BO', 'MFO', 'Счет', '№ Док', 'Дебет', 'Кредит']);
+    headerRow.eachCell((cell) => {
+      cell.font = { bold: true };
+      
+      cell.border = { top: { style: 'thin' }, bottom: { style: 'thin' }, left: { style: 'thin' }, right: { style: 'thin' } };
+      
+      cell.alignment = { horizontal: 'center' };
+    });
+  
+    
+    fakeData.forEach((data) => {
+      const dataRow = worksheet.addRow([data.BO, data.MFO, data.Счет, data['№ Док'], data.Дебет, data.Кредит]);
+      
+      dataRow.eachCell((cell) => {
+        cell.border = { top: { style: 'thin' }, bottom: { style: 'thin' }, left: { style: 'thin' }, right: { style: 'thin' } };
+        cell.alignment = { horizontal: 'center' };
+      });
+    });
+    
+    // Add total row
+    const totalRow = worksheet.addRow([fakeData[fakeData.length - 1].total, '', '', '', fakeData[fakeData.length - 1].totalDebit, fakeData[fakeData.length - 1].totalCredit]);
+    totalRow.eachCell((cell, index) => {
+      cell.border = { top: { style: 'thin' }, bottom: { style: 'thin' }, left: { style: 'thin' }, right: { style: 'thin' } };
+      cell.alignment = { horizontal: index === 1 ? 'center' : 'right' };
+    });
+
+    worksheet.mergeCells(`A${totalRow.number}:C${totalRow.number}`);
+
+
+
+    worksheet.mergeCells('A3:F3');
+    worksheet.mergeCells('A19:D19');
+  
+    // Auto-fit column widths based on content
+    worksheet.columns.forEach((column, index) => {
+      let maxWidth = 0;
+      column.eachCell({ includeEmpty: true }, (cell) => {
+        const cellWidth = cell.value ? cell.value.toString().length : 0;
+        maxWidth = Math.max(maxWidth, cellWidth);
+      });
+      worksheet.getColumn(index + 1).width = maxWidth + 2; 
+    });
+
+   
+  
+    // Save the workbook as a file
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'output.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
+
+
+
+
   return (
     <div style={{ padding: 8, fontSize: 16 }}>
       <div className="title">Выписка лицевых счетов за период</div>
@@ -177,6 +338,7 @@ const AccountReport = () => {
           gap: 16,
         }}
       >
+        <button onClick={generateExcel}>Download Excel</button>
         <Form
           layout="horizontal"
           onFinish={onFinish}
