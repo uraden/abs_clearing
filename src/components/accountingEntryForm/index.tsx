@@ -103,8 +103,8 @@ const AccountEntryForm: React.FC = () => {
     setEditData(infoEdit);
   };
 
-  const checkValue = (name: string) =>
-    form.getFieldValue(name) ? true : false;
+  // const checkValue = (name: string) =>
+  //   form.getFieldValue(name) ? true : false;
 
   const handleDebet = async (value: string, type: string) => {
     setLoading(true);
@@ -706,7 +706,8 @@ const AccountEntryForm: React.FC = () => {
                 width: "32vw",
               }}
             >
-              <Input readOnly={checkValue("creditName")} />
+              <Input />
+              {/* <Input readOnly={checkValue("creditName")} /> */}
             </Form.Item>
             <Form.Item
               label="ИНН"
@@ -718,7 +719,8 @@ const AccountEntryForm: React.FC = () => {
                 marginRight: 40,
               }}
             >
-              <Input maxLength={9} readOnly={checkValue("creditINN")} />
+              <Input maxLength={9} />
+              {/* <Input maxLength={9} readOnly={checkValue("creditINN")} /> */}
               {/* <Input
                 style={{
                   width: 184,
@@ -742,7 +744,8 @@ const AccountEntryForm: React.FC = () => {
               }}
               name="creditBankName"
             >
-              <Input readOnly={checkValue("creditBankName")} />
+              <Input />
+              {/* <Input readOnly={checkValue("creditBankName")} /> */}
             </Form.Item>
 
             <Form.Item
@@ -758,7 +761,8 @@ const AccountEntryForm: React.FC = () => {
                 marginRight: 40,
               }}
             >
-              <Input maxLength={5} readOnly={checkValue("creditMFO")} />
+              <Input maxLength={5} />
+              {/* <Input maxLength={5} readOnly={checkValue("creditMFO")} /> */}
             </Form.Item>
           </div>
         </div>

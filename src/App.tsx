@@ -39,18 +39,18 @@ function App() {
       path: "/new-doc",
       element: (
         <Protected>
-          <AccountEntryForm />
+         <AccountEntryFormNew />
         </Protected>
       ),
     },
-    {
-      path: "/new-ui-doc",
-      element: (
-        <Protected>
-          <AccountEntryFormNew />
-        </Protected>
-      ),
-    },
+    // {
+    //   path: "/new-ui-doc",
+    //   element: (
+    //     <Protected>
+    //       <AccountEntryFormNew />
+    //     </Protected>
+    //   ),
+    // },
     {
       path: "/edit/:docId/doc",
       element: (
