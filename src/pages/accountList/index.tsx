@@ -18,7 +18,8 @@ const AccoutDocs = () => {
       title: "Дата Док.",
       dataIndex: "createdDate",
       key: "createdDate",
-      render: (createdDate: string) => (createdDate ? moment(createdDate).format("DD.MM.YYYY") : null),
+      render: (createdDate: string) =>
+        createdDate ? moment(createdDate).format("DD.MM.YYYY") : null,
     },
     {
       title: "Плательщик",
@@ -66,7 +67,14 @@ const AccoutDocs = () => {
       //@ts-ignore
       render: (_, record) => (
         <Space size="middle">
-          <Link to={`/edit/${record.key}/doc`}>
+          <Link
+            to={`/edit/${record.key}/doc`}
+          >
+          {/* <Link
+            to={`/edit/${encodeURIComponent(
+              record.key + localStorage.getItem("accessToken")
+            )}/doc`}
+          > */}
             <Button>Изменить</Button>
           </Link>
         </Space>
