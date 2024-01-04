@@ -16,7 +16,6 @@ import {
 } from "../accountRecentReports/request";
 // import moment from "moment";
 import dayjs from "dayjs";
-
 import * as ExcelJS from 'exceljs';
 
 
@@ -32,6 +31,8 @@ const AccountReport = () => {
   const [accountList, setAccountList] = useState([]);
   const [apiData, setApiData] = useState();
 
+
+  // eslint-disable-next-line
   const handlePdf = (
     currentDate: string,
     ownerAccount: string,
@@ -173,20 +174,12 @@ const AccountReport = () => {
         )} - до ${dayjs(values.range[1]).format("YYYY-MM-DD")}`,
       });
     }
-    handlePdf(response.currentDate, response.ownerAccount, response.operDate);
+    // dhandlePdf(response.currentDate, response.ownerAccount, response.operDate);
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
     console.log("errorInfo: ", errorInfo);
   };
-
-
-
-
-
-
-  console.log('apiData: ', apiData);
-
 
   // @ts-expect-error try to fix
   const apiExcelData = apiData?.data.map((item: {
@@ -330,9 +323,6 @@ const AccountReport = () => {
       worksheet.getColumn(index + 1).width = maxWidth + 2; 
     });
 
-   
-  
-    // Save the workbook as a file
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const link = document.createElement('a');
@@ -344,10 +334,12 @@ const AccountReport = () => {
   };
 
   useEffect(() => {
-    generateExcel()
+    // @ts-expect-error try to fix
+    if(apiData?.data.length > 0) {
+      generateExcel()
+    }
   }, [apiData])
   
-
   return (
     <div style={{ padding: 8, fontSize: 16 }}>
       <div className="title">Выписка лицевых счетов за период</div>
@@ -392,7 +384,7 @@ const AccountReport = () => {
             <RangePicker />
           </Form.Item>
           <Form.Item>
-            <Button loading={isLoading} type="primary" htmlType="submit">
+            <Button style={{ outline: 'none' }} loading={isLoading} type="primary" htmlType="submit">
               Скачать отчет
             </Button>
           </Form.Item>
