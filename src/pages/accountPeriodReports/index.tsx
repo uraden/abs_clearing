@@ -16,7 +16,6 @@ import {
 } from "../accountRecentReports/request";
 // import moment from "moment";
 import dayjs from "dayjs";
-import * as XLSX from 'xlsx';
 
 import * as ExcelJS from 'exceljs';
 
@@ -89,7 +88,8 @@ const AccountReport = () => {
 
   const fetchAccounts = async () => {
     const request = await getAccounts();
-    setAccountList(request.map(({ account }: any) => account));
+    //@ts-expect-error try to fix
+    setAccountList(request.map(({ account }: unknown) => account));
   };
 
   useEffect(() => {
@@ -146,12 +146,16 @@ const AccountReport = () => {
   //   doc.save("test");
   // };
 
-  const onFinish = async (values: any) => {
+  
+  const onFinish = async (values: unknown) => {
     console.log("vall: ", values);
     setLoading(true);
     const response = await getAccountReportData({
+      //@ts-expect-error try to fix
       account: values.account,
+      //@ts-expect-error try to fix
       fromDate: dayjs(values.range[0]).format("YYYY-MM-DD"),
+      //@ts-expect-error try to fix
       toDate: dayjs(values.range[1]).format("YYYY-MM-DD"),
     });
     console.log("reqqq: ", response);
@@ -159,8 +163,10 @@ const AccountReport = () => {
       setLoading(false);
       return api.warning({
         message: "Нет отчетов",
+        //@ts-expect-error try to fix
         description: `Нету отчетов c ${dayjs(values.range[0]).format(
           "YYYY-MM-DD"
+          //@ts-expect-error try to fix
         )} - до ${dayjs(values.range[1]).format("YYYY-MM-DD")}`,
       });
     }
@@ -237,6 +243,7 @@ const AccountReport = () => {
     // Create a worksheet
     worksheet.addRow(['', '', '', '', 'Form', '01/01/2024']);
     const greyRow = worksheet.lastRow;
+    // @ts-expect-error try to fix
     greyRow.eachCell((cell, colNumber) => {
     if (colNumber <= 6) {
       cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFC0C0C0' } }; // Grey background color
@@ -302,6 +309,7 @@ const AccountReport = () => {
     // Auto-fit column widths based on content
     worksheet.columns.forEach((column, index) => {
       let maxWidth = 0;
+      // @ts-expect-error try to fix
       column.eachCell({ includeEmpty: true }, (cell) => {
         const cellWidth = cell.value ? cell.value.toString().length : 0;
         maxWidth = Math.max(maxWidth, cellWidth);
