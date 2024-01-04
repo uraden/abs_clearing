@@ -4,7 +4,9 @@ import LoginForm from "./pages/loginPage";
 import Protected from "./routes/Protected.tsx";
 import "./App.css";
 import AccountEntryForm from "./pages/accountForm";
-import AccountEntryFormNew from "./pages/accountFormNew";
+import NewDoc from "./pages/accountFormNew/newDoc.tsx";
+import AccountEditDoc from "./pages/editDoc";
+// import AccountEntryFormNew from "./pages/accountFormNew";
 import AccountList from "./pages/accountList";
 import AccountPage from "./pages/accountPage";
 import NotFound from "./components/notFound/NotFound.tsx";
@@ -39,7 +41,8 @@ function App() {
       path: "/new-doc",
       element: (
         <Protected>
-         <AccountEntryFormNew />
+          <NewDoc />
+          {/* <AccountEntryFormNew /> */}
         </Protected>
       ),
     },
@@ -55,7 +58,7 @@ function App() {
       path: "/edit/:docId/doc",
       element: (
         <Protected>
-          <AccountEntryFormNew />
+          <AccountEditDoc />
         </Protected>
       ),
     },

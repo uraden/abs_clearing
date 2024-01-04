@@ -19,6 +19,7 @@ import {
   editFormData,
   getActiveInfo,
   getActiveList,
+  getOrderStatuses,
   getSingleOrder,
 } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
@@ -142,27 +143,6 @@ const AccountEntryFormNew = () => {
         debitName: editData?.debitName,
         debPnfl: editData?.debPnfl,
       });
-    } else {
-      form.setFieldsValue({
-        createdDate: null,
-        documentType: null,
-        documentNumber: null,
-        creditAccount: null,
-        creditINN: null,
-        creditBankName: null,
-        creditMFO: null,
-        sum: null,
-        debitAccount: null,
-        debitINN: null,
-        debitBankName: null,
-        codeNaznachentiya: null,
-        textNaznachentiya: null,
-        debitMFO: null,
-        creditName: null,
-        crPnfl: null,
-        debitName: null,
-        debPnfl: null,
-      });
     }
   }, [editData]);
 
@@ -230,45 +210,28 @@ const AccountEntryFormNew = () => {
   };
 
   useEffect(() => {
-    if (!location.pathname.includes("new")) {
-      setEditable(true);
-      fetchEditForm();
-    } else {
-      setEditable(false);
-      form.setFieldsValue({
-        createdDate: null,
-        documentType: docType,
-        documentNumber: null,
-        creditAccount: null,
-        creditINN: null,
-        creditBankName: null,
-        creditMFO: null,
-        sum: null,
-        debitAccount: null,
-        debitINN: null,
-        debitBankName: null,
-        codeNaznachentiya: null,
-        textNaznachentiya: null,
-        debitMFO: null,
-        creditName: null,
-        crPnfl: null,
-        debitName: null,
-        debPnfl: null,
-      });
-      console.log('we are here: ', urlChange);
-    }
-  }, [urlChange]);
+    setEditable(true);
+    fetchEditForm();
+  }, []);
 
   const fetchActiveList = async () => {
-    const request = await getActiveList({
-      clientId: 2,
-    });
+    const request = await getActiveList();
+    // const request = await getActiveList({
+    //   clientId: 2,
+    // });
 
     setAccountList(request);
   };
 
+  const fetchStatusList = async () => {
+    const request = await getOrderStatuses();
+
+    // setAccountList(request);
+  };
+
   useEffect(() => {
     fetchActiveList();
+    fetchStatusList();
   }, []);
 
   const confirmForm = () => {
@@ -280,13 +243,15 @@ const AccountEntryFormNew = () => {
     message.error("Couldn't send form");
   };
 
-  const onFinish = async ({ createdDate, ...values }: any) => {
-    setLoading(true);
+  const onFinish = async (values: any) => {
     console.log("valuess: ", values);
+    setLoading(true);
+    // console.log("valuess: ", values);
     try {
-      const request = await createNewOrder({
+      const request = await editFormData({
         ...values,
-        createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
+        id: Number(docId),
+        createdDate: dayjs(values.createdDate).format("YYYY-MM-DD"),
       });
 
       confirmForm();
@@ -453,7 +418,7 @@ const AccountEntryFormNew = () => {
   return (
     <>
       <h1 style={{ textAlign: "center", marginBottom: 16 }}>
-        {editable ? "Изменить поручение" : "Новое поручение"}
+        Изменить поручение
       </h1>
       <Divider></Divider>
 
@@ -469,111 +434,6 @@ const AccountEntryFormNew = () => {
         form={form}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        initialValues={
-          editable
-            ? {
-                createdDate: dayjs(editData?.createdDate),
-                documentType: editData?.documentType,
-                documentNumber: editData?.documentNumber,
-                creditAccount: editData?.creditAccount,
-                creditINN: editData?.creditINN,
-                creditBankName: editData?.creditBankName,
-                creditMFO: editData?.creditMFO,
-                sum: editData?.sum,
-                debitAccount: editData?.debitAccount,
-                debitINN: editData?.debitINN,
-                debitBankName: editData?.debitBankName,
-                codeNaznachentiya: editData?.codeNaznachentiya,
-                textNaznachentiya: editData?.textNaznachentiya,
-                debitMFO: editData?.debitMFO,
-                creditName: editData?.creditName,
-                crPnfl: editData?.crPnfl,
-                debitName: editData?.debitName,
-                debPnfl: editData?.debPnfl,
-              }
-            : { documentType: docType }
-        }
-        // initialValues={{
-        //   documentType: docType,
-        // }}
-        // fields={
-        //   editable
-        //     ? [
-        //         {
-        //           name: ["createdDate"],
-        //           value: dayjs(editData?.createdDate),
-        //         },
-        //         {
-        //           name: ["documentType"],
-        //           value: editData?.documentType,
-        //         },
-        //         {
-        //           name: ["documentNumber"],
-        //           value: editData?.documentNumber,
-        //         },
-        //         {
-        //           name: ["creditAccount"],
-        //           value: editData?.creditAccount,
-        //         },
-        //         {
-        //           name: ["creditINN"],
-        //           value: editData?.creditINN,
-        //         },
-        //         {
-        //           name: ["creditBankName"],
-        //           value: editData?.creditBankName,
-        //         },
-        //         {
-        //           name: ["creditMFO"],
-        //           value: editData?.creditMFO,
-        //         },
-        //         {
-        //           name: ["sum"],
-        //           value: editData?.sum,
-        //         },
-        //         {
-        //           name: ["debitAccount"],
-        //           value: editData?.debitAccount,
-        //         },
-        //         {
-        //           name: ["debitINN"],
-        //           value: editData?.debitINN,
-        //         },
-        //         {
-        //           name: ["debitBankName"],
-        //           value: editData?.debitBankName,
-        //         },
-        //         {
-        //           name: ["codeNaznachentiya"],
-        //           value: editData?.codeNaznachentiya,
-        //         },
-        //         {
-        //           name: ["textNaznachentiya"],
-        //           value: editData?.textNaznachentiya,
-        //         },
-        //         {
-        //           name: ["debitMFO"],
-        //           value: editData?.debitMFO,
-        //         },
-        //         {
-        //           name: ["creditName"],
-        //           value: editData?.creditName,
-        //         },
-        //         {
-        //           name: ["crPnfl"],
-        //           value: editData?.crPnfl,
-        //         },
-        //         {
-        //           name: ["debitName"],
-        //           value: editData?.debitName,
-        //         },
-        //         {
-        //           name: ["debPnfl"],
-        //           value: editData?.debPnfl,
-        //         },
-        //       ]
-        //     : []
-        // }
       >
         <Form.Item
           labelCol={{ span: 4 }}
