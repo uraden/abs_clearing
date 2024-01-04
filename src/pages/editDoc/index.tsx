@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   DatePicker,
@@ -11,14 +11,15 @@ import {
   notification,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { changeStatus } from "../../pages/accountForm/request";
+import { changeStatus, createOrder } from "../../pages/accountForm/request";
 import { useParams, useLocation } from "react-router";
 
 import {
-  // createNewOrder,
-  //  editFormData,
+  createNewOrder,
+  editFormData,
   getActiveInfo,
   getActiveList,
+  getOrderStatuses,
   getSingleOrder,
 } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
@@ -26,7 +27,7 @@ import { withDecimal } from "../../assets/numberToJs";
 import _ from "lodash";
 import { status } from "../../assets/defaultData";
 import dayjs from "dayjs";
-import { DownCircleFilled } from "@ant-design/icons";
+import { DownCircleFilled, RightCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 type EditData = {
@@ -54,7 +55,7 @@ type EditData = {
 };
 
 const AccountEntryFormNew = () => {
-  // const [role] = useState(1);
+  const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [sum, setSum] = useState(null);
   const [form] = Form.useForm();
@@ -120,10 +121,6 @@ const AccountEntryFormNew = () => {
     form.setFieldValue("debitMFO", null);
   }, [docType]);
 
-<<<<<<< HEAD
-  // const checkValue = (name: string) =>
-  //   form.getFieldValue(name) ? true : false;
-=======
   useEffect(() => {
     if (editData) {
       form.setFieldsValue({
@@ -146,33 +143,11 @@ const AccountEntryFormNew = () => {
         debitName: editData?.debitName,
         debPnfl: editData?.debPnfl,
       });
-    } else {
-      form.setFieldsValue({
-        createdDate: null,
-        documentType: null,
-        documentNumber: null,
-        creditAccount: null,
-        creditINN: null,
-        creditBankName: null,
-        creditMFO: null,
-        sum: null,
-        debitAccount: null,
-        debitINN: null,
-        debitBankName: null,
-        codeNaznachentiya: null,
-        textNaznachentiya: null,
-        debitMFO: null,
-        creditName: null,
-        crPnfl: null,
-        debitName: null,
-        debPnfl: null,
-      });
     }
   }, [editData]);
 
   const checkValue = (name: string) =>
     form.getFieldValue(name) ? true : false;
->>>>>>> EditNewDoc
 
   const handleDebet = async (value: string, type: string) => {
     setLoading(true);
@@ -235,45 +210,28 @@ const AccountEntryFormNew = () => {
   };
 
   useEffect(() => {
-    if (!location.pathname.includes("new")) {
-      setEditable(true);
-      fetchEditForm();
-    } else {
-      setEditable(false);
-      form.setFieldsValue({
-        createdDate: null,
-        documentType: docType,
-        documentNumber: null,
-        creditAccount: null,
-        creditINN: null,
-        creditBankName: null,
-        creditMFO: null,
-        sum: null,
-        debitAccount: null,
-        debitINN: null,
-        debitBankName: null,
-        codeNaznachentiya: null,
-        textNaznachentiya: null,
-        debitMFO: null,
-        creditName: null,
-        crPnfl: null,
-        debitName: null,
-        debPnfl: null,
-      });
-      console.log('we are here: ', urlChange);
-    }
-  }, [urlChange]);
+    setEditable(true);
+    fetchEditForm();
+  }, []);
 
   const fetchActiveList = async () => {
-    const request = await getActiveList({
-      clientId: 2,
-    });
+    const request = await getActiveList();
+    // const request = await getActiveList({
+    //   clientId: 2,
+    // });
 
     setAccountList(request);
   };
 
+  const fetchStatusList = async () => {
+    const request = await getOrderStatuses();
+
+    // setAccountList(request);
+  };
+
   useEffect(() => {
     fetchActiveList();
+    fetchStatusList();
   }, []);
 
   const confirmForm = () => {
@@ -285,17 +243,16 @@ const AccountEntryFormNew = () => {
     message.error("Couldn't send form");
   };
 
-  //ignore next line
-  // eslint-disable-next-line
-  const onFinish = async ({ createdDate, ...values }: any) => {
-    setLoading(true);
+  const onFinish = async (values: any) => {
     console.log("valuess: ", values);
+    setLoading(true);
+    // console.log("valuess: ", values);
     try {
-      // eslint-disable-next-line
-      // const request = await createNewOrder({
-      //   ...values,
-      //   createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
-      // });
+      const request = await editFormData({
+        ...values,
+        id: Number(docId),
+        createdDate: dayjs(values.createdDate).format("YYYY-MM-DD"),
+      });
 
       confirmForm();
       setLoading(false);
@@ -305,12 +262,9 @@ const AccountEntryFormNew = () => {
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
-    //@ts-expect-error this is ignored for NPM
-    const errors = errorInfo.errorFields.reduce(
-      //@ts-expect-error this is ignored for NPM
+    let errors = errorInfo.errorFields.reduce(
       (acc: unknown, { name }: unknown) => {
-        const tempError = name[0];
-        //@ts-expect-error this is ignored for NPM
+        let tempError = name[0];
         return [...acc, errorList[tempError]];
       },
       []
@@ -464,7 +418,7 @@ const AccountEntryFormNew = () => {
   return (
     <>
       <h1 style={{ textAlign: "center", marginBottom: 16 }}>
-        {editable ? "Изменить поручение" : "Новое поручение"}
+        Изменить поручение
       </h1>
       <Divider></Divider>
 
@@ -480,111 +434,6 @@ const AccountEntryFormNew = () => {
         form={form}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        initialValues={
-          editable
-            ? {
-                createdDate: dayjs(editData?.createdDate),
-                documentType: editData?.documentType,
-                documentNumber: editData?.documentNumber,
-                creditAccount: editData?.creditAccount,
-                creditINN: editData?.creditINN,
-                creditBankName: editData?.creditBankName,
-                creditMFO: editData?.creditMFO,
-                sum: editData?.sum,
-                debitAccount: editData?.debitAccount,
-                debitINN: editData?.debitINN,
-                debitBankName: editData?.debitBankName,
-                codeNaznachentiya: editData?.codeNaznachentiya,
-                textNaznachentiya: editData?.textNaznachentiya,
-                debitMFO: editData?.debitMFO,
-                creditName: editData?.creditName,
-                crPnfl: editData?.crPnfl,
-                debitName: editData?.debitName,
-                debPnfl: editData?.debPnfl,
-              }
-            : { documentType: docType }
-        }
-        // initialValues={{
-        //   documentType: docType,
-        // }}
-        // fields={
-        //   editable
-        //     ? [
-        //         {
-        //           name: ["createdDate"],
-        //           value: dayjs(editData?.createdDate),
-        //         },
-        //         {
-        //           name: ["documentType"],
-        //           value: editData?.documentType,
-        //         },
-        //         {
-        //           name: ["documentNumber"],
-        //           value: editData?.documentNumber,
-        //         },
-        //         {
-        //           name: ["creditAccount"],
-        //           value: editData?.creditAccount,
-        //         },
-        //         {
-        //           name: ["creditINN"],
-        //           value: editData?.creditINN,
-        //         },
-        //         {
-        //           name: ["creditBankName"],
-        //           value: editData?.creditBankName,
-        //         },
-        //         {
-        //           name: ["creditMFO"],
-        //           value: editData?.creditMFO,
-        //         },
-        //         {
-        //           name: ["sum"],
-        //           value: editData?.sum,
-        //         },
-        //         {
-        //           name: ["debitAccount"],
-        //           value: editData?.debitAccount,
-        //         },
-        //         {
-        //           name: ["debitINN"],
-        //           value: editData?.debitINN,
-        //         },
-        //         {
-        //           name: ["debitBankName"],
-        //           value: editData?.debitBankName,
-        //         },
-        //         {
-        //           name: ["codeNaznachentiya"],
-        //           value: editData?.codeNaznachentiya,
-        //         },
-        //         {
-        //           name: ["textNaznachentiya"],
-        //           value: editData?.textNaznachentiya,
-        //         },
-        //         {
-        //           name: ["debitMFO"],
-        //           value: editData?.debitMFO,
-        //         },
-        //         {
-        //           name: ["creditName"],
-        //           value: editData?.creditName,
-        //         },
-        //         {
-        //           name: ["crPnfl"],
-        //           value: editData?.crPnfl,
-        //         },
-        //         {
-        //           name: ["debitName"],
-        //           value: editData?.debitName,
-        //         },
-        //         {
-        //           name: ["debPnfl"],
-        //           value: editData?.debPnfl,
-        //         },
-        //       ]
-        //     : []
-        // }
       >
         <Form.Item
           labelCol={{ span: 4 }}
@@ -667,7 +516,6 @@ const AccountEntryFormNew = () => {
             //   return Number(value).toLocaleString();
             // }}
             onChange={(value) => {
-              //@ts-expect-error this is ignored for NPM
               setSum(value);
             }}
             style={{ width: 400, display: "flex" }}
