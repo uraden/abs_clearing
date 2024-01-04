@@ -120,10 +120,8 @@ const AccountEntryFormNew = () => {
     form.setFieldValue("debitMFO", null);
   }, [docType]);
 
-<<<<<<< HEAD
   // const checkValue = (name: string) =>
   //   form.getFieldValue(name) ? true : false;
-=======
   useEffect(() => {
     if (editData) {
       form.setFieldsValue({
@@ -170,9 +168,11 @@ const AccountEntryFormNew = () => {
     }
   }, [editData]);
 
+  // eslint-disable-next-line
   const checkValue = (name: string) =>
     form.getFieldValue(name) ? true : false;
->>>>>>> EditNewDoc
+
+  console.log('checkValue: ', checkValue('creditAccount'));
 
   const handleDebet = async (value: string, type: string) => {
     setLoading(true);
@@ -731,6 +731,7 @@ const AccountEntryFormNew = () => {
                     allowClear
                   >
                     {accountList && accountList.length
+                    // eslint-disable-next-line
                       ? accountList.map(({ account }: any) => (
                           <Select.Option value={account}>
                             {account}

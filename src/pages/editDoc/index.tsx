@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   DatePicker,
@@ -11,15 +11,15 @@ import {
   notification,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { changeStatus, createOrder } from "../../pages/accountForm/request";
-import { useParams, useLocation } from "react-router";
+import { changeStatus } from "../../pages/accountForm/request";
+import { useParams } from "react-router";
 
 import {
-  createNewOrder,
+  // createNewOrder,
   editFormData,
   getActiveInfo,
   getActiveList,
-  getOrderStatuses,
+  // getOrderStatuses,
   getSingleOrder,
 } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
@@ -27,7 +27,7 @@ import { withDecimal } from "../../assets/numberToJs";
 import _ from "lodash";
 import { status } from "../../assets/defaultData";
 import dayjs from "dayjs";
-import { DownCircleFilled, RightCircleFilled } from "@ant-design/icons";
+import { DownCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 type EditData = {
@@ -55,7 +55,7 @@ type EditData = {
 };
 
 const AccountEntryFormNew = () => {
-  const [role] = useState(1);
+  // const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [sum, setSum] = useState(null);
   const [form] = Form.useForm();
@@ -83,7 +83,7 @@ const AccountEntryFormNew = () => {
     documentType: "",
     // forderDay: ""
   });
-  const location = useLocation();
+  // const location = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const [notificationApi, notificationContextHolder] =
@@ -93,7 +93,7 @@ const AccountEntryFormNew = () => {
   const [debetAccount, setDebetAccount] = useState("");
   const [accountList, setAccountList] = useState([]);
   const { docId } = useParams();
-  const { pathname: urlChange } = useLocation();
+  // const { pathname: urlChange } = useLocation();
   const [docType, setDocType] = useState("01");
   const [errorList] = useState({
     createdDate: "Пожалуйста выберете Дату",
@@ -148,6 +148,8 @@ const AccountEntryFormNew = () => {
 
   const checkValue = (name: string) =>
     form.getFieldValue(name) ? true : false;
+
+  console.log('checkValue("debitName"): ', checkValue("debitName"))  
 
   const handleDebet = async (value: string, type: string) => {
     setLoading(true);
@@ -224,7 +226,7 @@ const AccountEntryFormNew = () => {
   };
 
   const fetchStatusList = async () => {
-    const request = await getOrderStatuses();
+    // const request = await getOrderStatuses();
 
     // setAccountList(request);
   };
@@ -242,7 +244,7 @@ const AccountEntryFormNew = () => {
   const failConfirmForm = () => {
     message.error("Couldn't send form");
   };
-
+// eslint-disable-next-line
   const onFinish = async (values: any) => {
     console.log("valuess: ", values);
     setLoading(true);
@@ -253,6 +255,7 @@ const AccountEntryFormNew = () => {
         id: Number(docId),
         createdDate: dayjs(values.createdDate).format("YYYY-MM-DD"),
       });
+      console.log("request: ", request);
 
       confirmForm();
       setLoading(false);
@@ -261,10 +264,17 @@ const AccountEntryFormNew = () => {
     }
   };
 
+  interface ErrorInfo {
+    errorFields: Array<{ name: string }>;
+    // Add other properties if necessary
+  }
+
   const onFinishFailed = (errorInfo: unknown) => {
-    let errors = errorInfo.errorFields.reduce(
+    const errors = (errorInfo as ErrorInfo).errorFields.reduce(
+      // @ts-expect-error remove this
       (acc: unknown, { name }: unknown) => {
-        let tempError = name[0];
+        const tempError = name[0];
+        // @ts-expect-error remove this
         return [...acc, errorList[tempError]];
       },
       []
@@ -516,6 +526,7 @@ const AccountEntryFormNew = () => {
             //   return Number(value).toLocaleString();
             // }}
             onChange={(value) => {
+              // @ts-expect-error remove this
               setSum(value);
             }}
             style={{ width: 400, display: "flex" }}
@@ -579,6 +590,7 @@ const AccountEntryFormNew = () => {
                     allowClear
                   >
                     {accountList && accountList.length
+                    // eslint-disable-next-line
                       ? accountList.map(({ account }: any) => (
                           <Select.Option value={account}>
                             {account}

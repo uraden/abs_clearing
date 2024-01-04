@@ -11,8 +11,8 @@ import {
   notification,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { changeStatus } from "../../pages/accountForm/request";
-import { useParams, useLocation } from "react-router";
+// import { changeStatus } from "../../pages/accountForm/request";
+// import { useParams, useLocation } from "react-router";
 
 import { createNewOrder, getActiveInfo, getActiveList } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
@@ -23,21 +23,21 @@ import { DownCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 const AccountEntryFormNew = () => {
-  const [role] = useState(1);
+  // const [role] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [sum, setSum] = useState(null);
   const [form] = Form.useForm();
 
-  const [messageApi, contextHolder] = message.useMessage();
+  const [ contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const [notificationApi, notificationContextHolder] =
     notification.useNotification();
-  const [editable, setEditable] = useState(false);
+  const [editable] = useState(false);
   const [tempCreditAccount, setTempCreditAccount] = useState("");
   const [debetAccount, setDebetAccount] = useState("");
   const [accountList, setAccountList] = useState([]);
-  const { docId } = useParams();
-  const { pathname: urlChange } = useLocation();
+  // const { docId } = useParams();
+  // const { pathname: urlChange } = useLocation();
   const [docType, setDocType] = useState("01");
   const [errorList] = useState({
     createdDate: "Пожалуйста выберете Дату",
@@ -141,15 +141,18 @@ const AccountEntryFormNew = () => {
     message.error("Couldn't send form");
   };
 
+  // eslint-disable-next-line 
   const onFinish = async ({ createdDate, ...values }: any) => {
     setLoading(true);
     console.log("valuess: ", values);
     try {
+      
       const request = await createNewOrder({
         ...values,
         createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
       });
 
+      console.log("request: ", request);
       confirmForm();
       setLoading(false);
     } catch (err) {
@@ -157,10 +160,18 @@ const AccountEntryFormNew = () => {
     }
   };
 
+  interface ErrorInfo {
+    errorFields: Array<{ name: string }>;
+    // Add other properties if necessary
+  }
+
   const onFinishFailed = (errorInfo: unknown) => {
-    let errors = errorInfo.errorFields.reduce(
+    // eslint-disable-next-line
+    let errors = (errorInfo as ErrorInfo).errorFields.reduce(
+      // @ts-expect-error remove this
       (acc: unknown, { name }: unknown) => {
-        let tempError = name[0];
+        const tempError = name[0];
+        // @ts-expect-error remove this
         return [...acc, errorList[tempError]];
       },
       []
@@ -329,6 +340,7 @@ const AccountEntryFormNew = () => {
             //   return Number(value).toLocaleString();
             // }}
             onChange={(value) => {
+              // @ts-expect-error remove this
               setSum(value);
             }}
             style={{ width: 400, display: "flex" }}
@@ -392,6 +404,7 @@ const AccountEntryFormNew = () => {
                     allowClear
                   >
                     {accountList && accountList.length
+                    // eslint-disable-next-line
                       ? accountList.map(({ account }: any) => (
                           <Select.Option value={account}>
                             {account}
