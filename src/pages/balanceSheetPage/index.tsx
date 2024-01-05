@@ -139,9 +139,7 @@ export default function BalanceSheetPage() {
 
   const fetchReport = async () => {
     // @ts-expect-error this
-    const response = await getAccountReport({
-      clientId: 1,
-    });
+    const response = await getAccountReport();
     // @ts-expect-error this
     setResponseData(response);
     console.log("ress: ", response);

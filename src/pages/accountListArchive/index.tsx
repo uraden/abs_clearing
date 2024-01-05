@@ -92,7 +92,7 @@ const AccountListArchive = () => {
     setLoading(true);
     // @ts-ignore
     const response = await getAccountArchiveList({
-      clientId: 2,
+      // clientId: 2,
       operday: dayjs(date).format("YYYY-MM-DD"),
     });
     console.log("response: ", response);

@@ -23,11 +23,10 @@ export const editFormData = async (id: unknown) => {
   }
 };
 
-export const getActiveList = async (params: unknown) => {
+export const getActiveList = async () => {
+// export const getActiveList = async (params: unknown) => {
   try {
-    const request = await httpClient.get(api.accountActives(), {
-      params,
-    });
+    const request = await httpClient.get(api.accountActives());
     console.log("req: ", request);
     return request.data;
   } catch (error: unknown) {

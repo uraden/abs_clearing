@@ -121,9 +121,7 @@ const AccountEntryFormNew = () => {
   };
 
   const fetchActiveList = async () => {
-    const request = await getActiveList({
-      clientId: 2,
-    });
+    const request = await getActiveList();
 
     setAccountList(request);
   };
