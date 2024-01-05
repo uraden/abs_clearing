@@ -136,9 +136,7 @@ export default function AccountBalancePage() {
   // ];
 
   const fetchReport = async () => {
-    const response = await getAccountReport({
-      clientId: 1,
-    });
+    const response = await getAccountReport();
 
     setResponseData(response)
     console.log('ress: ', response);
