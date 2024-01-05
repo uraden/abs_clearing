@@ -29,7 +29,7 @@ const AccountEntryFormNew = () => {
   const [sum, setSum] = useState(null);
   const [form] = Form.useForm();
 
-  const [ contextHolder] = message.useMessage();
+  // const [api, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const [notificationApi, notificationContextHolder] =
     notification.useNotification();
@@ -245,7 +245,7 @@ const AccountEntryFormNew = () => {
       </h1>
       <Divider></Divider>
 
-      {contextHolder}
+      {/* {contextHolder} */}
       {notificationContextHolder}
       <Form
         layout="horizontal"
