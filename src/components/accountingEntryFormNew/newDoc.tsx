@@ -136,7 +136,7 @@ const AccountEntryFormNew = () => {
   };
 
   const failConfirmForm = () => {
-    message.error("Couldn't send form");
+    message.error("Поручение не создано");
   };
 
   // eslint-disable-next-line 
