@@ -87,7 +87,6 @@ const AccountReport = () => {
       format2: moment().format("YYYY-MM-DD"),
     });
     fetchAccounts();
-    // @ts-expect-error try
 
     // dispatch(fetchGlobalDate());
   }, []);

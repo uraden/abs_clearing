@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
-import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
+// import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
 import { DatePicker, Tag, Table } from "antd";
 import { getAccountArchiveList } from "./request";
 import type { DatePickerProps } from "antd";

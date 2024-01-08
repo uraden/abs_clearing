@@ -50,7 +50,7 @@ const globalDateSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchGlobalDate.pending, (state, action) => {
+            .addCase(fetchGlobalDate.pending, (state) => {
                 state.status = "loading";
             })
             .addCase(fetchGlobalDate.fulfilled, (state, action) => {
@@ -59,6 +59,7 @@ const globalDateSlice = createSlice({
             })
             .addCase(fetchGlobalDate.rejected, (state, action) => {
                 state.status = "failed";
+                // @ts-expect-error try
                 state.error = action.error.message;
             });
             

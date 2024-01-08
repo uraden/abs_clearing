@@ -25,7 +25,6 @@ const CustomTable: React.FC = ({
   
   useEffect(() => {
     // fetchOperdays();
-    // @ts-expect-error try
     // dispatch(fetchGlobalDate());
   }, []);
   
