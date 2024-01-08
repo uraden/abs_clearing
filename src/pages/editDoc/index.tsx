@@ -11,7 +11,7 @@ import {
   notification,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { changeStatus } from "../../pages/accountForm/request";
+// import { changeStatus } from "../../pages/accountForm/request";
 import { useParams } from "react-router";
 
 import {
@@ -30,7 +30,7 @@ import dayjs from "dayjs";
 import { DownCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { IPurpose } from "../../assets/interfaces";
-import { getPaymentPurposes } from "../accountFormNew/request";
+import { changeStatus, getPaymentPurposes } from "../accountFormNew/request";
 
 type EditData = {
   createdDate: string;

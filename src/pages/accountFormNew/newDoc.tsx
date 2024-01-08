@@ -20,12 +20,18 @@ import _ from "lodash";
 import dayjs from "dayjs";
 import { DownCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+// import {
+// createNewOrder,
+// getActiveList,
+// } from "../../components/accountingEntryFormNew/request";
+
+// import { getActiveInfo } from "../../components/accountingEntryForm/request";
 import {
   createNewOrder,
+  getPaymentPurposes,
   getActiveList,
-} from "../../components/accountingEntryFormNew/request";
-import { getActiveInfo } from "../../components/accountingEntryForm/request";
-import { getPaymentPurposes } from "./request";
+  getActiveInfo,
+} from "./request";
 import { IPurpose } from "../../assets/interfaces";
 
 const AccountEntryFormNew = () => {
@@ -157,7 +163,7 @@ const AccountEntryFormNew = () => {
         createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
       });
 
-      console.log('reqq: ', request);
+      console.log("reqq: ", request);
 
       confirmForm();
       setLoading(false);
@@ -241,7 +247,6 @@ const AccountEntryFormNew = () => {
     }
     return Promise.resolve();
   };
-
 
   return (
     <>
@@ -403,7 +408,7 @@ const AccountEntryFormNew = () => {
                     style={{
                       width: 400,
                       display: "flex",
-                      textAlign: 'left'
+                      textAlign: "left",
                     }}
                     onChange={(value: string) => handleDebet(value, "debet")}
                     allowClear
@@ -680,6 +685,7 @@ const AccountEntryFormNew = () => {
             onChange={onChange}
             onSearch={onSearch}
             filterOption={filterOption}
+            // @ts-ignore
             options={purposeList.map((purpose: IPurpose) => ({
               label: `${purpose.code} - ${purpose.name}`,
               value: purpose.code,
