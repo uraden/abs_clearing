@@ -680,6 +680,7 @@ const AccountEntryFormNew = () => {
             onChange={onChange}
             onSearch={onSearch}
             filterOption={filterOption}
+            // @ts-expect-error try
             options={purposeList.map((purpose: IPurpose) => ({
               label: `${purpose.code} - ${purpose.name}`,
               value: purpose.code,
