@@ -12,3 +12,9 @@ export interface IMenuList {
   mode?: string
   children?: IMenuList[],
 }
+
+export interface IOperday {
+  date: string;
+  id: number;
+  isActive: boolean;
+}
