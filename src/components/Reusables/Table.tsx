@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Table, Divider } from "antd";
 import { useLocation } from "react-router-dom";
-import moment from "moment";
 import { getOperdays } from "../../assets/reusable/requests";
 import { IOperday } from "../../assets/interfaces";
 import dayjs from "dayjs";
