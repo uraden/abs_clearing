@@ -10,8 +10,9 @@ import { Button, Layout, Menu, Modal, Popover, theme } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import CustomPassword from "../../components/password";
-import { getOperdays, getProfile } from "../../assets/reusable/requests";
+import { getProfile } from "../../assets/reusable/requests";
 import dayjs from "dayjs";
+import { fetchOperDay } from "../../assets/reusable/functions";
 
 const { Header, Content, Footer } = Layout;
 
@@ -80,8 +81,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   };
 
   const fetchOperdays = async () => {
-    const response = await getOperdays();
-    setOperday(response.find((day: IOperday) => day.isActive));
+    const response = await fetchOperDay();
+    console.log('ressss: ', response);
+    setOperday(response);
   };
 
   useEffect(() => {
@@ -107,6 +109,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="logo" />
   );
 
+  console.log('operDay', operDay);
   const items: MenuItem[] = [
     getItem(logoImg, ""),
     getItem("Счета", "account-page-home", <PieChartOutlined />, [

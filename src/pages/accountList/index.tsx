@@ -7,11 +7,12 @@ import CustomTable from "../../components/Reusables/Table";
 import moment from "moment";
 import { status } from "../../assets/defaultData";
 import _ from "lodash";
+import { fetchOperDay } from "../../assets/reusable/functions";
+import dayjs from "dayjs";
 
 const AccoutDocs = () => {
   const [isLoading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-
   const columns = [
     { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber" },
     {
@@ -82,12 +83,20 @@ const AccoutDocs = () => {
     },
   ];
 
-  const getList = async () => {
+  const fetchOperdays = async () => {
+    const response = await fetchOperDay();
+    // setOperday(response);
+
+    await getList(response.date);
+  }
+
+
+  const getList = async (operday: string) => {
     setLoading(true);
     // @ts-ignore
     const response = await getAccountArchiveList({
       // clientId: 2,
-      operday: moment().format("YYYY-MM-DD"),
+      operday: dayjs(operday).format("YYYY-MM-DD"),
     });
     console.log("response: ", response);
     setDataSource(
@@ -133,7 +142,7 @@ const AccoutDocs = () => {
   };
 
   useEffect(() => {
-    getList();
+    fetchOperdays();
   }, []);
 
   return (

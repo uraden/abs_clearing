@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import {  DatePicker, Tag, Table } from "antd";
+import { DatePicker, Tag, Table } from "antd";
 import { getAccountArchiveList } from "./request";
 // import CustomTable from "../../components/Reusables/Table";
 // import { Link } from "react-router-dom";
 import type { DatePickerProps } from "antd";
-import moment, { } from "moment";
+import moment from "moment";
 import { status } from "../../assets/defaultData";
 import _ from "lodash";
 import dayjs from "dayjs";
+import { fetchOperDay } from "../../assets/reusable/functions";
+import { IOperday } from "../../assets/interfaces";
 
 // interface YourRecordType {
 //   key: string;
@@ -16,8 +18,8 @@ import dayjs from "dayjs";
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [datePickedM, setDatePckedM] = useState(dayjs().format("DD.MM.YYYY"));
-
+  // const [datePickedM, setDatePckedM] = useState(dayjs().format("DD.MM.YYYY"));
+  const [operday, setOperday] = useState<IOperday>();
   const columns = [
     { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber" },
     {
@@ -87,15 +89,25 @@ const AccountListArchive = () => {
     //   ),
     // },
   ];
+  const fetchOperdays = async () => {
+    const response = await fetchOperDay();
+    setOperday(response);
+    await getList(response.date)
+  };
 
-  const getList = async (date: any) => {
+  useEffect(() => {
+    fetchOperdays();
+  }, []);
+
+  const getList = async (date: unknown) => {
     setLoading(true);
     // @ts-ignore
     const response = await getAccountArchiveList({
-      // clientId: 2,
+      
+      // @ts-expect-error try
       operday: dayjs(date).format("YYYY-MM-DD"),
     });
-    console.log("response: ", response);
+    // console.log("response: ", response);
     setDataSource(
       response.map(
         (item: {
@@ -138,13 +150,13 @@ const AccountListArchive = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    getList(moment().format("YYYY-MM-DD"));
-  }, []);
+  // useEffect(() => {
+    // getList(moment().format("YYYY-MM-DD"));
+  // }, []);
 
   const onChange: DatePickerProps["onChange"] = (dateString) => {
-    let tempDate = dayjs(dateString);
-    setDatePckedM(tempDate.format("DD.MM.YYYY"));
+    const tempDate = dayjs(dateString);
+    // setDatePckedM(tempDate.format("DD.MM.YYYY"));
     getList(tempDate);
   };
 
@@ -161,13 +173,10 @@ const AccountListArchive = () => {
         <h3>Выберите дату:</h3>
         <DatePicker onChange={onChange} defaultValue={dayjs()} />
       </div>
-      <div className="title">
-        Архив документов
-      </div>
+      <div className="title">Архив документов</div>
       <div className="todays_date">
-          Дата:{" "}
-          <span style={{ fontWeight: 700 }}>{datePickedM}</span>
-        </div>
+        Дата: <span style={{ fontWeight: 700 }}>{dayjs(operday?.date).format('DD.MM.YYYY')}</span>
+      </div>
       <Table
         loading={isLoading}
         dataSource={dataSource}

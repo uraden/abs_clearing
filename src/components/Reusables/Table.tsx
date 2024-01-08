@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import { Table, Divider } from "antd";
 import { useLocation } from "react-router-dom";
-import { getOperdays } from "../../assets/reusable/requests";
 import { IOperday } from "../../assets/interfaces";
 import dayjs from "dayjs";
+import { fetchOperDay } from "../../assets/reusable/functions";
 // import { useAccountList } from "../../pages/accountList/request";
 
 const CustomTable: React.FC = ({
@@ -22,8 +22,8 @@ const CustomTable: React.FC = ({
   }, []);
   
   const fetchOperdays = async () => {
-    const response = await getOperdays();
-    setOperday(response.find((day: IOperday) => day.isActive));
+    const response = await fetchOperDay();
+    setOperday(response);
   };
 
   return (
