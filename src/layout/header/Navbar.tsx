@@ -231,7 +231,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
               style={{ margin: "0 16px", verticalAlign: "middle" }}
               // onClick={changeUser}
             >
-              {profile.fullName}
+              {profile.fullName} - {profile.clientName}
             </Button>
           </Popover>
         </div>
