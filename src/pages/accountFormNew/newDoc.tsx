@@ -686,6 +686,7 @@ const AccountEntryFormNew = () => {
             onSearch={onSearch}
             filterOption={filterOption}
             // @ts-ignore
+            // @ts-expect-error try
             options={purposeList.map((purpose: IPurpose) => ({
               label: `${purpose.code} - ${purpose.name}`,
               value: purpose.code,

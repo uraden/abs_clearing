@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
@@ -99,41 +101,10 @@ export default function AccountBalancePage() {
       align: "right",
     },
   ];
-
-  // const data: DataType[] = [
-  //   {
-  //     key: "1",
-  //     account: "1610451354008825",
-  //     remainder: "0.00",
-  //     debit: "10,000",
-  //     credit: "12,000",
-  //     end: "2,000",
-  //   },
-  //   {
-  //     key: "2",
-  //     account: "2020153305612412",
-  //     remainder: "3,814,622",
-  //     debit: "10,000",
-  //     credit: "12,000",
-  //     end: "2,000",
-  //   },
-  //   {
-  //     key: "3",
-  //     account: "1006833431150330",
-  //     remainder: "0.00",
-  //     debit: "10,000",
-  //     credit: "12,000",
-  //     end: "2,000",
-  //   },
-  //   {
-  //     key: "4",
-  //     account: "2020158885612412",
-  //     remainder: "0.00",
-  //     debit: "10,000",
-  //     credit: "12,000",
-  //     end: "2,000",
-  //   },
-  // ];
+   
+  const dispatch = useDispatch();
+  // @ts-expect-error try
+  const { globalDate } = useSelector((state: unknown) => state.globalDate);
 
   const fetchReport = async () => {
     const response = await getAccountReport();
@@ -144,6 +115,8 @@ export default function AccountBalancePage() {
 
   useEffect(() => {
     fetchReport();
+    // @ts-expect-error try
+    dispatch(fetchGlobalDate());
   }, []);
 
   // const mappedData: DataType[] | undefined = responseData
@@ -152,8 +125,8 @@ export default function AccountBalancePage() {
     <div>
       <div className="main-table-1-account">
         <div className="title">
-          Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на{" "}
-          {dayjs().format("DD.MM.YYYY")}
+          Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на {" "}
+          {dayjs(globalDate.date).format("DD.MM.YYYY")}
         </div>
         <Table
           columns={columns}

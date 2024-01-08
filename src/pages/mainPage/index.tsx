@@ -1,6 +1,8 @@
 import { Table } from "antd";
 // import type { ColumnsType } from "antd/es/table";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
 
 const Main = () => {
   // interface DataType {
@@ -159,6 +161,17 @@ const Main = () => {
     }
   ]
 
+  const dispatch = useDispatch();
+  // @ts-expect-error try
+  const { globalDate } = useSelector((state: unknown) => state.globalDate);
+
+
+  useEffect(() => {
+    // @ts-expect-error try
+    dispatch(fetchGlobalDate());
+  }, [dispatch]);
+
+  console.log(globalDate);
   return (
     <div>
       <div className="main-table-2">
@@ -171,7 +184,7 @@ const Main = () => {
           style={{ width: 280, marginRight: 20 }}
           title={() => (
             <tr style={{ textAlign: "center" }}>
-              <h3> Срок действия пароля </h3>
+              <h3>  Срок действия пароля </h3>
             </tr>
           )}
           showHeader={false}
