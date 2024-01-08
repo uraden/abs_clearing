@@ -162,14 +162,16 @@ const Main = () => {
   ]
 
   const dispatch = useDispatch();
+  // @ts-expect-error try
   const { globalDate } = useSelector((state: unknown) => state.globalDate);
 
 
   useEffect(() => {
+    // @ts-expect-error try
     dispatch(fetchGlobalDate());
   }, [dispatch]);
 
-  console.log("globalDate: ", globalDate);
+  console.log(globalDate);
   return (
     <div>
       <div className="main-table-2">
