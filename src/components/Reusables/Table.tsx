@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
+import { useSelector } from 'react-redux';
+// import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
 import { Table, Divider } from "antd";
 import { useLocation } from "react-router-dom";
-import { IOperday } from "../../assets/interfaces";
+// import { IOperday } from "../../assets/interfaces";
 import dayjs from "dayjs";
-import { fetchOperDay } from "../../assets/reusable/functions";
+// import { fetchOperDay } from "../../assets/reusable/functions";
 // import { useAccountList } from "../../pages/accountList/request";
 
 const CustomTable: React.FC = ({
@@ -15,16 +17,21 @@ const CustomTable: React.FC = ({
 }: any) => {
   const location = useLocation();
   
-  const [operday, setOperday] = useState<IOperday>();
+  // const [operday, setOperday] = useState<IOperday>();
+
+  // const dispatch = useDispatch();
+  // @ts-expect-error try
+  const { globalDate } = useSelector((state: unknown) => state.globalDate);
   
   useEffect(() => {
-    fetchOperdays();
+    // fetchOperdays();
+    // dispatch(fetchGlobalDate());
   }, []);
   
-  const fetchOperdays = async () => {
-    const response = await fetchOperDay();
-    setOperday(response);
-  };
+  // const fetchOperdays = async () => {
+  //   const response = await fetchOperDay();
+  //   // setOperday(response);
+  // };
 
   return (
     <>
@@ -33,12 +40,11 @@ const CustomTable: React.FC = ({
       </div>
 
       <div className="todays_date">
-        {" "}
         Операционный день
         <span style={{ fontWeight: 700 }}>
           {location.pathname === "/account-list" ||
           location.pathname === "/draft-form"
-            ? ` - ${dayjs(operday?.date).format('DD.MM.YYYY')} `
+            ? ` - ${dayjs(globalDate?.date).format('DD.MM.YYYY')}`
             : ` - ${datePicked}`}
         </span>
       </div>

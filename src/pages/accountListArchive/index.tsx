@@ -1,25 +1,31 @@
 import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
+// import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
 import { DatePicker, Tag, Table } from "antd";
 import { getAccountArchiveList } from "./request";
-// import CustomTable from "../../components/Reusables/Table";
-// import { Link } from "react-router-dom";
 import type { DatePickerProps } from "antd";
 import moment from "moment";
 import { status } from "../../assets/defaultData";
 import _ from "lodash";
 import dayjs from "dayjs";
 import { fetchOperDay } from "../../assets/reusable/functions";
-import { IOperday } from "../../assets/interfaces";
+// import { IOperday } from "../../assets/interfaces";
 
-// interface YourRecordType {
-//   key: string;
-// }
+
 
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   // const [datePickedM, setDatePckedM] = useState(dayjs().format("DD.MM.YYYY"));
-  const [operday, setOperday] = useState<IOperday>();
+  // const [operday, setOperday] = useState<IOperday>();
+
+      // redux is below 
+      // const dispatch = useDispatch();
+
+      // @ts-expect-error try
+      const { globalDate } = useSelector((state: unknown) => state.globalDate);
+
+
   const columns = [
     { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber" },
     {
@@ -91,17 +97,18 @@ const AccountListArchive = () => {
   ];
   const fetchOperdays = async () => {
     const response = await fetchOperDay();
-    setOperday(response);
+    // setOperday(response);
     await getList(response.date)
   };
 
   useEffect(() => {
     fetchOperdays();
+    // dispatch(fetchGlobalDate());
   }, []);
 
   const getList = async (date: unknown) => {
     setLoading(true);
-    // @ts-ignore
+    // @ts-expect-error try
     const response = await getAccountArchiveList({
       
       // @ts-expect-error try
@@ -175,7 +182,7 @@ const AccountListArchive = () => {
       </div>
       <div className="title">Архив документов</div>
       <div className="todays_date">
-        Дата: <span style={{ fontWeight: 700 }}>{dayjs(operday?.date).format('DD.MM.YYYY')}</span>
+        Дата: <span style={{ fontWeight: 700 }}>{dayjs(globalDate?.date).format('DD.MM.YYYY')}</span>
       </div>
       <Table
         loading={isLoading}

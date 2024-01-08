@@ -3,6 +3,9 @@ import { Button,  Form, Select, notification } from "antd";
 import moment from "moment";
 import { getAccountReportData, getAccounts } from "./request";
 import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
+// import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
+import dayjs from "dayjs";
 import * as ExcelJS from 'exceljs';
 
 const AccountReport = () => {
@@ -74,12 +77,18 @@ const AccountReport = () => {
     setAccountList(request.map(({ account }: any) => account));
   };
 
+  // const dispatch = useDispatch();
+  // @ts-expect-error try
+  const { globalDate } = useSelector((state: unknown) => state.globalDate);
+
   useEffect(() => {
     setCurrentTime({
       format1: moment().format("DD.MM.YYYY"),
       format2: moment().format("YYYY-MM-DD"),
     });
     fetchAccounts();
+
+    // dispatch(fetchGlobalDate());
   }, []);
 
   //eslint-disable-next-line
@@ -274,7 +283,7 @@ const AccountReport = () => {
   return (
     <div style={{ padding: 8, fontSize: 16 }}>
       {contextHolder}
-      <div className="title"> Выписка лицевых счетов</div>
+      <div className="title"> Выписка лицевых счетов </div>
       <div
         style={{
           display: "flex",
@@ -306,7 +315,7 @@ const AccountReport = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label="Дата">{currentTime.format1}</Form.Item>
+          <Form.Item label="Дата">{dayjs(globalDate?.date).format('DD.MM.YYYY')}</Form.Item>
           <Form.Item>
             <Button style={{ outline: 'none' }} loading={isLoading} type="primary" htmlType="submit">
               Скачать отчет

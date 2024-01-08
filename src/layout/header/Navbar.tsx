@@ -1,4 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
 import {
   FileTextOutlined,
   PieChartOutlined,
@@ -12,7 +14,7 @@ import logo from "../../assets/images/logo.png";
 import CustomPassword from "../../components/password";
 import { getProfile } from "../../assets/reusable/requests";
 import dayjs from "dayjs";
-import { fetchOperDay } from "../../assets/reusable/functions";
+// import { fetchOperDay } from "../../assets/reusable/functions";
 
 const { Header, Content, Footer } = Layout;
 
@@ -27,11 +29,11 @@ interface IProfile {
   userName: string;
 }
 
-interface IOperday {
-  date: string;
-  id: number;
-  isActive: boolean;
-}
+// interface IOperday {
+//   date: string;
+//   id: number;
+//   isActive: boolean;
+// }
 
 const Navbar = ({ children }: { children: ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,11 +55,19 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     roleName: "",
     userName: "",
   });
-  const [operDay, setOperday] = useState<IOperday>({
-    date: "",
-    id: 0,
-    isActive: false,
-  });
+  // const [operDay, setOperday] = useState<IOperday>({
+  //   date: "",
+  //   id: 0,
+  //   isActive: false,
+  // });
+
+
+    // redux is below 
+    const dispatch = useDispatch();
+
+    // @ts-expect-error try
+    const { globalDate } = useSelector((state: unknown) => state.globalDate);
+
 
   type MenuItem = Required<MenuProps>["items"][number];
 
@@ -80,15 +90,17 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     setProfile(response);
   };
 
-  const fetchOperdays = async () => {
-    const response = await fetchOperDay();
-    console.log('ressss: ', response);
-    setOperday(response);
-  };
+  // const fetchOperdays = async () => {
+  //   const response = await fetchOperDay();
+  //   console.log('ressss: ', response);
+  //   setOperday(response);
+  // };
 
   useEffect(() => {
     fetchProfile();
-    fetchOperdays();
+    // fetchOperdays();
+    // @ts-expect-error try
+    dispatch(fetchGlobalDate());
   }, []);
 
   const currentYear = new Date().getFullYear();
@@ -109,7 +121,6 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     <img style={{ maxWidth: "100%", height: 70 }} src={logo} alt="logo" />
   );
 
-  console.log('operDay', operDay);
   const items: MenuItem[] = [
     getItem(logoImg, ""),
     getItem("Счета", "account-page-home", <PieChartOutlined />, [
@@ -225,7 +236,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             textAlign: "end",
           }}
         >
-          Опер. день: {dayjs(operDay.date).format("DD.MM.YYYY")}
+          Опер. день: {dayjs(globalDate.date).format("DD.MM.YYYY")}
         </div>
         <div>
           <Popover trigger="click" title={"Настройки"} content={content}>
