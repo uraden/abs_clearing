@@ -59,3 +59,17 @@ export const changeStatus = async (body: unknown) => {
     }
   }
 }
+
+export const getPaymentPurposes = async () => {
+  try {
+    const request = await httpClient.get(api.paymentPurposeList());
+    console.log("req: ", request);
+    return request.data;
+  } catch (error: unknown) {
+    const myError = error as MyError;
+    if (myError.response) {
+      console.log("requesttt: ", myError.response.data);
+      return myError.response.data;
+    }
+  }
+}

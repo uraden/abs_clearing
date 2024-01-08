@@ -18,3 +18,8 @@ export interface IOperday {
   id: number;
   isActive: boolean;
 }
+
+export interface IPurpose {
+  code: number;
+  name: string;
+}

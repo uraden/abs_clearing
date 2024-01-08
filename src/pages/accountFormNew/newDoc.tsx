@@ -20,8 +20,13 @@ import _ from "lodash";
 import dayjs from "dayjs";
 import { DownCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { createNewOrder, getActiveList } from "../../components/accountingEntryFormNew/request";
+import {
+  createNewOrder,
+  getActiveList,
+} from "../../components/accountingEntryFormNew/request";
 import { getActiveInfo } from "../../components/accountingEntryForm/request";
+import { getPaymentPurposes } from "./request";
+import { IPurpose } from "../../assets/interfaces";
 
 const AccountEntryFormNew = () => {
   // const [role] = useState(1);
@@ -37,6 +42,7 @@ const AccountEntryFormNew = () => {
   const [tempCreditAccount, setTempCreditAccount] = useState("");
   const [debetAccount, setDebetAccount] = useState("");
   const [accountList, setAccountList] = useState([]);
+  const [purposeList, setPurposeList] = useState<IPurpose[]>([]);
   // const { docId } = useParams();
   // const { pathname: urlChange } = useLocation();
   const [docType, setDocType] = useState("01");
@@ -123,8 +129,9 @@ const AccountEntryFormNew = () => {
 
   const fetchActiveList = async () => {
     const request = await getActiveList();
-
     setAccountList(request);
+    const paymentPurpose = await getPaymentPurposes();
+    setPurposeList(paymentPurpose);
   };
 
   useEffect(() => {
@@ -132,15 +139,15 @@ const AccountEntryFormNew = () => {
   }, []);
 
   const confirmForm = () => {
-    message.success("Поручение создано");
+    message.success("Документ создан");
     navigate("/account-list");
   };
 
   const failConfirmForm = () => {
-    message.error("Couldn't send form");
+    message.error("Документ не создан");
   };
 
-  // eslint-disable-next-line 
+  // eslint-disable-next-line
   const onFinish = async ({ createdDate, ...values }: any) => {
     setLoading(true);
     console.log("valuess: ", values);
@@ -150,7 +157,7 @@ const AccountEntryFormNew = () => {
         createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
       });
 
-      console.log("request: ", request);
+      console.log('reqq: ', request);
 
       confirmForm();
       setLoading(false);
@@ -163,7 +170,6 @@ const AccountEntryFormNew = () => {
     errorFields: Array<{ name: string }>;
     // Add other properties if necessary
   }
-
 
   const onFinishFailed = (errorInfo: unknown) => {
     const errors = (errorInfo as ErrorInfo).errorFields.reduce(
@@ -236,11 +242,10 @@ const AccountEntryFormNew = () => {
     return Promise.resolve();
   };
 
+
   return (
     <>
-      <h1 style={{ textAlign: "center", marginBottom: 16 }}>
-        Новое поручение
-      </h1>
+      <h1 style={{ textAlign: "center", marginBottom: 16 }}>Новое поручение</h1>
       <Divider></Divider>
 
       {/* {contextHolder} */}
@@ -391,20 +396,21 @@ const AccountEntryFormNew = () => {
                 ]}
                 name="debitAccount"
                 labelCol={{ span: 8 }}
-                wrapperCol={{ span: 20 }}
+                wrapperCol={{ span: 16 }}
               >
                 {docType === "01" ? (
                   <Select
                     style={{
                       width: 400,
                       display: "flex",
+                      textAlign: 'left'
                     }}
                     onChange={(value: string) => handleDebet(value, "debet")}
                     allowClear
                   >
                     {accountList && accountList.length
-                    // eslint-disable-next-line 
-                      ? accountList.map(({ account }: any) => (
+                      ? // eslint-disable-next-line
+                        accountList.map(({ account }: any) => (
                           <Select.Option value={account}>
                             {account}
                           </Select.Option>
@@ -663,7 +669,7 @@ const AccountEntryFormNew = () => {
           name="codeNaznachentiya"
           rules={[
             { required: true, message: "" },
-            { validator: validateDokNumber },
+            // { validator: validateDokNumber },
           ]}
         >
           <Select
@@ -674,74 +680,10 @@ const AccountEntryFormNew = () => {
             onChange={onChange}
             onSearch={onSearch}
             filterOption={filterOption}
-            options={[
-              {
-                value: "08101",
-                label:
-                  "08101 - Предоплата по налогам и другим обязательным платежам",
-              },
-              {
-                value: "08102",
-                label:
-                  "08102 - Оплата налогов и других обязательных платежей по расчёту",
-              },
-              {
-                value: "08103",
-                label:
-                  "08103 - Оплата налогов и других обязательных платежей по перерасчёту",
-              },
-              {
-                value: "08104",
-                label:
-                  "08104 - Оплата налогов и других обязательных платежей по итогам камеральной проверки",
-              },
-              {
-                value: "08105",
-                label:
-                  "08105 - Оплата налогов и других обязательных платежей по итогам проверок ГНИ",
-              },
-              {
-                value: "08106",
-                label:
-                  "08106 - Оплата доначисленных налогов на счета правоохранительных органов",
-              },
-              {
-                value: "08107",
-                label:
-                  "08107 - Оплата налогов, взысканных судебными исполнителями",
-              },
-              {
-                value: "08108",
-                label: "08108 - Пеня",
-              },
-              {
-                value: "08201",
-                label: "08201 - Разовый платёж в бюджет – за регистрацию",
-              },
-              {
-                value: "08202",
-                label: "08202 - Разовый платёж в бюджет – пеня ",
-              },
-              {
-                value: "08203",
-                label: "08203 - Разовый платёж в бюджет – финансовые санкции",
-              },
-              {
-                value: "08301",
-                label:
-                  "08301 - Разовый платёж в бюджет между хоз.субъектами – за регистрацию ",
-              },
-              {
-                value: "08302",
-                label:
-                  "08302 - Разовый платёж в бюджет между хоз.субъектами – пеня ",
-              },
-              {
-                value: "08303",
-                label:
-                  "08303 - Разовый платёж в бюджет между хоз.субъектами – финансовые санкции",
-              },
-            ]}
+            options={purposeList.map((purpose: IPurpose) => ({
+              label: `${purpose.code} - ${purpose.name}`,
+              value: purpose.code,
+            }))}
             style={{ width: "80%", display: "flex" }}
           />
         </Form.Item>

@@ -27,4 +27,5 @@ export default {
   operDays: () => [baseUrl, "oper-day", "all"].join("/"),
   orderChange: () => [baseUrl, "doc", "change"].join("/"),
   orderStatus: () => [baseUrl, "doc", "status", "all"].join("/"),
+  paymentPurposeList: () => [baseUrl, "payment-purpose", "all"].join("/"),
 };

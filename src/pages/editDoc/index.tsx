@@ -29,6 +29,8 @@ import { status } from "../../assets/defaultData";
 import dayjs from "dayjs";
 import { DownCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { IPurpose } from "../../assets/interfaces";
+import { getPaymentPurposes } from "../accountFormNew/request";
 
 type EditData = {
   createdDate: string;
@@ -59,7 +61,7 @@ const AccountEntryFormNew = () => {
   const [isLoading, setLoading] = useState(false);
   const [sum, setSum] = useState(null);
   const [form] = Form.useForm();
-
+  const [purposeList, setPurposeList] = useState<IPurpose[]>([]);
   const [editData, setEditData] = useState<EditData>({
     createdDate: "",
     documentNumber: null,
@@ -109,9 +111,16 @@ const AccountEntryFormNew = () => {
   });
 
   const fetchEditForm = async () => {
+    const paymentPurpose = await getPaymentPurposes();
+    setPurposeList(paymentPurpose);
     const infoEdit = await getSingleOrder(Number(docId));
     setEditData(infoEdit);
   };
+
+  useEffect(() => {
+    fetchEditForm();
+    setEditable(true);
+  }, []);
 
   useEffect(() => {
     form.setFieldValue("debitAccount", null);
@@ -145,11 +154,6 @@ const AccountEntryFormNew = () => {
       });
     }
   }, [editData]);
-
-  const checkValue = (name: string) =>
-    form.getFieldValue(name) ? true : false;
-
-  console.log('checkValue("debitName"): ', checkValue("debitName"))  
 
   const handleDebet = async (value: string, type: string) => {
     setLoading(true);
@@ -211,11 +215,6 @@ const AccountEntryFormNew = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    setEditable(true);
-    fetchEditForm();
-  }, []);
-
   const fetchActiveList = async () => {
     const request = await getActiveList();
     // const request = await getActiveList({
@@ -225,15 +224,14 @@ const AccountEntryFormNew = () => {
     setAccountList(request);
   };
 
-  const fetchStatusList = async () => {
-    // const request = await getOrderStatuses();
-
-    // setAccountList(request);
-  };
+  // const fetchStatusList = async () => {
+  // const request = await getOrderStatuses();
+  // setAccountList(request);
+  // };
 
   useEffect(() => {
     fetchActiveList();
-    fetchStatusList();
+    // fetchStatusList();
   }, []);
 
   const confirmForm = () => {
@@ -244,7 +242,7 @@ const AccountEntryFormNew = () => {
   const failConfirmForm = () => {
     message.error("Couldn't send form");
   };
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const onFinish = async (values: any) => {
     console.log("valuess: ", values);
     setLoading(true);
@@ -585,13 +583,14 @@ const AccountEntryFormNew = () => {
                     style={{
                       width: 400,
                       display: "flex",
+                      textAlign: "left",
                     }}
                     onChange={(value: string) => handleDebet(value, "debet")}
                     allowClear
                   >
                     {accountList && accountList.length
-                    // eslint-disable-next-line
-                      ? accountList.map(({ account }: any) => (
+                      ? // eslint-disable-next-line
+                        accountList.map(({ account }: any) => (
                           <Select.Option value={account}>
                             {account}
                           </Select.Option>
@@ -861,74 +860,10 @@ const AccountEntryFormNew = () => {
             onChange={onChange}
             onSearch={onSearch}
             filterOption={filterOption}
-            options={[
-              {
-                value: "08101",
-                label:
-                  "08101 - Предоплата по налогам и другим обязательным платежам",
-              },
-              {
-                value: "08102",
-                label:
-                  "08102 - Оплата налогов и других обязательных платежей по расчёту",
-              },
-              {
-                value: "08103",
-                label:
-                  "08103 - Оплата налогов и других обязательных платежей по перерасчёту",
-              },
-              {
-                value: "08104",
-                label:
-                  "08104 - Оплата налогов и других обязательных платежей по итогам камеральной проверки",
-              },
-              {
-                value: "08105",
-                label:
-                  "08105 - Оплата налогов и других обязательных платежей по итогам проверок ГНИ",
-              },
-              {
-                value: "08106",
-                label:
-                  "08106 - Оплата доначисленных налогов на счета правоохранительных органов",
-              },
-              {
-                value: "08107",
-                label:
-                  "08107 - Оплата налогов, взысканных судебными исполнителями",
-              },
-              {
-                value: "08108",
-                label: "08108 - Пеня",
-              },
-              {
-                value: "08201",
-                label: "08201 - Разовый платёж в бюджет – за регистрацию",
-              },
-              {
-                value: "08202",
-                label: "08202 - Разовый платёж в бюджет – пеня ",
-              },
-              {
-                value: "08203",
-                label: "08203 - Разовый платёж в бюджет – финансовые санкции",
-              },
-              {
-                value: "08301",
-                label:
-                  "08301 - Разовый платёж в бюджет между хоз.субъектами – за регистрацию ",
-              },
-              {
-                value: "08302",
-                label:
-                  "08302 - Разовый платёж в бюджет между хоз.субъектами – пеня ",
-              },
-              {
-                value: "08303",
-                label:
-                  "08303 - Разовый платёж в бюджет между хоз.субъектами – финансовые санкции",
-              },
-            ]}
+            options={purposeList.map((purpose: IPurpose) => ({
+              label: `${purpose.code} - ${purpose.name}`,
+              value: `${purpose.code}`,
+            }))}
             style={{ width: "80%", display: "flex" }}
           />
         </Form.Item>
