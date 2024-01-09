@@ -243,6 +243,14 @@ const AccountEntryFormNew = () => {
   };
 
 
+
+  // @ts-expect-error try
+  const normalizeValue = (value) => {
+    // Just replace the following regex to what you wnat
+    const filteredValue = value.replace(/[^a-zA-Z0-9\s]/g, '');
+    return filteredValue;
+   }
+
   return (
     <>
       <h1 style={{ textAlign: "center", marginBottom: 16 }}>Новое поручение</h1>
@@ -338,20 +346,30 @@ const AccountEntryFormNew = () => {
           }}
         >
           <InputNumber
-            // type="number"
-            // formatter={(value) => {
-            //   console.log("valuee: ", value);
-            //   return Number(value).toLocaleString();
-            // }}
+            decimalSeparator="."	
+            
+            formatter={(value) => {
+              if (value && value.toString().includes(".")) {
+                const [int, decimal] = value.toString().split(".");
+                return `${int}.${decimal.slice(0, 2)}`;
+              }
+              return value;
+            }}
+            // write parser function to remove all non decimal character when user input
+            parser={(value) => {
+              if (!value || value === ".") {
+                return "";
+              }
+              return value.replace(/[^0-9.]/g, "");
+            }}
+          
             onChange={(value) => {
               // @ts-expect-error try
               setSum(value);
+              
             }}
             style={{ width: 400, display: "flex" }}
-            // parser={(value) => {
-            //   console.log('par: ',  value.toLocaleString());
-            //   return value.replace(/\$\s?|(,*)/g, "");
-            // }}
+           
           />
         </Form.Item>
         {sum ? (
@@ -498,8 +516,11 @@ const AccountEntryFormNew = () => {
               label="Код банка плательщика"
               name="debitMFO"
               rules={[{ required: true, message: "" }]}
+              normalize={normalizeValue}
             >
-              <Input maxLength={5} style={{ width: 400, display: "flex" }} />
+              <Input
+                maxLength={5} 
+                style={{ width: 400, display: "flex" }} />
             </Form.Item>
           </div>
 
@@ -645,8 +666,11 @@ const AccountEntryFormNew = () => {
               name="creditMFO"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
+              normalize={normalizeValue}
             >
               <Input
+                
+
                 maxLength={5}
                 // readOnly={checkValue("creditMFO")}
                 style={{
