@@ -252,10 +252,9 @@ const AccountEntryFormNew = () => {
 
   // @ts-expect-error try
   const normalizeValue = (value) => {
-    // Just replace the following regex to what you wnat
-    const filteredValue = value.replace(/[^a-zA-Z0-9\s]/g, '');
+    const filteredValue = value.replace(/\D/g, '');
     return filteredValue;
-   }
+  }
 
   return (
     <>
