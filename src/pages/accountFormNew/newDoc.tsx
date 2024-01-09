@@ -348,6 +348,7 @@ const AccountEntryFormNew = () => {
           <InputNumber
             decimalSeparator="."	
             
+            // @ts-expect-error try
             formatter={(value) => {
               if (value && value.toString().includes(".")) {
                 const [int, decimal] = value.toString().split(".");
