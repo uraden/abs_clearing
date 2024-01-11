@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -8,8 +8,7 @@ import dayjs from "dayjs";
 import { getAccountReport } from "./request";
 
 export default function AccountBalancePage() {
-
-  const [responseData, setResponseData] = useState<DataType[]>()
+  const [responseData, setResponseData] = useState<DataType[]>();
 
   interface DataType {
     key: string;
@@ -25,17 +24,16 @@ export default function AccountBalancePage() {
 
   //@ts-expect-errortry
   const mappedData: DataType[] | undefined = responseData
-  ? responseData.map((item) => ({
-      key: item.key,
-      account: item.account,
-      branchMFO: item.branchMFO,
-      beginAmount: item.beginAmount,
-      endAmount: item.endAmount,
-      debit: item.debit,
-      credit: item.credit
-   
-    }))
-  : undefined;
+    ? responseData.map((item) => ({
+        key: item.key,
+        account: item.account,
+        branchMFO: item.branchMFO,
+        beginAmount: item.beginAmount,
+        endAmount: item.endAmount,
+        debit: item.debit,
+        credit: item.credit,
+      }))
+    : undefined;
 
   const columns: ColumnsType<DataType> = [
     {
@@ -101,20 +99,26 @@ export default function AccountBalancePage() {
       align: "right",
     },
   ];
-   
+
   const dispatch = useDispatch();
   // @ts-expect-error try
   const { globalDate } = useSelector((state: unknown) => state.globalDate);
-
+  console.log("gl: ", dayjs(globalDate.date).format("YYYY-MM-DD"));
   const fetchReport = async () => {
-    const response = await getAccountReport();
+    const response = await getAccountReport({
+      fromDate: dayjs(globalDate.date).format("YYYY-MM-DD"),
+      toDate: dayjs(globalDate.date).format("YYYY-MM-DD"),
+    });
 
-    setResponseData(response)
-    console.log('ress: ', response);
+    setResponseData(response);
+    console.log("ress: ", response);
   };
 
   useEffect(() => {
     fetchReport();
+  }, [globalDate.date]);
+
+  useEffect(() => {
     // @ts-expect-error try
     dispatch(fetchGlobalDate());
   }, []);
@@ -125,7 +129,7 @@ export default function AccountBalancePage() {
     <div>
       <div className="main-table-1-account">
         <div className="title">
-          Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на {" "}
+          Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на{" "}
           {dayjs(globalDate.date).format("DD.MM.YYYY")}
         </div>
         <Table

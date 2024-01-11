@@ -80,8 +80,6 @@ export const changeStatus = async (body: unknown) => {
   }
 };
 
-
-
 export const getPaymentPurposes = async () => {
   try {
     const request = await httpClient.get(api.paymentPurposeList());

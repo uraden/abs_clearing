@@ -61,7 +61,6 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   //   isActive: false,
   // });
 
-
     // redux is below 
     const dispatch = useDispatch();
 

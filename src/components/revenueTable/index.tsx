@@ -1,11 +1,11 @@
 import { Table } from "antd";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleDebit, getSingleCredit } from './request'
+import { getSingleDebit, getSingleCredit } from "./request";
 
 const RevenueTable = () => {
   const [isLoading] = useState(false);
-  const [responseData, setResponseData] = useState()
+  const [responseData, setResponseData] = useState();
   const accountnumber = useParams();
 
   const columns = [
@@ -81,51 +81,49 @@ const RevenueTable = () => {
       dataIndex: "naznacheniya",
       key: "Назначение",
     },
- 
   ];
 
-
-  accountnumber.account === "debit"
-
-  // const myQueryParams = {account: accountnumber.account}
-  const myQueryParamsDebet = {account: '20208000100001203001'}  
-  const myQueryParamsCredit = {account: '20208000900000001001'}
+  // accountnumber.account === "debit";
+  console.log("accccc: ", accountnumber);
+  // // const myQueryParams = {account: accountnumber.account}
+  // const myQueryParamsDebet = {account: '20208000100001203001'}
+  // const myQueryParamsCredit = {account: '20208000900000001001'}
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-         if(accountnumber.account === "debit") {
-          const response = await getSingleDebit(myQueryParamsDebet);
+        if (accountnumber.revenue === "debet") {
+          const response = await getSingleDebit({
+            account: accountnumber.account,
+          });
           setResponseData(response);
-         } else {
-          const response = await getSingleCredit(myQueryParamsCredit);
+        } else {
+          const response = await getSingleCredit({
+            account: accountnumber.account,
+          });
           setResponseData(response);
-         }
-
-       
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
-    
+
     fetchData();
-  },[]);
+  }, []);
 
-  console.log('this is data', responseData)
+  console.log("this is data", responseData);
 
-  
   return (
-
     <>
-    <Table
-      loading={isLoading}
-      dataSource={responseData || []}
-      // @ts-expect-error ignore for npm run build
-      columns={columns}
-      bordered
-      style={{ marginTop: 40 }}
-      pagination={false}
-    />
+      <Table
+        loading={isLoading}
+        dataSource={responseData || []}
+        // @ts-expect-error ignore for npm run build
+        columns={columns}
+        bordered
+        style={{ marginTop: 40 }}
+        pagination={false}
+      />
     </>
   );
 };

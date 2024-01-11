@@ -7,10 +7,12 @@ interface MyError {
   };
 }
 
-export const getAccountReport = async () => {
+export const getAccountReport = async (params: unknown) => {
 // export const getAccountReport = async (params: unknown) => {
   try {
-    const request = await httpClient.get(api.accountReport());
+    const request = await httpClient.get(api.accountReport(), {
+      params,
+    });
     console.log('reqqq: ', request.data);
     return request.data;
   } catch (error: unknown) {
