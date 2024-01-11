@@ -83,12 +83,6 @@ const RevenueTable = () => {
     },
   ];
 
-  // accountnumber.account === "debit";
-  console.log("accccc: ", accountnumber);
-  // // const myQueryParams = {account: accountnumber.account}
-  // const myQueryParamsDebet = {account: '20208000100001203001'}
-  // const myQueryParamsCredit = {account: '20208000900000001001'}
-
   useEffect(() => {
     const fetchData = async () => {
       try {
