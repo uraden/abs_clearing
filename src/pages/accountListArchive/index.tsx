@@ -178,7 +178,7 @@ const AccountListArchive = () => {
         }}
       >
         <h3>Выберите дату:</h3>
-        <DatePicker onChange={onChange} defaultValue={dayjs()} />
+        <DatePicker onChange={onChange} format="DD.MM.YYYY"/>
       </div>
       <div className="title">Архив документов</div>
       <div className="todays_date">
