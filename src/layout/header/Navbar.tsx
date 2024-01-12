@@ -237,7 +237,10 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             textAlign: "end",
           }}
         >
-          Опер. день: <span style={{ fontWeight: 'bold' }}>{dayjs(globalDate.date).format("DD.MM.YYYY")}</span>
+          Опер. день:{" "}
+          <span style={{ fontWeight: "bold" }}>
+            {dayjs(globalDate.date).format("DD.MM.YYYY")}
+          </span>
         </div>
         <div>
           <Popover trigger="click" title={"Настройки"} content={content}>
@@ -251,8 +254,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           </Popover>
         </div>
       </Header>
-      <Content>
-        <div className="background">
+      <Content className="bg-image">
+        {/* <div className="background">
           <span></span>
           <span></span>
           <span></span>
@@ -273,20 +276,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           <span></span>
           <span></span>
           <span></span>
-        </div>
-        <div className="content-container"
-          // style={{
-          //   // padding: 16,
-          //   textAlign: "center",
-          //   background: colorBgContainer,
-          //   // zIndex: "99",
-          //   position: 'relative',
-          //   paddingTop: 24,
-          //   margin: "0 48px",
-          // }}
-        >
-          {children}
-        </div>
+        </div> */}
+        <div className="content-container">{children}</div>
       </Content>
       <Footer className="main-footer" style={{ textAlign: "center" }}>
         АО
