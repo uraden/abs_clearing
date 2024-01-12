@@ -58,7 +58,7 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="glass-inner">
       {contextHolder}
       <h3
         style={{
@@ -82,7 +82,7 @@ const LoginForm: React.FC = () => {
         layout="vertical"
       >
         <Form.Item<FieldType>
-          label={<label style={{ color: "white" }}>Username</label>}
+          label={<label style={{color: 'white'}}>Username</label>}
           name="username"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
@@ -90,7 +90,7 @@ const LoginForm: React.FC = () => {
         </Form.Item>
 
         <Form.Item<FieldType>
-          label={<label style={{ color: "white" }}>Password</label>}
+          label={<label style={{color: 'white'}}>Password</label>}
           name="password"
           rules={[{ required: true, message: "Please input your password!" }]}
         >
