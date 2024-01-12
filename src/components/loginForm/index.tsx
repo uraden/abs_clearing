@@ -106,8 +106,9 @@ const LoginForm: React.FC = () => {
             block
             style={{
               outline: "none",
-              width: "466px",
-              backgroundColor: "#6C63FF",
+              // width: "466px",
+              // background: 'white',
+              // color: '#028FD6'
             }}
           >
             Log-in
