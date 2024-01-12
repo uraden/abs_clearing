@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getSingleDebit, getSingleCredit } from "./request";
 
 const RevenueTable = () => {
-  const [isLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [responseData, setResponseData] = useState();
   const accountnumber = useParams();
 
@@ -83,25 +83,29 @@ const RevenueTable = () => {
     },
   ];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (accountnumber.revenue === "debet") {
-          const response = await getSingleDebit({
-            account: accountnumber.account,
-          });
-          setResponseData(response);
-        } else {
-          const response = await getSingleCredit({
-            account: accountnumber.account,
-          });
-          setResponseData(response);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      if (accountnumber.revenue === "debet") {
+        const response = await getSingleDebit({
+          account: accountnumber.account,
+        });
+        setResponseData(response);
+        setLoading(false);
+      } else {
+        const response = await getSingleCredit({
+          account: accountnumber.account,
+        });
+        setResponseData(response);
+        setLoading(false);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 

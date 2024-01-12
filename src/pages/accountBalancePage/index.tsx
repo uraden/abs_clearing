@@ -9,7 +9,7 @@ import { getAccountReport } from "./request";
 
 export default function AccountBalancePage() {
   const [responseData, setResponseData] = useState<DataType[]>();
-
+  const [isLoading, setLoading] = useState(false);
   interface DataType {
     key: string;
     account: string;
@@ -103,15 +103,16 @@ export default function AccountBalancePage() {
   const dispatch = useDispatch();
   // @ts-expect-error try
   const { globalDate } = useSelector((state: unknown) => state.globalDate);
-  console.log("gl: ", dayjs(globalDate.date).format("YYYY-MM-DD"));
+
   const fetchReport = async () => {
+    setLoading(true);
     const response = await getAccountReport({
       fromDate: dayjs(globalDate.date).format("YYYY-MM-DD"),
       toDate: dayjs(globalDate.date).format("YYYY-MM-DD"),
     });
 
     setResponseData(response);
-    console.log("ress: ", response);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -137,6 +138,7 @@ export default function AccountBalancePage() {
           dataSource={mappedData}
           pagination={false}
           bordered
+          loading={isLoading}
           style={{ width: "100%", marginBottom: 50 }}
         />
       </div>

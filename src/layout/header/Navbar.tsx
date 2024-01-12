@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
 import {
   FileTextOutlined,
@@ -8,7 +8,7 @@ import {
   BlockOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, Layout, Menu, Modal, Popover, theme } from "antd";
+import { Button, Layout, Menu, Modal, Popover } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import CustomPassword from "../../components/password";
@@ -41,9 +41,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   const [activeMenu, setActiveMenu] = useState(
     location.pathname.replace("/", "")
   );
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  // const {
+  //   token: { colorBgContainer },
+  // } = theme.useToken();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<IProfile>({
     clientId: 0,
@@ -61,12 +61,11 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   //   isActive: false,
   // });
 
-    // redux is below 
-    const dispatch = useDispatch();
+  // redux is below
+  const dispatch = useDispatch();
 
-    // @ts-expect-error try
-    const { globalDate } = useSelector((state: unknown) => state.globalDate);
-
+  // @ts-expect-error try
+  const { globalDate } = useSelector((state: unknown) => state.globalDate);
 
   type MenuItem = Required<MenuProps>["items"][number];
 
@@ -216,10 +215,13 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       <Header
         style={{
           display: "flex",
+          background: "#fff",
+          borderBottom: "1px solid #F0F0F0",
+          color: "red",
         }}
       >
         <Menu
-          theme="dark"
+          // theme="dark"
           defaultSelectedKeys={[activeMenu]}
           mode="horizontal"
           items={items}
@@ -230,12 +232,12 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         <div
           style={{
             marginRight: 64,
-            color: "white",
+            color: "black",
             width: "30%",
             textAlign: "end",
           }}
         >
-          Опер. день: {dayjs(globalDate.date).format("DD.MM.YYYY")}
+          Опер. день: <span style={{ fontWeight: 'bold' }}>{dayjs(globalDate.date).format("DD.MM.YYYY")}</span>
         </div>
         <div>
           <Popover trigger="click" title={"Настройки"} content={content}>
@@ -249,15 +251,39 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           </Popover>
         </div>
       </Header>
-      <Content style={{ margin: "0 48px" }}>
-        <div
-          style={{
-            // padding: 16,
-            textAlign: "center",
-            background: colorBgContainer,
-            zIndex: "99",
-            paddingTop: 24,
-          }}
+      <Content>
+        <div className="background">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div className="content-container"
+          // style={{
+          //   // padding: 16,
+          //   textAlign: "center",
+          //   background: colorBgContainer,
+          //   // zIndex: "99",
+          //   position: 'relative',
+          //   paddingTop: 24,
+          //   margin: "0 48px",
+          // }}
         >
           {children}
         </div>

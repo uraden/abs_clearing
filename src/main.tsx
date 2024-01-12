@@ -9,7 +9,17 @@ import "dayjs/locale/ru";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <>
-    <ConfigProvider locale={russian}>
+    <ConfigProvider
+      locale={russian}
+      theme={{
+        components: {
+          Menu: {
+            colorPrimary: '#f5222d',
+            algorithm: true,
+          },
+        }
+      }}
+    >
       <Provider store={store}>
         <App />
       </Provider>

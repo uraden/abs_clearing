@@ -13,6 +13,14 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 } */
+@font-face {
+  font-family: 'Roboto';
+  src: url('./assets/fonts/roboto.ttf') format('truetype'); /* Adjust path and format as needed */
+}
+
+body {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
 
 a {
   font-weight: 500;

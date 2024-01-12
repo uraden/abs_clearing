@@ -8,11 +8,11 @@ import {
   DatePicker,
   Input,
   Flex,
-  Checkbox
+  Checkbox,
 } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { getAllAccounts } from './request'
+import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import { getAllAccounts } from "./request";
 
 import { status } from "../../assets/defaultData";
 import _ from "lodash";
@@ -30,67 +30,62 @@ interface DataType {
   currencyType: string;
   mfo: string;
   amount: string;
-  length: number
+  length: number;
 }
 
 const AccountPage = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [responseData, setResponseData] = useState<DataType[]>()
-
+  const [responseData, setResponseData] = useState<DataType[]>();
+  const [isLoading, setLoading] = useState<boolean>(false);
   const onChangeCheckBox = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
   };
 
-
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await getAllAccounts();
+      setResponseData(response);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllAccounts();
-        setResponseData(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    
     fetchData();
   }, []);
-
-
 
   const showModal = () => {
     setOpen(true);
   };
 
   const handleOk = () => {
-    
     setConfirmLoading(true);
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
     }, 2000);
-
   };
 
   //@ts-expect-error try
   const mappedData: DataType[] | undefined = responseData
-  ? responseData.map((item) => ({
-      key: item.key,
-      account: item.account,
-      name: item.client,
-      currency: item.currencyType,
-      bank: item.mfo.toString(),
-      remainder: Number(item.amount).toLocaleString('en-US'),
-      status: item.status,
-      report: (
-        <Button size="small" onClick={showModal}>
-          Отчет
-        </Button>
-      ),
-    }))
-  : undefined;
-
-
+    ? responseData.map((item) => ({
+        key: item.key,
+        account: item.account,
+        name: item.client,
+        currency: item.currencyType,
+        bank: item.mfo.toString(),
+        remainder: Number(item.amount).toLocaleString("en-US"),
+        status: item.status,
+        report: (
+          <Button size="small" onClick={showModal}>
+            Отчет
+          </Button>
+        ),
+      }))
+    : undefined;
 
   const handleCancel = () => {
     console.log("Clicked cancel button");
@@ -127,7 +122,7 @@ const AccountPage = () => {
       title: "Остаток ",
       dataIndex: "remainder",
       width: "15%",
-      align: 'right'
+      align: "right",
     },
     {
       title: "Статус",
@@ -153,8 +148,6 @@ const AccountPage = () => {
     // },
   ];
 
- 
-
   const onChange: TableProps<DataType>["onChange"] = (
     pagination,
     filters,
@@ -167,11 +160,12 @@ const AccountPage = () => {
   return (
     <div>
       <div className="title">Мои счета</div>
-      <Table 
-        columns={columns} 
-        dataSource={mappedData || []} 
-        onChange={onChange} 
+      <Table
+        columns={columns}
+        dataSource={mappedData || []}
+        onChange={onChange}
         pagination={mappedData && mappedData.length > 5 ? {} : false}
+        loading={isLoading}
       />
 
       <Modal
@@ -242,9 +236,6 @@ const AccountPage = () => {
             </Select>
           </Form.Item>
 
-          
-
-
           <Form.Item
             label="Включать наименование корреспондента"
             labelCol={{ span: 15 }}
@@ -255,7 +246,6 @@ const AccountPage = () => {
               <Select.Option value="no">Нет</Select.Option>
             </Select>
           </Form.Item>
-
 
           <Form.Item
             label="Включать назначение платежа"
@@ -268,13 +258,9 @@ const AccountPage = () => {
             </Select>
           </Form.Item>
 
-          
-          <Form.Item
-            wrapperCol={{ span: 4 }}
-          >
-           <Checkbox onChange={onChangeCheckBox}>Excel</Checkbox>
+          <Form.Item wrapperCol={{ span: 4 }}>
+            <Checkbox onChange={onChangeCheckBox}>Excel</Checkbox>
           </Form.Item>
-
         </Form>
       </Modal>
     </div>
