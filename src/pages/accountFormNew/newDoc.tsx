@@ -469,7 +469,7 @@ const AccountEntryFormNew = () => {
               <Form.Item
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 20 }}
-                label="Наименование банка плательщика"
+                label="Наименование плательщика"
                 rules={[
                   {
                     required: true,
@@ -496,7 +496,7 @@ const AccountEntryFormNew = () => {
             </div>
 
             <Form.Item
-              label="МФО банка плательщика"
+              label="Наименование банка плательщика"
               // style={{}}
               name="debitBankName"
               rules={[{ required: true, message: "" }]}
@@ -513,7 +513,7 @@ const AccountEntryFormNew = () => {
             <Form.Item
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
-              label="Код филиала банка плательщика"
+              label="МФО банка плательщика"
               name="debitMFO"
               rules={[{ required: true, message: "" }]}
               normalize={normalizeValue}
@@ -595,7 +595,7 @@ const AccountEntryFormNew = () => {
             </Form.Item> */}
 
             <Form.Item
-              label="Наименование банка получателя"
+              label="Наименование получателя"
               rules={[
                 {
                   required: true,
@@ -636,7 +636,7 @@ const AccountEntryFormNew = () => {
             </Form.Item>
 
             <Form.Item
-              label="МФО банка получателя"
+              label="Наименование банка получателя"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
               name="creditBankName"
@@ -652,7 +652,7 @@ const AccountEntryFormNew = () => {
             </Form.Item>
 
             <Form.Item
-              label="Код филиала банка получателя"
+              label="МФО банка получателя"
               rules={[
                 { required: true, message: "" },
                 { validator: validateMinLengthMFO },
