@@ -17,10 +17,6 @@ const CustomTable: React.FC = ({
 }: any) => {
   const location = useLocation();
   
-  // const [operday, setOperday] = useState<IOperday>();
-
-  // const dispatch = useDispatch();
-  // @ts-expect-error try
   const { globalDate } = useSelector((state: unknown) => state.globalDate);
   
   useEffect(() => {
@@ -28,10 +24,6 @@ const CustomTable: React.FC = ({
     // dispatch(fetchGlobalDate());
   }, []);
   
-  // const fetchOperdays = async () => {
-  //   const response = await fetchOperDay();
-  //   // setOperday(response);
-  // };
 
   return (
     <>
