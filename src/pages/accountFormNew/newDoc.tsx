@@ -158,10 +158,12 @@ const AccountEntryFormNew = () => {
     setLoading(true);
     console.log("valuess: ", values);
     try {
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       const request = await createNewOrder({
         ...values,
         createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
       });
+      console.log("request: ", request);
 
       confirmForm();
       setLoading(false);

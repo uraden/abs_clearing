@@ -17,6 +17,7 @@ const CustomTable: React.FC = ({
 }: any) => {
   const location = useLocation();
   
+  // @ts-expect-error try
   const { globalDate } = useSelector((state: unknown) => state.globalDate);
   
   useEffect(() => {
