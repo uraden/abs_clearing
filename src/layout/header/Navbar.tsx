@@ -180,6 +180,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           borderColor: "#f5222d",
           color: "#f5222d",
           outline: "none",
+          width: "100%",
         }}
         onClick={() => {
           navigate("/login");
@@ -193,6 +194,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           color: "#fa8c16",
           outline: "none",
           marginTop: 8,
+          width: "100%",
         }}
         onClick={showModal}
       >
@@ -249,7 +251,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
               style={{ margin: "0 16px", verticalAlign: "middle" }}
               // onClick={changeUser}
             >
-              {profile.fullName} - {profile.clientName}
+              {profile?.fullName} - {profile?.clientName}
             </Button>
           </Popover>
         </div>

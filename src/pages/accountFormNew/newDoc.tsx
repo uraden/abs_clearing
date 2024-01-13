@@ -163,8 +163,6 @@ const AccountEntryFormNew = () => {
         createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
       });
 
-      console.log("reqq: ", request);
-
       confirmForm();
       setLoading(false);
     } catch (err) {
@@ -247,8 +245,6 @@ const AccountEntryFormNew = () => {
     }
     return Promise.resolve();
   };
-
-
 
   // @ts-expect-error try
   const normalizeValue = (value) => {
@@ -351,8 +347,7 @@ const AccountEntryFormNew = () => {
           }}
         >
           <InputNumber
-            decimalSeparator="."	
-            
+            decimalSeparator="."
             // @ts-expect-error try
             formatter={(value) => {
               if (value && value.toString().includes(".")) {
@@ -368,14 +363,11 @@ const AccountEntryFormNew = () => {
               }
               return value.replace(/[^0-9.]/g, "");
             }}
-          
             onChange={(value) => {
               // @ts-expect-error try
               setSum(value);
-              
             }}
             style={{ width: 400, display: "flex" }}
-           
           />
         </Form.Item>
         {sum ? (
@@ -524,9 +516,9 @@ const AccountEntryFormNew = () => {
               rules={[{ required: true, message: "" }]}
               normalize={normalizeValue}
             >
-              <Input
-                maxLength={5} 
-                style={{ width: 400, display: "flex" }} />
+              <Input 
+              maxLength={5} 
+              style={{ width: 400, display: "flex" }} />
             </Form.Item>
           </div>
 
@@ -542,34 +534,29 @@ const AccountEntryFormNew = () => {
           >
             <h3 style={{ marginBottom: 10 }}>Кредит</h3>
 
-            <div
-              style={{ display: "flex", justifyContent: "center", gap: "3%" }}
+            <Form.Item
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 20 }}
+              label="Счет получателя"
+              rules={[
+                {
+                  required: true,
+                  message: "",
+                },
+                { validator: validateAccount },
+              ]}
+              name="creditAccount"
             >
-              <Form.Item
-                labelCol={{ span: 6 }}
-                wrapperCol={{ span: 21 }}
-                label="Счет получателя"
-                rules={[
-                  {
-                    required: true,
-                    message: "",
-                  },
-                  { validator: validateAccount },
-                ]}
-                name="creditAccount"
-              >
-                {/* <div style={{ display: "flex" }}> */}
+              <div style={{ display: "flex" }}>
                 <Input
                   onChange={({ target: { value } }) => {
                     console.log("val: ", value);
                     setTempCreditAccount(value);
                   }}
                   maxLength={20}
-                  style={{ width: 400 }}
+                  style={{ width: 400, display: "flex" }}
                 />
-                {/* </div> */}
-              </Form.Item>
-              <Form.Item>
+
                 <DownCircleFilled
                   onClick={() => {
                     if (tempCreditAccount) {
@@ -580,10 +567,16 @@ const AccountEntryFormNew = () => {
                       handleDebet(tempCreditAccount, "credit");
                     }
                   }}
-                  style={{ fontSize: 24, color: "#1677ff", cursor: "pointer" }}
+                  style={{
+                    fontSize: 24,
+                    color: "#1677ff",
+                    cursor: "pointer",
+                    marginLeft: 5,
+                  }}
                 />
-              </Form.Item>
-            </div>
+              </div>
+            </Form.Item>
+
             {/* <Form.Item style={{ marginRight: 8 }}>
               <RightCircleFilled
                 onClick={() => {
@@ -638,13 +631,6 @@ const AccountEntryFormNew = () => {
                   display: "flex",
                 }}
               />
-              {/* <Input
-                style={{
-                  width: 184,
-                  display: "flex",
-                }}
-                maxLength={9}
-              /> */}
             </Form.Item>
 
             <Form.Item
@@ -675,8 +661,6 @@ const AccountEntryFormNew = () => {
               normalize={normalizeValue}
             >
               <Input
-                
-
                 maxLength={5}
                 // readOnly={checkValue("creditMFO")}
                 style={{
