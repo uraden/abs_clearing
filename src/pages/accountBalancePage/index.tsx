@@ -88,7 +88,9 @@ export default function AccountBalancePage() {
           align: "center",
           render: (debet: string, { account }: DataType) => {
             return {
-              children: <Link style={{ textAlign: 'right'}} to={`${account}/debet`}>{debet}</Link>,
+              children: <Link style={{ textAlign: 'right'}} to={`${account}/debet`}>{
+                Number(debet).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </Link>,
               props: {
                 style: { textAlign: 'right' },
               },
@@ -101,7 +103,9 @@ export default function AccountBalancePage() {
           align: "center",
           render: (credit: string, { account }: DataType) => {
             return {
-              children: <Link style={{ textAlign: 'right'}} to={`${account}/credit`}>{credit}</Link>,
+              children: <Link style={{ textAlign: 'right'}} to={`${account}/credit`}>{
+                Number(credit).toLocaleString(undefined, { minimumFractionDigits: 2 })
+                }</Link>,
               props: {
                 style: { textAlign: 'right' },
               },

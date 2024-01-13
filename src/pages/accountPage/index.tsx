@@ -123,6 +123,15 @@ const AccountPage = () => {
       dataIndex: "remainder",
       width: "15%",
       align: "right",
+      render: (remainder: string) => {
+        return (
+          <div style={{ textAlign: "right" }}>
+            {Number(remainder).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
+          </div>
+        );
+      },
     },
     {
       title: "Статус",
