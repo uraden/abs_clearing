@@ -99,7 +99,7 @@ const AccountPage = () => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "Счет",
+      title: "Лицевой счет",
       dataIndex: "account",
       width: "20%",
     },
@@ -114,7 +114,7 @@ const AccountPage = () => {
       width: "10%",
     },
     {
-      title: "Банк",
+      title: "МФО банка",
       dataIndex: "bank",
       width: "10%",
     },
