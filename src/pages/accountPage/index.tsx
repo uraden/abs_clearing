@@ -104,7 +104,7 @@ const AccountPage = () => {
       width: "20%",
     },
     {
-      title: "Наименование",
+      title: "Наименование клиента",
       dataIndex: "name",
       width: "25%",
     },

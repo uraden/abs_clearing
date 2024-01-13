@@ -37,7 +37,7 @@ export default function AccountBalancePage() {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "Филиал",
+      title: "МФО банка",
       dataIndex: "branchMFO",
       align: "center",
     },
