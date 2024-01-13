@@ -167,6 +167,7 @@ const AccountListArchive = () => {
     getList(tempDate);
   };
 
+  console.log("globalDate: ", globalDate?.date);
   return (
     <>
       <div
@@ -178,7 +179,9 @@ const AccountListArchive = () => {
         }}
       >
         <h3>Выберите дату:</h3>
-        <DatePicker onChange={onChange} format="DD.MM.YYYY"/>
+        
+        <DatePicker onChange={onChange} format="DD.MM.YYYY" value={globalDate?.date ? dayjs(globalDate?.date, "YYYY-MM-DD") : null
+        }/>
       </div>
       <div className="title">Архив документов</div>
       <div className="todays_date">

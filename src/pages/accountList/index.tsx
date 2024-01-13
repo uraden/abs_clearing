@@ -47,13 +47,13 @@ const AccoutDocs = () => {
       dataIndex: "total_amount",
       key: "total_amount",
       align: "center",
-      render: (amount: string) =>
-        Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
-      customRender: ({ text }: any) => {
-        return {
-          children: <div style={{textAlign: 'right'}}>{text}</div>,
-        };
-      }
+      render: (amount: string) => ({
+        children: (
+          <div style={{ textAlign: 'right' }}>
+            {Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          </div>
+        ),
+      }),
     },
     {
       title: "Статус",

@@ -54,7 +54,14 @@ export default function AccountBalancePage() {
     {
       title: "Входящий остаток",
       dataIndex: "beginAmount",
-      align: "right",
+      align: "center",
+      render: (amount) => ({
+        children: (
+          <div style={{ textAlign: 'right' }}>
+            {Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          </div>
+        ),
+      }),
     },
     // {
     //   title: "Дебет",
@@ -78,17 +85,27 @@ export default function AccountBalancePage() {
         {
           title: "Дебет",
           dataIndex: "debit",
-          align: "right",
+          align: "center",
           render: (debet: string, { account }: DataType) => {
-            return <Link to={`${account}/debet`}>{debet}</Link>;
+            return {
+              children: <Link style={{ textAlign: 'right'}} to={`${account}/debet`}>{debet}</Link>,
+              props: {
+                style: { textAlign: 'right' },
+              },
+            }
           },
         },
         {
           title: "Кредит",
           dataIndex: "credit",
-          align: "right",
+          align: "center",
           render: (credit: string, { account }: DataType) => {
-            return <Link to={`${account}/credit`}>{credit}</Link>;
+            return {
+              children: <Link style={{ textAlign: 'right'}} to={`${account}/credit`}>{credit}</Link>,
+              props: {
+                style: { textAlign: 'right' },
+              },
+            }
           },
         },
       ],
@@ -96,7 +113,14 @@ export default function AccountBalancePage() {
     {
       title: "Исходящий остаток",
       dataIndex: "endAmount",
-      align: "right",
+      align: "center",
+      render: (amount) => ({
+        children: (
+          <div style={{ textAlign: 'right' }}>
+            {Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          </div>
+        ),
+      }),
     },
   ];
 
