@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Space, Tag } from "antd";
+import { Button, Divider, Space, Table, Tag } from "antd";
 import { getDraftList } from "./request";
 import CustomTable from "../../components/Reusables/Table";
 import { Link } from "react-router-dom";
@@ -9,6 +9,8 @@ import { status } from "../../assets/defaultData";
 import _ from "lodash";
 import { PlusSquareTwoTone } from "@ant-design/icons";
 import UploadModal from "../../components/draftFileUpload";
+import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 // interface YourRecordType {
 //   key: string;
@@ -94,6 +96,8 @@ const DraftForm = () => {
     //@ts-expect-error" try
     setDraftList(response.data);
   };
+  // @ts-expect-error try
+  const { globalDate } = useSelector((state: unknown) => state.globalDate);
   // const getData = async () => {
   //   setLoading(true);
   //   // const response = await getAccountArchiveList();
@@ -187,11 +191,20 @@ const DraftForm = () => {
           </Button>
           <UploadModal visible={visible} onClose={() => setVisible(false)} />
         </div>
-        <CustomTable
-          //@ts-expect-error" try
-          isLoading={isLoading}
-          columns={columns}
+
+        <div className="todays_date">
+          Операционный день -{" "}
+          <span style={{ fontWeight: 700 }}>
+            {dayjs(globalDate?.date).format("DD.MM.YYYY")}
+          </span>
+        </div>
+        <Table
+          loading={isLoading}
           dataSource={dataSource}
+          // @ts-ignore
+          columns={columns}
+          bordered
+          style={{ marginTop: 40 }}
         />
       </div>
     </div>

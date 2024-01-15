@@ -33,7 +33,7 @@ import { IPurpose } from "../../assets/interfaces";
 import { changeStatus, getPaymentPurposes } from "../accountFormNew/request";
 
 type EditData = {
-  createdDate: string;
+  operDay: string;
   documentNumber: number | null;
   creditAccount: string;
   creditINN: string;
@@ -63,7 +63,7 @@ const AccountEntryFormNew = () => {
   const [form] = Form.useForm();
   const [purposeList, setPurposeList] = useState<IPurpose[]>([]);
   const [editData, setEditData] = useState<EditData>({
-    createdDate: "",
+    operDay: "",
     documentNumber: null,
     creditAccount: "",
     creditINN: "",
@@ -98,7 +98,7 @@ const AccountEntryFormNew = () => {
   // const { pathname: urlChange } = useLocation();
   const [docType, setDocType] = useState("01");
   const [errorList] = useState({
-    createdDate: "Пожалуйста выберете Дату",
+    operDay: "Пожалуйста выберете Дату",
     documentNumber: "Пожалуйста выберете № документа",
     debitINN: "Пожалуйста выберете cчет плательщика",
     debitAccount: "Пожалуйста выберете cчет плательщика",
@@ -151,7 +151,7 @@ const AccountEntryFormNew = () => {
   useEffect(() => {
     if (editData) {
       form.setFieldsValue({
-        createdDate: dayjs(editData?.createdDate),
+        operDay: dayjs(editData?.operDay),
         documentType: editData?.documentType,
         documentNumber: editData?.documentNumber,
         creditAccount: editData?.creditAccount,
@@ -269,7 +269,7 @@ const AccountEntryFormNew = () => {
       const request = await editFormData({
         ...values,
         id: Number(docId),
-        createdDate: dayjs(values.createdDate).format("YYYY-MM-DD"),
+        operDay: dayjs(values.operDay).format("YYYY-MM-DD"),
       });
       console.log("request: ", request);
 
@@ -542,7 +542,7 @@ const AccountEntryFormNew = () => {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
           label="Дата документа:"
-          name="createdDate"
+          name="operDay"
           rules={[{ required: true, message: "" }]}
           style={{
             marginLeft: "30%",

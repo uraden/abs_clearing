@@ -57,8 +57,10 @@ export default function AccountBalancePage() {
       align: "center",
       render: (amount) => ({
         children: (
-          <div style={{ textAlign: 'right' }}>
-            {Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          <div style={{ textAlign: "right" }}>
+            {Number(amount).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
           </div>
         ),
       }),
@@ -88,13 +90,17 @@ export default function AccountBalancePage() {
           align: "center",
           render: (debet: string, { account }: DataType) => {
             return {
-              children: <Link style={{ textAlign: 'right'}} to={`${account}/debet`}>{
-                Number(debet).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                </Link>,
+              children: (
+                <Link style={{ textAlign: "right" }} to={`${account}/debet`}>
+                  {Number(debet).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
+                </Link>
+              ),
               props: {
-                style: { textAlign: 'right' },
+                style: { textAlign: "right" },
               },
-            }
+            };
           },
         },
         {
@@ -103,13 +109,17 @@ export default function AccountBalancePage() {
           align: "center",
           render: (credit: string, { account }: DataType) => {
             return {
-              children: <Link style={{ textAlign: 'right'}} to={`${account}/credit`}>{
-                Number(credit).toLocaleString(undefined, { minimumFractionDigits: 2 })
-                }</Link>,
+              children: (
+                <Link style={{ textAlign: "right" }} to={`${account}/credit`}>
+                  {Number(credit).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
+                </Link>
+              ),
               props: {
-                style: { textAlign: 'right' },
+                style: { textAlign: "right" },
               },
-            }
+            };
           },
         },
       ],
@@ -120,8 +130,10 @@ export default function AccountBalancePage() {
       align: "center",
       render: (amount) => ({
         children: (
-          <div style={{ textAlign: 'right' }}>
-            {Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          <div style={{ textAlign: "right" }}>
+            {Number(amount).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
           </div>
         ),
       }),
@@ -157,10 +169,7 @@ export default function AccountBalancePage() {
   return (
     <div>
       <div className="main-table-1-account">
-        <div className="title">
-          Мониторинг оборотов и остатков по Лицевым счетам отделений НКЦ на{" "}
-          {dayjs(globalDate.date).format("DD.MM.YYYY")}
-        </div>
+        <div className="title">Остатки и обороты счетов</div>
         <Table
           columns={columns}
           dataSource={mappedData}

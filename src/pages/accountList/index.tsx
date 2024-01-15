@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 // import AccountList from "../../components/simpleTable";
-import { Button, Space } from "antd";
+import { Button, Divider, Space, Table } from "antd";
 import { Link } from "react-router-dom";
 import { getAccountArchiveList } from "../accountListArchive/request";
 import CustomTable from "../../components/Reusables/Table";
@@ -14,7 +14,12 @@ const AccoutDocs = () => {
   const [isLoading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const columns = [
-    { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber", align: "center" },
+    {
+      title: "№ Док.",
+      dataIndex: "documentNumber",
+      key: "documentNumber",
+      align: "center",
+    },
     {
       title: "Дата Док.",
       dataIndex: "createdDate",
@@ -26,20 +31,60 @@ const AccoutDocs = () => {
     {
       title: "Плательщик",
       children: [
-        { title: "МФО", dataIndex: "debitMFO", key: "debitMFO", align: "center" },
-        { title: "Счет", dataIndex: "debitAccount", key: "debitAccount", align: "center" },
-        { title: "ИНН", dataIndex: "debitINN", key: "debitINN", align: "center" },
-        { title: "Наименование", dataIndex: "debitName", key: "debitName", align: "center" },
+        {
+          title: "МФО",
+          dataIndex: "debitMFO",
+          key: "debitMFO",
+          align: "center",
+        },
+        {
+          title: "Счет",
+          dataIndex: "debitAccount",
+          key: "debitAccount",
+          align: "center",
+        },
+        {
+          title: "ИНН",
+          dataIndex: "debitINN",
+          key: "debitINN",
+          align: "center",
+        },
+        {
+          title: "Наименование",
+          dataIndex: "debitName",
+          key: "debitName",
+          align: "center",
+        },
         // { title: "ИНН", dataIndex: "creditINN", key: "creditINN" },
       ],
     },
     {
       title: "Получатель",
       children: [
-        { title: "МФО", dataIndex: "creditMFO", key: "creditMFO", align: "center" },
-        { title: "Счет", dataIndex: "creditAccount", key: "creditAccount", align: "center" },
-        { title: "ИНН", dataIndex: "creditINN", key: "creditINN", align: "center" },
-        { title: "Наименование", dataIndex: "creditName", key: "creditName", align: "center" },
+        {
+          title: "МФО",
+          dataIndex: "creditMFO",
+          key: "creditMFO",
+          align: "center",
+        },
+        {
+          title: "Счет",
+          dataIndex: "creditAccount",
+          key: "creditAccount",
+          align: "center",
+        },
+        {
+          title: "ИНН",
+          dataIndex: "creditINN",
+          key: "creditINN",
+          align: "center",
+        },
+        {
+          title: "Наименование",
+          dataIndex: "creditName",
+          key: "creditName",
+          align: "center",
+        },
       ],
     },
     {
@@ -49,8 +94,10 @@ const AccoutDocs = () => {
       align: "center",
       render: (amount: string) => ({
         children: (
-          <div style={{ textAlign: 'right' }}>
-            {Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          <div style={{ textAlign: "right" }}>
+            {Number(amount).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
           </div>
         ),
       }),
@@ -76,10 +123,8 @@ const AccoutDocs = () => {
       //@ts-ignore
       render: (_, record) => (
         <Space size="middle">
-          <Link
-            to={`/edit/${record.key}/doc`}
-          >
-          {/* <Link
+          <Link to={`/edit/${record.key}/doc`}>
+            {/* <Link
             to={`/edit/${encodeURIComponent(
               record.key + localStorage.getItem("accessToken")
             )}/doc`}
@@ -96,8 +141,7 @@ const AccoutDocs = () => {
     // setOperday(response);
 
     await getList(response.date);
-  }
-
+  };
 
   const getList = async (operday: string) => {
     setLoading(true);
@@ -154,13 +198,17 @@ const AccoutDocs = () => {
   }, []);
 
   return (
-    <CustomTable
-      // @ts-ignore
-      isLoading={isLoading}
-      columns={columns}
-      dataSource={dataSource}
-      titleOfThePage="Список документов"
-    />
+    <>
+      <div className="title">Список документов</div>
+      <Table
+        loading={isLoading}
+        dataSource={dataSource}
+        //@ts-ignore
+        columns={columns}
+        bordered
+        style={{ marginTop: 40 }}
+      />
+    </>
   );
 };
 
