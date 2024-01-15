@@ -12,6 +12,12 @@ import dayjs from "dayjs";
 const AccoutDocs = () => {
   const [isLoading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  // @ts-ignore
+  const  formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
+    const parts = Number(amount).toFixed(minimumFractionDigits).toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+}
   const columns = [
     {
       title: "№ Док.",
@@ -94,9 +100,7 @@ const AccoutDocs = () => {
       render: (amount: string) => ({
         children: (
           <div style={{ textAlign: "right" }}>
-            {Number(amount).toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-            })}
+            {formatNumberWithCommas(amount)}
           </div>
         ),
       }),
