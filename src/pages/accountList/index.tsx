@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 // import AccountList from "../../components/simpleTable";
-import { Button, Space, Tag } from "antd";
+import { Button, Space } from "antd";
 import { Link } from "react-router-dom";
 import { getAccountArchiveList } from "../accountListArchive/request";
 import CustomTable from "../../components/Reusables/Table";
 import moment from "moment";
-import { status } from "../../assets/defaultData";
+// import { status } from "../../assets/defaultData";
 import _ from "lodash";
 import { fetchOperDay } from "../../assets/reusable/functions";
 import dayjs from "dayjs";

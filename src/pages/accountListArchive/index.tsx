@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 // import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
-import { DatePicker, Tag, Table } from "antd";
+import { DatePicker, Table } from "antd";
 import { getAccountArchiveList } from "./request";
 import type { DatePickerProps } from "antd";
 import moment from "moment";
-import { status } from "../../assets/defaultData";
+// import { status } from "../../assets/defaultData";
 import _ from "lodash";
 import dayjs from "dayjs";
 import { fetchOperDay } from "../../assets/reusable/functions";
@@ -203,6 +203,7 @@ const AccountListArchive = () => {
       <Table
         loading={isLoading}
         dataSource={dataSource}
+        // @ts-expect-error try
         columns={columns}
         bordered
         style={{ marginTop: 40 }}
