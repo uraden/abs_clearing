@@ -18,6 +18,7 @@ import BalanceSheetPage from "./pages/balanceSheetPage/index.tsx";
 import BalancePeriodSheetPage from "./pages/balancePeriodSheetPage/index.tsx";
 import AccountPeriodReport from "./pages/accountPeriodReports/index.tsx";
 import AccountRecentReport from "./pages/accountRecentReports/index.tsx";
+import DeleteIncomplete from "./pages/deleteIncomplete/index.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -131,6 +132,14 @@ function App() {
       element: (
         <Protected>
           <BalancePeriodSheetPage />
+        </Protected>
+      ),
+    },
+    {
+      path: "/delete-incomplete",
+      element: (
+        <Protected>
+          <DeleteIncomplete />
         </Protected>
       ),
     },

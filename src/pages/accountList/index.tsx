@@ -59,15 +59,15 @@ const AccoutDocs = () => {
       title: "Статус",
       dataIndex: "statusName",
       key: "statusName",
-      render: (statusText: string) => {
-        if (statusText) {
-          let tempStatus = _.find(status, { statusTitle: statusText });
-          console.log("temppp: ", tempStatus);
-          return (
-            <Tag color={tempStatus?.statusColor}>{tempStatus?.statusTitle}</Tag>
-          );
-        }
-      },
+      // render: (statusText: string) => {
+      //   if (statusText) {
+      //     let tempStatus = _.find(status, { statusTitle: statusText });
+      //     console.log("temppp: ", tempStatus);
+      //     return (
+      //       <Tag color={tempStatus?.statusColor}>{tempStatus?.statusTitle}</Tag>
+      //     );
+      //   }
+      // },
     },
     {
       title: "Действие",
