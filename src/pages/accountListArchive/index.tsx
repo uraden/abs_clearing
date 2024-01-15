@@ -40,11 +40,11 @@ const AccountListArchive = () => {
     },
     {
       title: "Дата Док.",
-      dataIndex: "createdDate",
-      key: "createdDate",
+      dataIndex: "operDay",
+      key: "operDay",
       align: "center",
-      render: (createdDate: string) =>
-        createdDate ? moment(createdDate).format("DD.MM.YYYY") : null,
+      render: (operDay: string) =>
+        operDay ? moment(operDay).format("DD.MM.YYYY") : null,
     },
     // {
     //   title: "Опер. день",
@@ -57,13 +57,13 @@ const AccountListArchive = () => {
       title: "Плательщик",
       children: [
         {
-          title: "МФО",
+          title: "МФО банка",
           dataIndex: "debitMFO",
           key: "debitMFO",
           align: "center",
         },
         {
-          title: "Счет",
+          title: "Лицевой счет",
           dataIndex: "debitAccount",
           key: "debitAccount",
           align: "center",
@@ -82,13 +82,13 @@ const AccountListArchive = () => {
       title: "Получатель",
       children: [
         {
-          title: "МФО",
+          title: "МФО банка",
           dataIndex: "creditMFO",
           key: "creditMFO",
           align: "center",
         },
         {
-          title: "Счет",
+          title: "Лицевой счет",
           dataIndex: "creditAccount",
           key: "creditAccount",
           align: "center",
@@ -185,7 +185,7 @@ const AccountListArchive = () => {
           debitAccount: string;
           debitINN: string;
           sum: string;
-          createdDate: string;
+          operDay: string;
           debName: string;
           forderDay: string;
           statusName: string;
@@ -202,7 +202,7 @@ const AccountListArchive = () => {
           // debitAccount: item.debPnfl,
           debitINN: item.debitINN,
           total_amount: item.sum,
-          createdDate: item.createdDate,
+          operDay: item.operDay,
           forderDay: item.forderDay,
           statusName: item.statusName,
         })
