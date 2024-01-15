@@ -134,7 +134,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       getItem("Выписка лицевых счетов", "account-recent-reports"),
       getItem("Выписка лицевых счетов за период", "account-period-reports"),
       getItem("Сальдо-оборотная ведомость", "/#1"),
-      getItem("Сальдо-оборотная ведомость за период", "/#2"),
+      // getItem("Сальдо-оборотная ведомость за период", "/#2"),
       getItem("Ведомость платежных операций", "/#3"),
       getItem("Удаленные и незавершенные платежи", "delete-incomplete"),
       getItem("Отчет об удаленных документах", "/#5"),
