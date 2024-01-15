@@ -551,6 +551,7 @@ const AccountEntryFormNew = () => {
             >
               <div style={{ display: "flex" }}>
                 <InputNumber
+                // @ts-expect-error try
                   onChange={({ target: { value } }) => {
                     console.log("val: ", value);
                     setTempCreditAccount(value);

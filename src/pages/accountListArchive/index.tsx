@@ -24,6 +24,7 @@ const AccountListArchive = () => {
   // redux is below
   // const dispatch = useDispatch();
 
+  // @ts-expect-error try
   const  formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
     const parts = Number(amount).toFixed(minimumFractionDigits).toString().split('.');
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
