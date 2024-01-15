@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 // import AccountList from "../../components/simpleTable";
-import { Button, Divider, Space, Table } from "antd";
+import { Button, Space, Table } from "antd";
 import { Link } from "react-router-dom";
 import { getAccountArchiveList } from "../accountListArchive/request";
-import CustomTable from "../../components/Reusables/Table";
 import moment from "moment";
 // import { status } from "../../assets/defaultData";
 import _ from "lodash";

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button, Divider, Space, Table, Tag } from "antd";
+import { Button, Space, Table, Tag } from "antd";
 import { getDraftList } from "./request";
-import CustomTable from "../../components/Reusables/Table";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { status } from "../../assets/defaultData";
