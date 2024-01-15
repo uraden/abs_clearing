@@ -27,11 +27,12 @@ const AccountListArchive = () => {
 
 
   const columns = [
-    { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber" },
+    { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber", align: "center"  },
     {
       title: "Дата Док.",
       dataIndex: "createdDate",
       key: "createdDate",
+      align: "center",
       render: (createdDate: string) =>
         createdDate ? moment(createdDate).format("DD.MM.YYYY") : null,
     },
@@ -45,28 +46,34 @@ const AccountListArchive = () => {
     {
       title: "Плательщик",
       children: [
-        { title: "МФО", dataIndex: "debitMFO", key: "debitMFO" },
-        { title: "Счет", dataIndex: "debitAccount", key: "debitAccount" },
+        { title: "МФО", dataIndex: "debitMFO", key: "debitMFO", align: "center" },
+        { title: "Счет", dataIndex: "debitAccount", key: "debitAccount", align: "center" },
         { title: "ИНН", dataIndex: "debitINN", key: "debitINN" },
-        { title: "Наименование", dataIndex: "debitName", key: "debitName" },
+        { title: "Наименование", dataIndex: "debitName", key: "debitName", align: "center" },
         // { title: "ИНН", dataIndex: "creditINN", key: "creditINN" },
       ],
     },
     {
       title: "Получатель",
       children: [
-        { title: "МФО", dataIndex: "creditMFO", key: "creditMFO" },
-        { title: "Счет", dataIndex: "creditAccount", key: "creditAccount" },
-        { title: "ИНН", dataIndex: "creditINN", key: "creditINN" },
-        { title: "Наименование", dataIndex: "creditName", key: "creditName" },
+        { title: "МФО", dataIndex: "creditMFO", key: "creditMFO", align: "center" },
+        { title: "Счет", dataIndex: "creditAccount", key: "creditAccount", align: "center" },
+        { title: "ИНН", dataIndex: "creditINN", key: "creditINN", align: "center" },
+        { title: "Наименование", dataIndex: "creditName", key: "creditName", align: "center" },
       ],
     },
     {
       title: "Сумма",
       dataIndex: "total_amount",
       key: "total_amount",
-      render: (amount: string) =>
-        Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+      align: "center",
+      render: (amount: string) => ({
+        children: (
+          <div style={{ textAlign: 'right' }}>
+            {Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          </div>
+        ),
+      }),
     },
     {
       title: "Статус",
