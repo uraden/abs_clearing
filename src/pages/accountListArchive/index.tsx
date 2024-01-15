@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 // import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
 import { DatePicker, Tag, Table } from "antd";
 import { getAccountArchiveList } from "./request";
@@ -11,20 +11,19 @@ import dayjs from "dayjs";
 import { fetchOperDay } from "../../assets/reusable/functions";
 // import { IOperday } from "../../assets/interfaces";
 
-
-
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
+  // @ts-expect-error try
+  const { globalDate } = useSelector((state: unknown) => state.globalDate);
   const [dataSource, setDataSource] = useState([]);
+  const [chosenDate, setChosenDate] = useState(
+    globalDate?.date ? dayjs(globalDate?.date, "DD.MM.YYYY") : null
+  );
   // const [datePickedM, setDatePckedM] = useState(dayjs().format("DD.MM.YYYY"));
   // const [operday, setOperday] = useState<IOperday>();
 
-      // redux is below 
-      // const dispatch = useDispatch();
-
-      // @ts-expect-error try
-      const { globalDate } = useSelector((state: unknown) => state.globalDate);
-
+  // redux is below
+  // const dispatch = useDispatch();
 
   const columns = [
     { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber" },
@@ -72,15 +71,15 @@ const AccountListArchive = () => {
       title: "Статус",
       dataIndex: "statusName",
       key: "statusName",
-      render: (statusText: string) => {
-        if (statusText) {
-          let tempStatus = _.find(status, { statusTitle: statusText });
-          console.log("temppp: ", tempStatus);
-          return (
-            <Tag color={tempStatus?.statusColor}>{tempStatus?.statusTitle}</Tag>
-          );
-        }
-      },
+      // render: (statusText: string) => {
+      //   if (statusText) {
+      //     let tempStatus = _.find(status, { statusTitle: statusText });
+      //     console.log("temppp: ", tempStatus);
+      //     return (
+      //       <Tag color={tempStatus?.statusColor}>{tempStatus?.statusTitle}</Tag>
+      //     );
+      //   }
+      // },
     },
     // {
     //   title: "Действие",
@@ -95,10 +94,12 @@ const AccountListArchive = () => {
     //   ),
     // },
   ];
+
   const fetchOperdays = async () => {
     const response = await fetchOperDay();
     // setOperday(response);
-    await getList(response.date)
+    await getList(response.date);
+    setChosenDate(response.date);
   };
 
   useEffect(() => {
@@ -110,7 +111,6 @@ const AccountListArchive = () => {
     setLoading(true);
     // @ts-expect-error try
     const response = await getAccountArchiveList({
-      
       // @ts-expect-error try
       operday: dayjs(date).format("YYYY-MM-DD"),
     });
@@ -158,16 +158,16 @@ const AccountListArchive = () => {
   };
 
   // useEffect(() => {
-    // getList(moment().format("YYYY-MM-DD"));
+  // getList(moment().format("YYYY-MM-DD"));
   // }, []);
 
   const onChange: DatePickerProps["onChange"] = (dateString) => {
     const tempDate = dayjs(dateString);
     // setDatePckedM(tempDate.format("DD.MM.YYYY"));
     getList(tempDate);
+    setChosenDate(tempDate);
   };
 
-  console.log("globalDate: ", globalDate?.date);
   return (
     <>
       <div
@@ -179,13 +179,19 @@ const AccountListArchive = () => {
         }}
       >
         <h3>Выберите дату:</h3>
-        
-        <DatePicker onChange={onChange} format="DD.MM.YYYY" value={globalDate?.date ? dayjs(globalDate?.date, "YYYY-MM-DD") : null
-        }/>
+
+        <DatePicker
+          onChange={onChange}
+          format="DD.MM.YYYY"
+          value={dayjs(chosenDate)}
+        />
       </div>
       <div className="title">Архив документов</div>
       <div className="todays_date">
-        Дата: <span style={{ fontWeight: 700 }}>{dayjs(globalDate?.date).format('DD.MM.YYYY')}</span>
+        Дата:{" "}
+        <span style={{ fontWeight: 700 }}>
+          {chosenDate ? dayjs(chosenDate).format("DD.MM.YYYY") : null}
+        </span>
       </div>
       <Table
         loading={isLoading}

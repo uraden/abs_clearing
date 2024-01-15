@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button, Space, Tag } from "antd";
-import {  getDraftList } from "./request";
+import { getDraftList } from "./request";
 import CustomTable from "../../components/Reusables/Table";
 import { Link } from "react-router-dom";
-import moment, { } from "moment";
+import moment from "moment";
 import { status } from "../../assets/defaultData";
 
 import _ from "lodash";
@@ -17,7 +17,7 @@ import UploadModal from "../../components/draftFileUpload";
 const DraftForm = () => {
   const [isLoading] = useState(false);
   const [dataSource] = useState([]);
-  const [ setDraftList] = useState();
+  const [setDraftList] = useState();
   const [visible, setVisible] = useState(false);
   const columns = [
     { title: "№ Док.", dataIndex: "nDoc", key: "nDoc" },
@@ -59,7 +59,7 @@ const DraftForm = () => {
       key: "total_amount",
       render: (amount: string) =>
         Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
-      align: 'right'  
+      align: "right",
     },
     {
       title: "Статус",
@@ -146,9 +146,7 @@ const DraftForm = () => {
 
   return (
     <div>
-
       {/* !!!!Removed Card ask Farrukh Aka!!! */}
-
 
       {/* <Space direction="vertical" size="middle" style={{ display: "flex" }}>
         <Card
@@ -170,6 +168,8 @@ const DraftForm = () => {
         </Card>
       </Space> */}
       <div>
+        <div className="title">Импорт документов</div>
+
         <div
           style={{
             display: "flex",
