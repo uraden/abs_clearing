@@ -8,7 +8,12 @@ const AccountList: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
 
-  // const navigate = useNavigate();
+  // @ts-expect-error try
+  const  formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
+    const parts = Number(amount).toFixed(minimumFractionDigits).toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+}
 
   const { getAccountList } = useAccountList();
 
@@ -65,7 +70,18 @@ const AccountList: React.FC = () => {
         { title: "Счет", dataIndex: "account_2", key: "account_2" },
       ],
     },
-    { title: "Сумма", dataIndex: "total_amount", key: "total_amount" },
+    { 
+      title: "Сумма", 
+      dataIndex: "total_amount", 
+      key: "total_amount",
+      render: (amount: string) => ({
+        children: (
+          <div style={{ textAlign: 'right' }}>
+           {formatNumberWithCommas(amount)}
+          </div>
+        ),
+      }), 
+    },
     {
       title: "Action",
       key: "action",
