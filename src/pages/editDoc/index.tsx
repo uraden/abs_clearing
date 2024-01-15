@@ -423,6 +423,13 @@ const AccountEntryFormNew = () => {
     return Promise.resolve();
   };
 
+    // @ts-expect-error try
+    const normalizeValue = (value) => {
+      const filteredValue = value.replace(/\D/g, '');
+      return filteredValue;
+    }
+  
+
   return (
     <>
       <h1 style={{ textAlign: "center", marginBottom: 16 }}>
@@ -510,7 +517,7 @@ const AccountEntryFormNew = () => {
         <Form.Item
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
-          label="Сумма"
+          label="Сумма документа"
           rules={[{ required: true, message: "" }]}
           name="sum"
           style={{
@@ -518,11 +525,22 @@ const AccountEntryFormNew = () => {
           }}
         >
           <InputNumber
-            // type="number"
-            // formatter={(value) => {
-            //   console.log("valuee: ", value);
-            //   return Number(value).toLocaleString();
-            // }}
+            decimalSeparator="."
+            // @ts-expect-error try
+            formatter={(value) => {
+              if (value && value.toString().includes(".")) {
+                const [int, decimal] = value.toString().split(".");
+                return `${int}.${decimal.slice(0, 2)}`;
+              }
+              return value;
+            }}
+            // write parser function to remove all non decimal character when user input
+            parser={(value) => {
+              if (!value || value === ".") {
+                return "";
+              }
+              return value.replace(/[^0-9.]/g, "");
+            }}
             onChange={(value) => {
               // @ts-expect-error remove this
               setSum(value);
@@ -566,7 +584,7 @@ const AccountEntryFormNew = () => {
             <h3 style={{ marginBottom: 10 }}>Дебет</h3>
             <div>
               <Form.Item
-                label="Счет плательщика"
+                label="Лицевой счет плательщика"
                 rules={[
                   {
                     required: true,
@@ -658,7 +676,7 @@ const AccountEntryFormNew = () => {
             </div>
 
             <Form.Item
-              label="Банк плательщика"
+              label="Наименование банка плательщика"
               // style={{}}
               name="debitBankName"
               rules={[{ required: true, message: "" }]}
@@ -675,9 +693,10 @@ const AccountEntryFormNew = () => {
             <Form.Item
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
-              label="Код банка плательщика"
+              label="МФО банка плательщика"
               name="debitMFO"
               rules={[{ required: true, message: "" }]}
+              normalize={normalizeValue}
             >
               <Input maxLength={5} style={{ width: 400, display: "flex" }} />
             </Form.Item>
@@ -695,13 +714,11 @@ const AccountEntryFormNew = () => {
           >
             <h3 style={{ marginBottom: 10 }}>Кредит</h3>
 
-            <div
-              style={{ display: "flex", justifyContent: "center", gap: "3%" }}
-            >
+            
               <Form.Item
-                labelCol={{ span: 6 }}
-                wrapperCol={{ span: 21 }}
-                label="Счет получателя"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 20 }}
+                label="Лицевой счет получателя"
                 rules={[
                   {
                     required: true,
@@ -711,7 +728,7 @@ const AccountEntryFormNew = () => {
                 ]}
                 name="creditAccount"
               >
-                {/* <div style={{ display: "flex" }}> */}
+                <div style={{ display: "flex" }}>
                 <Input
                   onChange={({ target: { value } }) => {
                     console.log("val: ", value);
@@ -720,9 +737,8 @@ const AccountEntryFormNew = () => {
                   maxLength={20}
                   style={{ width: 400 }}
                 />
-                {/* </div> */}
-              </Form.Item>
-              <Form.Item>
+               
+            
                 <DownCircleFilled
                   onClick={() => {
                     if (tempCreditAccount) {
@@ -733,10 +749,16 @@ const AccountEntryFormNew = () => {
                       handleDebet(tempCreditAccount, "credit");
                     }
                   }}
-                  style={{ fontSize: 24, color: "#1677ff", cursor: "pointer" }}
+                  style={{ 
+                    fontSize: 24, 
+                    color: "#1677ff", 
+                    cursor: "pointer",
+                    marginLeft: 5, 
+                  }}
                 />
+                </div>
               </Form.Item>
-            </div>
+            
             {/* <Form.Item style={{ marginRight: 8 }}>
               <RightCircleFilled
                 onClick={() => {
@@ -801,7 +823,7 @@ const AccountEntryFormNew = () => {
             </Form.Item>
 
             <Form.Item
-              label="Банк получателя"
+              label="Наименование банка получателя"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
               name="creditBankName"
@@ -817,7 +839,7 @@ const AccountEntryFormNew = () => {
             </Form.Item>
 
             <Form.Item
-              label="Код банка получателя"
+              label="МФО банка получателя"
               rules={[
                 { required: true, message: "" },
                 { validator: validateMinLengthMFO },
@@ -825,6 +847,7 @@ const AccountEntryFormNew = () => {
               name="creditMFO"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
+              normalize={normalizeValue}
             >
               <Input
                 maxLength={5}
