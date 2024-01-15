@@ -53,7 +53,7 @@ const AccountEntryFormNew = () => {
   // const { pathname: urlChange } = useLocation();
   const [docType, setDocType] = useState("01");
   const [errorList] = useState({
-    createdDate: "Пожалуйста выберете Дату",
+    operDay: "Пожалуйста выберете Дату",
     documentNumber: "Пожалуйста выберете № документа",
     debitINN: "Пожалуйста выберете cчет плательщика",
     debitAccount: "Пожалуйста выберете cчет плательщика",
@@ -154,14 +154,14 @@ const AccountEntryFormNew = () => {
   };
 
   // eslint-disable-next-line
-  const onFinish = async ({ createdDate, ...values }: any) => {
+  const onFinish = async ({ operDay, ...values }: any) => {
     setLoading(true);
     console.log("valuess: ", values);
     try {
       /* eslint-disable @typescript-eslint/no-unused-vars */
       const request = await createNewOrder({
         ...values,
-        createdDate: dayjs(createdDate).format("YYYY-MM-DD"),
+        operDay: dayjs(operDay).format("YYYY-MM-DD"),
       });
       console.log("request: ", request);
 
@@ -322,7 +322,7 @@ const AccountEntryFormNew = () => {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
           label="Дата документа:"
-          name="createdDate"
+          name="operDay"
           rules={[{ required: true, message: "" }]}
           style={{
             marginLeft: "30%",

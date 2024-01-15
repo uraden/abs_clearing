@@ -26,7 +26,12 @@ const AccountListArchive = () => {
   // const dispatch = useDispatch();
 
   const columns = [
-    { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber", align: "center"  },
+    {
+      title: "№ Док.",
+      dataIndex: "documentNumber",
+      key: "documentNumber",
+      align: "center",
+    },
     {
       title: "Дата Док.",
       dataIndex: "createdDate",
@@ -45,20 +50,55 @@ const AccountListArchive = () => {
     {
       title: "Плательщик",
       children: [
-        { title: "МФО", dataIndex: "debitMFO", key: "debitMFO", align: "center" },
-        { title: "Счет", dataIndex: "debitAccount", key: "debitAccount", align: "center" },
+        {
+          title: "МФО",
+          dataIndex: "debitMFO",
+          key: "debitMFO",
+          align: "center",
+        },
+        {
+          title: "Счет",
+          dataIndex: "debitAccount",
+          key: "debitAccount",
+          align: "center",
+        },
         { title: "ИНН", dataIndex: "debitINN", key: "debitINN" },
-        { title: "Наименование", dataIndex: "debitName", key: "debitName", align: "center" },
+        {
+          title: "Наименование",
+          dataIndex: "debitName",
+          key: "debitName",
+          align: "center",
+        },
         // { title: "ИНН", dataIndex: "creditINN", key: "creditINN" },
       ],
     },
     {
       title: "Получатель",
       children: [
-        { title: "МФО", dataIndex: "creditMFO", key: "creditMFO", align: "center" },
-        { title: "Счет", dataIndex: "creditAccount", key: "creditAccount", align: "center" },
-        { title: "ИНН", dataIndex: "creditINN", key: "creditINN", align: "center" },
-        { title: "Наименование", dataIndex: "creditName", key: "creditName", align: "center" },
+        {
+          title: "МФО",
+          dataIndex: "creditMFO",
+          key: "creditMFO",
+          align: "center",
+        },
+        {
+          title: "Счет",
+          dataIndex: "creditAccount",
+          key: "creditAccount",
+          align: "center",
+        },
+        {
+          title: "ИНН",
+          dataIndex: "creditINN",
+          key: "creditINN",
+          align: "center",
+        },
+        {
+          title: "Наименование",
+          dataIndex: "creditName",
+          key: "creditName",
+          align: "center",
+        },
       ],
     },
     {
@@ -68,8 +108,10 @@ const AccountListArchive = () => {
       align: "center",
       render: (amount: string) => ({
         children: (
-          <div style={{ textAlign: 'right' }}>
-            {Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          <div style={{ textAlign: "right" }}>
+            {Number(amount).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
           </div>
         ),
       }),
@@ -169,36 +211,25 @@ const AccountListArchive = () => {
   // }, []);
 
   const onChange: DatePickerProps["onChange"] = (dateString) => {
-    const tempDate = dayjs(dateString);
-    // setDatePckedM(tempDate.format("DD.MM.YYYY"));
-    getList(tempDate);
-    setChosenDate(tempDate);
+    console.log("dateString: ", dateString);
+    if (dateString) {
+      const tempDate = dayjs(dateString);
+      // setDatePckedM(tempDate.format("DD.MM.YYYY"));
+      getList(tempDate);
+      setChosenDate(tempDate);
+    }
   };
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          width: "18%",
-          justifyContent: "space-evenly",
-        }}
-      >
-        <h3>Выберите дату:</h3>
-
+      <div className="title">Архив документов</div>
+      <div className="todays_date">
+        Дата:{" "}
         <DatePicker
           onChange={onChange}
           format="DD.MM.YYYY"
           value={dayjs(chosenDate)}
         />
-      </div>
-      <div className="title">Архив документов</div>
-      <div className="todays_date">
-        Дата:{" "}
-        <span style={{ fontWeight: 700 }}>
-          {chosenDate ? dayjs(chosenDate).format("DD.MM.YYYY") : null}
-        </span>
       </div>
       <Table
         loading={isLoading}
