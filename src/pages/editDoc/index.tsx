@@ -110,6 +110,24 @@ const AccountEntryFormNew = () => {
     creditMFO: "Пожалуйста выберете МФО Банка",
   });
 
+  const handleInputChange = (e: unknown) => {
+    // @ts-expect-error try
+    setTempCreditAccount(e.target.value);
+  };
+
+  const handleButtonClick = () => {
+    if (tempCreditAccount) {
+      form.setFieldsValue({
+        creditName: "",
+        creditINN: "",
+        creditBankName: "",
+        creditMFO: "",
+      });
+      // Assuming handleDebet is a function you have defined
+      handleDebet(tempCreditAccount, "credit");
+    }
+  };
+
   const fetchEditForm = async () => {
     const paymentPurpose = await getPaymentPurposes();
     setPurposeList(paymentPurpose);
@@ -423,12 +441,39 @@ const AccountEntryFormNew = () => {
     return Promise.resolve();
   };
 
+  // @ts-expect-error try
+  const normalizeValue = (value) => {
+    const filteredValue = value.replace(/\D/g, "");
+    return filteredValue;
+  };
+
+  // @ts-expect-error try
+  const CustomInput = ({ value, onChange, onButtonClick }) => {
     // @ts-expect-error try
-    const normalizeValue = (value) => {
-      const filteredValue = value.replace(/\D/g, '');
-      return filteredValue;
-    }
-  
+    const handleInputChange = (e) => {
+      onChange(e.target.value);
+    };
+
+    return (
+      <div style={{ display: "flex" }}>
+        <Input
+          value={value}
+          onChange={handleInputChange}
+          maxLength={20}
+          style={{ width: 400 }}
+        />
+        <DownCircleFilled
+          onClick={onButtonClick}
+          style={{
+            fontSize: 24,
+            color: "#1677ff",
+            cursor: "pointer",
+            marginLeft: 5,
+          }}
+        />
+      </div>
+    );
+  };
 
   return (
     <>
@@ -714,65 +759,22 @@ const AccountEntryFormNew = () => {
           >
             <h3 style={{ marginBottom: 10 }}>Кредит</h3>
 
-            
-              <Form.Item
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 20 }}
-                label="Лицевой счет получателя"
-                rules={[
-                  {
-                    required: true,
-                    message: "",
-                  },
-                  { validator: validateAccount },
-                ]}
-                name="creditAccount"
-              >
-                <div style={{ display: "flex" }}>
-                <Input
-                  onChange={({ target: { value } }) => {
-                    console.log("val: ", value);
-                    setTempCreditAccount(value);
-                  }}
-                  maxLength={20}
-                  style={{ width: 400 }}
-                />
-               
-            
-                <DownCircleFilled
-                  onClick={() => {
-                    if (tempCreditAccount) {
-                      form.setFieldValue("creditName", "");
-                      form.setFieldValue("creditINN", "");
-                      form.setFieldValue("creditBankName", "");
-                      form.setFieldValue("creditMFO", "");
-                      handleDebet(tempCreditAccount, "credit");
-                    }
-                  }}
-                  style={{ 
-                    fontSize: 24, 
-                    color: "#1677ff", 
-                    cursor: "pointer",
-                    marginLeft: 5, 
-                  }}
-                />
-                </div>
-              </Form.Item>
-            
-            {/* <Form.Item style={{ marginRight: 8 }}>
-              <RightCircleFilled
-                onClick={() => {
-                  if (creditAccount) {
-                    form.setFieldValue("creditName", "");
-                    form.setFieldValue("creditINN", "");
-                    form.setFieldValue("creditBankName", "");
-                    form.setFieldValue("creditMFO", "");
-                    handleDebet(creditAccount, "credit");
-                  }
-                }}
-                style={{ fontSize: 24, color: "#1677ff", cursor: "pointer" }}
+            <Form.Item
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 20 }}
+              label="Лицевой счет получателя"
+              rules={[
+                { required: true, message: "" },
+                { validator: validateAccount },
+              ]}
+              name="creditAccount"
+            >
+              <CustomInput
+                value={tempCreditAccount}
+                onChange={handleInputChange}
+                onButtonClick={handleButtonClick}
               />
-            </Form.Item> */}
+            </Form.Item>
 
             <Form.Item
               label="Наименование получателя"
