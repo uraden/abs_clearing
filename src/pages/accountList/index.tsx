@@ -59,6 +59,7 @@ const AccoutDocs = () => {
       title: "Статус",
       dataIndex: "statusName",
       key: "statusName",
+      align: "center"
       // render: (statusText: string) => {
       //   if (statusText) {
       //     let tempStatus = _.find(status, { statusTitle: statusText });

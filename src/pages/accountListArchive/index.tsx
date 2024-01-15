@@ -9,7 +9,6 @@ import moment from "moment";
 import _ from "lodash";
 import dayjs from "dayjs";
 import { fetchOperDay } from "../../assets/reusable/functions";
-// import { IOperday } from "../../assets/interfaces";
 
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
@@ -24,6 +23,12 @@ const AccountListArchive = () => {
 
   // redux is below
   // const dispatch = useDispatch();
+
+  const  formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
+    const parts = Number(amount).toFixed(minimumFractionDigits).toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+}
 
   const columns = [
     { title: "№ Док.", dataIndex: "documentNumber", key: "documentNumber", align: "center"  },
@@ -47,7 +52,7 @@ const AccountListArchive = () => {
       children: [
         { title: "МФО", dataIndex: "debitMFO", key: "debitMFO", align: "center" },
         { title: "Счет", dataIndex: "debitAccount", key: "debitAccount", align: "center" },
-        { title: "ИНН", dataIndex: "debitINN", key: "debitINN" },
+        { title: "ИНН", dataIndex: "debitINN", key: "debitINN", align: "center" },
         { title: "Наименование", dataIndex: "debitName", key: "debitName", align: "center" },
         // { title: "ИНН", dataIndex: "creditINN", key: "creditINN" },
       ],
@@ -69,7 +74,7 @@ const AccountListArchive = () => {
       render: (amount: string) => ({
         children: (
           <div style={{ textAlign: 'right' }}>
-            {Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+           {formatNumberWithCommas(amount)}
           </div>
         ),
       }),
@@ -78,6 +83,7 @@ const AccountListArchive = () => {
       title: "Статус",
       dataIndex: "statusName",
       key: "statusName",
+      align: 'center'
       // render: (statusText: string) => {
       //   if (statusText) {
       //     let tempStatus = _.find(status, { statusTitle: statusText });

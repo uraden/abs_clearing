@@ -490,7 +490,7 @@ const AccountEntryFormNew = () => {
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 20 }}
               >
-                <Input maxLength={9} style={{ width: 400, display: "flex" }} />
+                <InputNumber maxLength={9} style={{ width: 400, display: "flex" }} />
                 {/* <Input disabled={editData.debitINN ? true : false} maxLength={9} /> */}
               </Form.Item>
             </div>
@@ -550,7 +550,7 @@ const AccountEntryFormNew = () => {
               name="creditAccount"
             >
               <div style={{ display: "flex" }}>
-                <Input
+                <InputNumber
                   onChange={({ target: { value } }) => {
                     console.log("val: ", value);
                     setTempCreditAccount(value);
@@ -625,7 +625,7 @@ const AccountEntryFormNew = () => {
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
             >
-              <Input
+              <InputNumber
                 maxLength={9}
                 // readOnly={checkValue("creditINN")}
                 style={{
