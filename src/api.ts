@@ -28,4 +28,5 @@ export default {
   orderChange: () => [baseUrl, "doc", "change"].join("/"),
   orderStatus: () => [baseUrl, "doc", "status", "all"].join("/"),
   paymentPurposeList: () => [baseUrl, "payment-purpose", "all"].join("/"),
+  currency: (curr: string, date: string) => ["https://cbu.uz/ru/arkhiv-kursov-valyut/json", curr, date].join('/'),
 };

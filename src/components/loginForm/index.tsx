@@ -48,7 +48,7 @@ const LoginForm: React.FC = () => {
 
     if (response && response.accessToken) {
       localStorage.setItem("accessToken", response.accessToken);
-      navigate("/");
+      navigate("/account-page");
     }
     setLoading(false);
   };
