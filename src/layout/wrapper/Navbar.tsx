@@ -340,7 +340,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             </span>
           </div>
           <div>
-            Имя:{" "}
+            Пользователь:{" "}
             <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
               {profile?.fullName}
             </span>
