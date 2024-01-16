@@ -11,12 +11,15 @@ const NotFound = () => {
       <h1 className="not-found-error-text">
         Упс, к сожалению у вас нету доступа к этой странице.
       </h1>
-      <div>
+      <div style={{
+        display: 'flex',
+        alignItems: "center"
+      }}>
         <Link to="/account-page">
           <Button
             style={{
-              fontSize: 36,
-              height: 80,
+              fontSize: 20,
+              height: 50,
             }}
             type="primary"
             size="large"
