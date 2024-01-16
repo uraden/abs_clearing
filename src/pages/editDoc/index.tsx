@@ -95,7 +95,7 @@ const AccountEntryFormNew = () => {
   const [tempCreditAccount, setTempCreditAccount] = useState("");
   const [debetAccount, setDebetAccount] = useState("");
   const [accountList, setAccountList] = useState([]);
-  const [creditAccountDefault, setCreditAccountDefault] = useState("");
+
   const { docId } = useParams();
   // const { pathname: urlChange } = useLocation();
   const [docType, setDocType] = useState("01");
