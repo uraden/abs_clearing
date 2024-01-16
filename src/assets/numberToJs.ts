@@ -96,7 +96,7 @@ export function withDecimal(n: any) {
     var fraction = numToWords(nums[1]);
     console.log('farcccc: ', fraction, nums);
     if(fraction == 'undefined') {
-      return whole + " сум" + 'один тийин'
+      return whole + " сум " + ' один тийин'
     }
     return whole + " сум " + fraction + " тийин";
   } else {
