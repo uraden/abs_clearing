@@ -20,6 +20,7 @@ import AccountPeriodReport from "./pages/accountPeriodReports/index.tsx";
 import AccountRecentReport from "./pages/accountRecentReports/index.tsx";
 import DeleteIncomplete from "./pages/deleteIncomplete/index.tsx";
 import Reference from "./pages/reference/index.tsx";
+import BankReference from "./pages/bankReference/index.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -149,6 +150,14 @@ function App() {
       element: (
         <Protected>
           <Reference />
+        </Protected>
+      ),
+    },
+    {
+      path: "/bank-reference",
+      element: (
+        <Protected>
+          <BankReference />
         </Protected>
       ),
     },

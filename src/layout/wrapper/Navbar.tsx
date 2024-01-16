@@ -168,7 +168,11 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     getItem("Сервис", "9", <BlockOutlined />, [
       getItem("Импорт документов", "draft-form"),
     ]),
-    getItem("Справочник", "reference", <HddOutlined />),
+    getItem("Справочники", "reference", <HddOutlined />, 
+    [
+      getItem("Справочник", "reference"),
+      getItem("Банковские справочники", "bank-reference"),
+    ]),
   ];
 
   if (items[0]) {
