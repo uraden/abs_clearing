@@ -11,6 +11,10 @@ import {
   DollarOutlined,
   RiseOutlined,
   FallOutlined,
+  AlignLeftOutlined,
+  ContactsOutlined,
+  ContainerOutlined,
+  HddOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Avatar, Button, Flex, Layout, Menu, Modal, Popover } from "antd";
@@ -167,6 +171,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     getItem("Сервис", "9", <BlockOutlined />, [
       getItem("Импорт документов", "draft-form"),
     ]),
+    getItem("Справочник", "reference", <HddOutlined />),
   ];
 
   if (items[0]) {
@@ -253,17 +258,15 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           <div className="currency-icon">
             <DollarOutlined style={{ fontSize: 20 }} />
             {formatNumberWithCommas(String(currencies.usd.Rate), 2)}
-            
             <div
               style={{
                 color: currencies.usd.Diff.includes("-") ? "red" : "green",
                 marginRight: 2,
-                marginLeft: 2
+                marginLeft: 2,
               }}
             >
               ({currencies.usd.Diff})
             </div>
-            
             {currencies.usd.Diff.includes("-") ? (
               <FallOutlined style={{ color: "red", fontSize: 20 }} />
             ) : (
@@ -277,12 +280,12 @@ const Navbar = ({ children }: { children: ReactNode }) => {
               style={{
                 color: currencies.euro.Diff.includes("-") ? "red" : "green",
                 marginRight: 2,
-                marginLeft: 2
+                marginLeft: 2,
               }}
             >
               ({currencies.euro.Diff})
             </div>
-            
+
             {currencies.euro.Diff.includes("-") ? (
               <FallOutlined style={{ color: "red", fontSize: 20 }} />
             ) : (
@@ -334,21 +337,22 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         при УзРВБ {currentYear} */}
         <Flex justify="space-between">
           <div>
-            Срок действия пароля:{" "}
+            Клиент:{" "}
             <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
-              10.01.2024 13:57 (осталось 21 дней)
+              {profile?.clientName}
             </span>
           </div>
           <div>
-            логин:{" "}
+            Имя:{" "}
             <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
               {profile?.fullName}
             </span>
           </div>
+
           <div>
-            Клиент:{" "}
+            Срок действия пароля:{" "}
             <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
-              {profile?.clientName}
+              10.01.2024 13:57 (осталось 21 дней)
             </span>
           </div>
         </Flex>
