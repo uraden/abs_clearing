@@ -11,9 +11,6 @@ import {
   DollarOutlined,
   RiseOutlined,
   FallOutlined,
-  AlignLeftOutlined,
-  ContactsOutlined,
-  ContainerOutlined,
   HddOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
