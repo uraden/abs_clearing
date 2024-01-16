@@ -426,3 +426,30 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.footer-container {
+  background: #fff;
+}
+
+.header-container {
+  display: flex;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  /* color: red; */
+}
+
+.currency-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+}
+
+.currency-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+/* marginRight: 64, display: 'flex' */

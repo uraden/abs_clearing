@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Main from "./pages/mainPage/index.tsx";
+// import Main from "./pages/mainPage/index.tsx";
 import LoginForm from "./pages/loginPage";
 import Protected from "./routes/Protected.tsx";
 import "./App.css";
@@ -22,14 +22,14 @@ import DeleteIncomplete from "./pages/deleteIncomplete/index.tsx";
 
 function App() {
   const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (
-        <Protected>
-          <Main />
-        </Protected>
-      ),
-    },
+    // {
+    //   path: "/",
+    //   element: (
+    //     <Protected>
+    //       <Main />
+    //     </Protected>
+    //   ),
+    // },
     {
       path: "/draft-form",
       element: (

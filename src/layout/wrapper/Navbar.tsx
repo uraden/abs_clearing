@@ -6,14 +6,23 @@ import {
   PieChartOutlined,
   FileDoneOutlined,
   BlockOutlined,
+  UserOutlined,
+  EuroCircleOutlined,
+  DollarOutlined,
+  RiseOutlined,
+  FallOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, Layout, Menu, Modal, Popover } from "antd";
+import { Avatar, Button, Flex, Layout, Menu, Modal, Popover } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import CustomPassword from "../../components/password";
 import { getProfile } from "../../assets/reusable/requests";
 import dayjs from "dayjs";
+import {
+  formatNumberWithCommas,
+  getCurrency,
+} from "../../assets/reusable/functions";
 // import { fetchOperDay } from "../../assets/reusable/functions";
 
 const { Header, Content, Footer } = Layout;
@@ -41,6 +50,16 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   const [activeMenu, setActiveMenu] = useState(
     location.pathname.replace("/", "")
   );
+  const [currencies, setCurrencies] = useState({
+    usd: {
+      Rate: 0,
+      Diff: "",
+    },
+    euro: {
+      Rate: 0,
+      Diff: "",
+    },
+  });
   // const {
   //   token: { colorBgContainer },
   // } = theme.useToken();
@@ -86,8 +105,14 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   const fetchProfile = async () => {
     const response = await getProfile();
     setProfile(response);
+    const usd = await getCurrency("USD", dayjs().format("YYYY-MM-DD"));
+    const euro = await getCurrency("EUR", dayjs().format("YYYY-MM-DD"));
+    setCurrencies({
+      usd: usd[0],
+      euro: euro[0],
+    });
   };
-
+  console.log("currencies: ", currencies);
   // const fetchOperdays = async () => {
   //   const response = await fetchOperDay();
   //   console.log('ressss: ', response);
@@ -101,7 +126,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     dispatch(fetchGlobalDate());
   }, []);
 
-  const currentYear = new Date().getFullYear();
+  // const currentYear = new Date().getFullYear();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -120,7 +145,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   );
 
   const items: MenuItem[] = [
-    getItem(logoImg, ""),
+    // getItem(logoImg, ""),
     getItem("Счета", "account-page-home", <PieChartOutlined />, [
       getItem("Мои Счета", "account-page"),
       getItem("Остатки и обороты счетов", "account-balance-page"),
@@ -193,14 +218,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       >
         <CustomPassword onClose={() => setIsModalOpen(false)} />
       </Modal>
-      <Header
-        style={{
-          display: "flex",
-          background: "#fff",
-          borderBottom: "1px solid #F0F0F0",
-          color: "red",
-        }}
-      >
+      <Header className="header-container">
+        <div style={{ width: "20vw" }}>{logoImg}</div>
         <Menu
           // theme="dark"
           defaultSelectedKeys={[activeMenu]}
@@ -223,15 +242,61 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             {dayjs(globalDate.date).format("DD.MM.YYYY")}
           </span>
         </div>
+        <div className="currency-container">
+          <div>
+            ЦБ{" "}
+            <span style={{ fontStyle: "italic" }}>
+              {dayjs().format("DD.MM.YYYY")}
+            </span>
+            :
+          </div>
+          <div className="currency-icon">
+            <DollarOutlined style={{ fontSize: 20 }} />
+            {formatNumberWithCommas(String(currencies.usd.Rate), 2)}
+            
+            <div
+              style={{
+                color: currencies.usd.Diff.includes("-") ? "red" : "green",
+                marginRight: 2,
+                marginLeft: 2
+              }}
+            >
+              ({currencies.usd.Diff})
+            </div>
+            
+            {currencies.usd.Diff.includes("-") ? (
+              <FallOutlined style={{ color: "red", fontSize: 20 }} />
+            ) : (
+              <RiseOutlined style={{ color: "green", fontSize: 20 }} />
+            )}{" "}
+          </div>
+          <div className="currency-icon">
+            <EuroCircleOutlined style={{ fontSize: 20 }} />
+            {formatNumberWithCommas(String(currencies.euro.Rate), 2)}
+            <div
+              style={{
+                color: currencies.euro.Diff.includes("-") ? "red" : "green",
+                marginRight: 2,
+                marginLeft: 2
+              }}
+            >
+              ({currencies.euro.Diff})
+            </div>
+            
+            {currencies.euro.Diff.includes("-") ? (
+              <FallOutlined style={{ color: "red", fontSize: 20 }} />
+            ) : (
+              <RiseOutlined style={{ color: "green", fontSize: 20 }} />
+            )}
+          </div>
+        </div>
         <div>
           <Popover trigger="click" title={"Настройки"} content={content}>
-            <Button
-              size="small"
-              style={{ margin: "0 16px", verticalAlign: "middle" }}
-              // onClick={changeUser}
-            >
-              {profile?.fullName} - {profile?.clientName}
-            </Button>
+            <Avatar
+              style={{ cursor: "pointer" }}
+              size={40}
+              icon={<UserOutlined />}
+            />
           </Popover>
         </div>
       </Header>
@@ -260,13 +325,33 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         </div> */}
         <div className="content-container">{children}</div>
       </Content>
-      <Footer className="main-footer" style={{ textAlign: "center" }}>
-        АО
+      <Footer className="footer-container">
+        {/* АО
         <span style={{ fontStyle: "italic" }}>
           {" "}
           "Национальный Клиринговый Центр"
         </span>{" "}
-        при УзРВБ {currentYear}
+        при УзРВБ {currentYear} */}
+        <Flex justify="space-between">
+          <div>
+            Срок действия пароля:{" "}
+            <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
+              10.01.2024 13:57 (осталось 21 дней)
+            </span>
+          </div>
+          <div>
+            логин:{" "}
+            <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
+              {profile?.fullName}
+            </span>
+          </div>
+          <div>
+            Клиент:{" "}
+            <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
+              {profile?.clientName}
+            </span>
+          </div>
+        </Flex>
       </Footer>
     </Layout>
   );

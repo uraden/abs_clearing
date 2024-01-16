@@ -12,7 +12,7 @@ const NotFound = () => {
         Упс, к сожалению у вас нету доступа к этой странице.
       </h1>
       <div>
-        <Link to="/">
+        <Link to="/account-page">
           <Button
             style={{
               fontSize: 36,
