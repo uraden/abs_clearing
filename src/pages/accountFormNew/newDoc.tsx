@@ -11,21 +11,12 @@ import {
   notification,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-// import { useParams, useLocation } from "react-router";
-
-// import { createNewOrder, getActiveInfo, getActiveList } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
 
 import _ from "lodash";
 import dayjs from "dayjs";
 import { DownCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-// import {
-// createNewOrder,
-// getActiveList,
-// } from "../../components/accountingEntryFormNew/request";
-
-// import { getActiveInfo } from "../../components/accountingEntryForm/request";
 import {
   createNewOrder,
   getPaymentPurposes,
@@ -250,16 +241,22 @@ const AccountEntryFormNew = () => {
 
   // @ts-expect-error try
   const normalizeValue = (value) => {
-    const filteredValue = value.replace(/\D/g, '');
+    const filteredValue = value.replace(/\D/g, "");
     return filteredValue;
-  }
+  };
+
+  const validateMinLengthDescription = (_: unknown, value: unknown) => {
+    if (typeof value === "string" && value.length > 490) {
+      return Promise.reject(new Error("Максимум 490 символов ввода."));
+    }
+    return Promise.resolve();
+  };
 
   return (
     <>
       <h1 style={{ textAlign: "center", marginBottom: 16 }}>Новый документ </h1>
       <Divider></Divider>
 
-      {/* {contextHolder} */}
       {notificationContextHolder}
       <Form
         layout="horizontal"
@@ -490,7 +487,10 @@ const AccountEntryFormNew = () => {
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 20 }}
               >
-                <InputNumber maxLength={9} style={{ width: 400, display: "flex" }} />
+                <InputNumber
+                  maxLength={9}
+                  style={{ width: 400, display: "flex" }}
+                />
                 {/* <Input disabled={editData.debitINN ? true : false} maxLength={9} /> */}
               </Form.Item>
             </div>
@@ -518,9 +518,7 @@ const AccountEntryFormNew = () => {
               rules={[{ required: true, message: "" }]}
               normalize={normalizeValue}
             >
-              <Input 
-              maxLength={5} 
-              style={{ width: 400, display: "flex" }} />
+              <Input maxLength={5} style={{ width: 400, display: "flex" }} />
             </Form.Item>
           </div>
 
@@ -551,7 +549,7 @@ const AccountEntryFormNew = () => {
             >
               <div style={{ display: "flex" }}>
                 <InputNumber
-                // @ts-expect-error try
+                  // @ts-expect-error try
                   onChange={({ target: { value } }) => {
                     console.log("val: ", value);
                     setTempCreditAccount(value);
@@ -715,7 +713,10 @@ const AccountEntryFormNew = () => {
           }}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
-          rules={[{ required: true, message: "" }]}
+          rules={[
+            { required: true, message: "" },
+            { validator: validateMinLengthDescription },
+          ]}
         >
           <TextArea rows={4} style={{ width: "80%", display: "flex" }} />
         </Form.Item>

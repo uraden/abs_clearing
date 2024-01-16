@@ -9,6 +9,7 @@ import {
   message,
   InputNumber,
   notification,
+  Space,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 // import { changeStatus } from "../../pages/accountForm/request";
@@ -94,6 +95,7 @@ const AccountEntryFormNew = () => {
   const [tempCreditAccount, setTempCreditAccount] = useState("");
   const [debetAccount, setDebetAccount] = useState("");
   const [accountList, setAccountList] = useState([]);
+  const [creditAccountDefault, setCreditAccountDefault] = useState("");
   const { docId } = useParams();
   // const { pathname: urlChange } = useLocation();
   const [docType, setDocType] = useState("01");
@@ -110,10 +112,11 @@ const AccountEntryFormNew = () => {
     creditMFO: "Пожалуйста выберете МФО Банка",
   });
 
-  const handleInputChange = (e: unknown) => {
-    // @ts-expect-error try
-    setTempCreditAccount(e.target.value);
-  };
+  // const handleInputChange = (e: unknown) => {
+  //   console.log('eeee: ', e);
+  //   // @ts-ignore
+  //   setTempCreditAccount(e);
+  // };
 
   const handleButtonClick = () => {
     if (tempCreditAccount) {
@@ -170,6 +173,8 @@ const AccountEntryFormNew = () => {
         debitName: editData?.debitName,
         debPnfl: editData?.debPnfl,
       });
+      console.log("editdddd: ", editData);
+      setTempCreditAccount(editData?.creditAccount);
     }
   }, [editData]);
 
@@ -253,6 +258,7 @@ const AccountEntryFormNew = () => {
   }, []);
 
   const confirmForm = () => {
+    setLoading(false);
     message.success("Поручение создано");
     navigate("/account-list");
   };
@@ -271,10 +277,18 @@ const AccountEntryFormNew = () => {
         id: Number(docId),
         operDay: dayjs(values.operDay).format("YYYY-MM-DD"),
       });
-      console.log("request: ", request);
+      if (request.code === 0) {
+        return confirmForm();
+      }
 
-      confirmForm();
       setLoading(false);
+      return notificationApi.error({
+        message: "Ошибка",
+        duration: 0,
+        placement: "top",
+        description: request.message || null,
+      });
+      // return message.error("Couldn't send form");
     } catch (err) {
       failConfirmForm();
     }
@@ -441,39 +455,45 @@ const AccountEntryFormNew = () => {
     return Promise.resolve();
   };
 
+  const validateMinLengthDescription = (_: unknown, value: unknown) => {
+    if (typeof value === "string" && value.length > 490) {
+      return Promise.reject(new Error("Максимум 490 символов ввода."));
+    }
+    return Promise.resolve();
+  };
+
   // @ts-expect-error try
   const normalizeValue = (value) => {
     const filteredValue = value.replace(/\D/g, "");
     return filteredValue;
   };
 
-  // @ts-expect-error try
-  const CustomInput = ({ value, onChange, onButtonClick }) => {
-    // @ts-expect-error try
-    const handleInputChange = (e) => {
-      onChange(e.target.value);
-    };
+  // const CustomInput = ({ value, onChange, onButtonClick }) => {
+  //   // @ts-ignore
+  //   const handleInputChange = (accountNumber: any) => {
+  //     onChange(accountNumber);
+  //   };
 
-    return (
-      <div style={{ display: "flex" }}>
-        <InputNumber
-          value={value}
-          onChange={handleInputChange}
-          maxLength={20}
-          style={{ width: 400 }}
-        />
-        <DownCircleFilled
-          onClick={onButtonClick}
-          style={{
-            fontSize: 24,
-            color: "#1677ff",
-            cursor: "pointer",
-            marginLeft: 5,
-          }}
-        />
-      </div>
-    );
-  };
+  //   return (
+  //     <div style={{ display: "flex" }}>
+  //       <InputNumber
+  //         value={value}
+  //         onChange={handleInputChange}
+  //         maxLength={20}
+  //         style={{ width: 400 }}
+  //       />
+  //       <DownCircleFilled
+  //         onClick={onButtonClick}
+  //         style={{
+  //           fontSize: 24,
+  //           color: "#1677ff",
+  //           cursor: "pointer",
+  //           marginLeft: 5,
+  //         }}
+  //       />
+  //     </div>
+  //   );
+  // };
 
   return (
     <>
@@ -537,7 +557,6 @@ const AccountEntryFormNew = () => {
             className="aaaaaaaa"
           />
         </Form.Item>
-
         <Form.Item
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
@@ -558,7 +577,6 @@ const AccountEntryFormNew = () => {
             }}
           />
         </Form.Item>
-
         <Form.Item
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
@@ -609,7 +627,6 @@ const AccountEntryFormNew = () => {
             <div>{withDecimal(sum)}</div>
           </div>
         ) : null}
-
         <Divider orientation="left"></Divider>
         <div
           style={{
@@ -715,7 +732,10 @@ const AccountEntryFormNew = () => {
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 20 }}
               >
-                <InputNumber maxLength={9} style={{ width: 400, display: "flex" }} />
+                <InputNumber
+                  maxLength={9}
+                  style={{ width: 400, display: "flex" }}
+                />
                 {/* <Input disabled={editData.debitINN ? true : false} maxLength={9} /> */}
               </Form.Item>
             </div>
@@ -769,11 +789,34 @@ const AccountEntryFormNew = () => {
               ]}
               name="creditAccount"
             >
-              <CustomInput
+              {/* <CustomInput
                 value={tempCreditAccount}
-                onChange={handleInputChange}
+                onChange={(e: any) => {
+                  console.log('e: ', e);
+                  setTempCreditAccount(e)
+                }}
                 onButtonClick={handleButtonClick}
-              />
+              /> */}
+              <Space.Compact style={{ width: "100%" }}>
+                <Input
+                  maxLength={20}
+                  style={{ width: 400 }}
+                  // @ts-ignore
+                  onChange={({ target: { value } }) => {
+                    setTempCreditAccount(value);
+                  }}
+                  value={tempCreditAccount}
+                />
+                <DownCircleFilled
+                  onClick={handleButtonClick}
+                  style={{
+                    fontSize: 24,
+                    color: "#1677ff",
+                    cursor: "pointer",
+                    marginLeft: 5,
+                  }}
+                />
+              </Space.Compact>
             </Form.Item>
 
             <Form.Item
@@ -863,7 +906,6 @@ const AccountEntryFormNew = () => {
           </div>
         </div>
         <Divider />
-
         <Form.Item
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
@@ -901,11 +943,13 @@ const AccountEntryFormNew = () => {
           }}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
-          rules={[{ required: true, message: "" }]}
+          rules={[
+            { required: true, message: "" },
+            { validator: validateMinLengthDescription },
+          ]}
         >
           <TextArea rows={4} style={{ width: "80%", display: "flex" }} />
         </Form.Item>
-
         <div
           className="horizontal"
           style={{ display: "flex", justifyContent: "center", gap: 16 }}
