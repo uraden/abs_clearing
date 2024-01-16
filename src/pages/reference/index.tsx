@@ -1,9 +1,6 @@
 import {
-  Avatar,
-  Card,
   Col,
   Descriptions,
-  Divider,
   List,
   Row,
   Table,
