@@ -95,6 +95,9 @@ export function withDecimal(n: any) {
     // console.log('nums[1]: ', nums[1], Math.round((n + Number.EPSILON) * 100) / 100);
     var fraction = numToWords(nums[1]);
     console.log('farcccc: ', fraction, nums);
+    if(fraction == 'undefined') {
+      return whole + " сум" + 'один тийин'
+    }
     return whole + " сум " + fraction + " тийин";
   } else {
     return whole + " сум";
