@@ -15,8 +15,6 @@ const BankReference = () => {
     // dispatch(fetchGlobalDate());
   }, []);
 
-  console.log('res', bankDirectory)
-
   // const uzbekBanks = [
   //   {
   //     name: "TBC Bank",
@@ -72,8 +70,6 @@ const BankReference = () => {
   // ];
 
   // const itemsPerColumn = Math.ceil(uzbekBanks.length / 3);
-
-  console.log("fdsafdsaf", bankDirectory);
 
   const onSearch = (value: string) => {
     console.log("search:", value);
