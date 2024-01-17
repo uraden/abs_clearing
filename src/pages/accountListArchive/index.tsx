@@ -37,12 +37,14 @@ const AccountListArchive = () => {
       dataIndex: "documentNumber",
       key: "documentNumber",
       align: "center",
+      fixed: "left"
     },
     {
       title: "Дата Док.",
       dataIndex: "operDay",
       key: "operDay",
       align: "center",
+      fixed: "left",
       render: (operDay: string) =>
         operDay ? moment(operDay).format("DD.MM.YYYY") : null,
     },
@@ -112,6 +114,7 @@ const AccountListArchive = () => {
       dataIndex: "total_amount",
       key: "total_amount",
       align: "center",
+      fixed: "right",
       render: (amount: string) => ({
         children: (
           <div style={{ textAlign: 'right' }}>
@@ -124,7 +127,8 @@ const AccountListArchive = () => {
       title: "Статус",
       dataIndex: "statusName",
       key: "statusName",
-      align: 'center'
+      align: 'center',
+      fixed: "right"
       // render: (statusText: string) => {
       //   if (statusText) {
       //     let tempStatus = _.find(status, { statusTitle: statusText });
@@ -243,6 +247,7 @@ const AccountListArchive = () => {
         columns={columns}
         bordered
         style={{ marginTop: 40 }}
+        scroll={{ x: 1500 }}
       />
     </>
   );

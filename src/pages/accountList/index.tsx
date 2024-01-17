@@ -24,12 +24,14 @@ const AccoutDocs = () => {
       dataIndex: "documentNumber",
       key: "documentNumber",
       align: "center",
+      fixed: "left",
     },
     {
       title: "Дата Док.",
       dataIndex: "operDay",
       key: "operDay",
       align: "center",
+      fixed: "left",
       render: (operDay: string) =>
         operDay ? moment(operDay).format("DD.MM.YYYY") : null,
     },
@@ -109,7 +111,7 @@ const AccoutDocs = () => {
       title: "Статус",
       dataIndex: "statusName",
       key: "statusName",
-      align: "center"
+      align: "center",
       // render: (statusText: string) => {
       //   if (statusText) {
       //     let tempStatus = _.find(status, { statusTitle: statusText });
@@ -123,6 +125,7 @@ const AccoutDocs = () => {
     {
       title: "Действие",
       key: "action",
+      fixed: 'right',
       //@ts-ignore
       render: (_, record) => (
         <Space size="middle">
@@ -206,10 +209,11 @@ const AccoutDocs = () => {
       <Table
         loading={isLoading}
         dataSource={dataSource}
-        //@ts-ignore
+        //@ts-expect-error try
         columns={columns}
         bordered
         style={{ marginTop: 40 }}
+        scroll={{ x: 1500 }}
       />
     </>
   );
