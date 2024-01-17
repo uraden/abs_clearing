@@ -13,7 +13,8 @@ const NotFound = () => {
       </h1>
       <div style={{
         display: 'flex',
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: 'center'
       }}>
         <Link to="/account-page">
           <Button
