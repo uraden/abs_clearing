@@ -100,7 +100,7 @@ const BankReference = () => {
             filterOption={filterOption}
             value={selectedBank}
             // @ts-expect-error try
-            options={bankDirectory.map((purpose: IPurpose) => ({
+            options={bankDirectory?.map((purpose: IPurpose) => ({
               label: `${purpose.mfo} - ${purpose.name}`,
               value: purpose.mfo,
             }))}

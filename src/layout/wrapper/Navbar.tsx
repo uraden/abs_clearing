@@ -170,8 +170,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     ]),
     getItem("Справочники", "reference", <HddOutlined />, 
     [
-      getItem("Справочник", "reference"),
-      getItem("Банковские справочники", "bank-reference"),
+      getItem("Техническая поддержка", "reference"),
+      getItem("Филиалы банков", "bank-reference"),
     ]),
   ];
 
