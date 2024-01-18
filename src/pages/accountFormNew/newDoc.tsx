@@ -9,6 +9,7 @@ import {
   message,
   InputNumber,
   notification,
+  Space,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { withDecimal } from "../../assets/numberToJs";
@@ -547,15 +548,15 @@ const AccountEntryFormNew = () => {
               ]}
               name="creditAccount"
             >
-              <div style={{ display: "flex" }}>
-                <InputNumber
-                  // @ts-expect-error try
+              <Space.Compact style={{ width: "100%" }}>
+                <Input
+                  // @ts-expect-error
                   onChange={({ target: { value } }) => {
                     console.log("val: ", value);
                     setTempCreditAccount(value);
                   }}
                   maxLength={20}
-                  style={{ width: 400, display: "flex" }}
+                  style={{ width: 400}}
                 />
 
                 <DownCircleFilled
@@ -575,7 +576,7 @@ const AccountEntryFormNew = () => {
                     marginLeft: 5,
                   }}
                 />
-              </div>
+                </Space.Compact>
             </Form.Item>
 
             {/* <Form.Item style={{ marginRight: 8 }}>
