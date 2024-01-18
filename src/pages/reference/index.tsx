@@ -50,12 +50,12 @@ const Reference = () => {
     {
       key: 1,
       bank_type: "Время закрытия межбанковских услуг",
-      end_time: dayjs(filteredData?.externalBank, "HH:mm:ss").format("HH:mm")
+      end_time: dayjs(filteredData?.internalBank, "HH:mm:ss").format("HH:mm")
     },
     {
       key: 2,
       bank_type: "Время закрытия внутрибанковских услуг",
-      end_time: dayjs(filteredData?.internalBank, "HH:mm:ss").format("HH:mm"),
+      end_time: dayjs(filteredData?.externalBank, "HH:mm:ss").format("HH:mm"),
     },
   ];
 
