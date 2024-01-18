@@ -49,19 +49,21 @@ const AccoutDocs = () => {
           dataIndex: "debitAccount",
           key: "debitAccount",
           align: "center",
+          width: '12%',
+          render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
         },
-        {
-          title: "ИНН",
-          dataIndex: "debitINN",
-          key: "debitINN",
-          align: "center",
-        },
-        {
-          title: "Наименование",
-          dataIndex: "debitName",
-          key: "debitName",
-          align: "center",
-        },
+        // {
+        //   title: "ИНН",
+        //   dataIndex: "debitINN",
+        //   key: "debitINN",
+        //   align: "center",
+        // },
+        // {
+        //   title: "Наименование",
+        //   dataIndex: "debitName",
+        //   key: "debitName",
+        //   align: "center",
+        // },
         // { title: "ИНН", dataIndex: "creditINN", key: "creditINN" },
       ],
     },
@@ -79,19 +81,21 @@ const AccoutDocs = () => {
           dataIndex: "creditAccount",
           key: "creditAccount",
           align: "center",
+          width: '12%',
+          render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
         },
-        {
-          title: "ИНН",
-          dataIndex: "creditINN",
-          key: "creditINN",
-          align: "center",
-        },
-        {
-          title: "Наименование",
-          dataIndex: "creditName",
-          key: "creditName",
-          align: "center",
-        },
+        // {
+        //   title: "ИНН",
+        //   dataIndex: "creditINN",
+        //   key: "creditINN",
+        //   align: "center",
+        // },
+        // {
+        //   title: "Наименование",
+        //   dataIndex: "creditName",
+        //   key: "creditName",
+        //   align: "center",
+        // },
       ],
     },
     {
@@ -202,6 +206,8 @@ const AccoutDocs = () => {
   useEffect(() => {
     fetchOperdays();
   }, []);
+
+  
 
   return (
     <>
