@@ -18,6 +18,7 @@ import Revenue from "./pages/accountBalancePage/revenue/index.tsx";
 import BalanceSheetPage from "./pages/balanceSheetPage/index.tsx";
 import BalancePeriodSheetPage from "./pages/balancePeriodSheetPage/index.tsx";
 import AccountPeriodReport from "./pages/accountPeriodReports/index.tsx";
+import BalanceExchange from "./pages/balanceExchange/index.tsx"
 import AccountRecentReport from "./pages/accountRecentReports/index.tsx";
 import DeleteIncomplete from "./pages/deleteIncomplete/index.tsx";
 import Reference from "./pages/reference/index.tsx";
@@ -127,6 +128,14 @@ function App() {
       element: (
         <Protected>
           <AccountPeriodReport />
+        </Protected>
+      ),
+    },
+    {
+      path: "/saldo-report",
+      element: (
+        <Protected>
+          <BalanceExchange />
         </Protected>
       ),
     },

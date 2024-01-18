@@ -40,8 +40,8 @@ const DraftForm = () => {
       children: [
         { title: "МФО", dataIndex: "mfo_2", key: "mfo_2" },
         { title: "Счет", dataIndex: "account_2", key: "account_2" },
-        { title: "ИНН", dataIndex: "inn_2", key: "inn_2" },
-        { title: "Наименование", dataIndex: "name_2", key: "name_2" },
+        // { title: "ИНН", dataIndex: "inn_2", key: "inn_2" },
+        // { title: "Наименование", dataIndex: "name_2", key: "name_2" },
         // { title: "ИНН", dataIndex: "inn_1", key: "inn_1" },
       ],
     },
@@ -50,8 +50,8 @@ const DraftForm = () => {
       children: [
         { title: "МФО", dataIndex: "mfo_1", key: "mfo_1" },
         { title: "Счет", dataIndex: "account_1", key: "account_1" },
-        { title: "ИНН", dataIndex: "inn_1", key: "inn_1" },
-        { title: "Наименование", dataIndex: "name_1", key: "name_1" },
+        // { title: "ИНН", dataIndex: "inn_1", key: "inn_1" },
+        // { title: "Наименование", dataIndex: "name_1", key: "name_1" },
       ],
     },
     {

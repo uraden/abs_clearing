@@ -453,3 +453,16 @@
   gap: 3px;
 }
 /* marginRight: 64, display: 'flex' */
+
+.custom-text-warning {
+  animation: color-change 0.5s infinite;
+}
+
+@keyframes color-change {
+  0% { color: #ffccc7; }
+  20% { color: #ffa39e; }
+  40% { color: #ff7875; }
+  60% { color: #ff4d4f; }
+  80% { color: #f5222d; }
+  100% { color: #cf1322; }
+}

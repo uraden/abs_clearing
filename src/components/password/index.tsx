@@ -1,6 +1,7 @@
 import { Form, Input } from "antd";
 // import { useEffect } from "react";
 import {changePassword} from "./request"
+import { useSelector } from "react-redux";
 
 const formItemLayout = {
   labelCol: {
@@ -16,6 +17,8 @@ const formItemLayout = {
 //@ts-expect-error ignore for npm run build
 const Password = ({ onClose }) => {
   const [form] = Form.useForm();
+  // @ts-ignore
+  const { globalDate } = useSelector((state: unknown) => state.globalDate);
 
   interface MyFormValues {
     currentPassword: string;
@@ -34,8 +37,8 @@ const Password = ({ onClose }) => {
         return;
       }
 
-      const result = await await changePassword({
-        "id": "10",
+      const result = await changePassword({
+        "id": globalDate.id,
         "oldPassword": values.currentPassword,
         "newPassword": values.newPassword,
       });
