@@ -37,14 +37,14 @@ const AccountListArchive = () => {
       dataIndex: "documentNumber",
       key: "documentNumber",
       align: "center",
-      fixed: "left"
+      // fixed: "left"
     },
     {
       title: "Дата Док.",
       dataIndex: "operDay",
       key: "operDay",
       align: "center",
-      fixed: "left",
+      // fixed: "left",
       render: (operDay: string) =>
         operDay ? moment(operDay).format("DD.MM.YYYY") : null,
     },
@@ -69,14 +69,22 @@ const AccountListArchive = () => {
           dataIndex: "debitAccount",
           key: "debitAccount",
           align: "center",
+          width: '12%',
+          render: (amount: string) => ({
+            children: (
+              <div style={{whiteSpace: 'nowrap'}}>
+               {amount}
+              </div>
+            ),
+          }),
         },
-        { title: "ИНН", dataIndex: "debitINN", key: "debitINN", align: "center" },
-        {
-          title: "Наименование",
-          dataIndex: "debitName",
-          key: "debitName",
-          align: "center",
-        },
+        // { title: "ИНН", dataIndex: "debitINN", key: "debitINN", align: "center" },
+        // {
+        //   title: "Наименование",
+        //   dataIndex: "debitName",
+        //   key: "debitName",
+        //   align: "center",
+        // },
         // { title: "ИНН", dataIndex: "creditINN", key: "creditINN" },
       ],
     },
@@ -94,19 +102,27 @@ const AccountListArchive = () => {
           dataIndex: "creditAccount",
           key: "creditAccount",
           align: "center",
+          width: '12%',
+          render: (amount: string) => ({
+            children: (
+              <div style={{whiteSpace: 'nowrap'}}>
+               {amount}
+              </div>
+            ),
+          }),
         },
-        {
-          title: "ИНН",
-          dataIndex: "creditINN",
-          key: "creditINN",
-          align: "center",
-        },
-        {
-          title: "Наименование",
-          dataIndex: "creditName",
-          key: "creditName",
-          align: "center",
-        },
+        // {
+        //   title: "ИНН",
+        //   dataIndex: "creditINN",
+        //   key: "creditINN",
+        //   align: "center",
+        // },
+        // {
+        //   title: "Наименование",
+        //   dataIndex: "creditName",
+        //   key: "creditName",
+        //   align: "center",
+        // },
       ],
     },
     {
@@ -114,7 +130,7 @@ const AccountListArchive = () => {
       dataIndex: "total_amount",
       key: "total_amount",
       align: "center",
-      fixed: "right",
+      // fixed: "right",
       render: (amount: string) => ({
         children: (
           <div style={{ textAlign: 'right' }}>
@@ -128,7 +144,7 @@ const AccountListArchive = () => {
       dataIndex: "statusName",
       key: "statusName",
       align: 'center',
-      fixed: "right"
+      // fixed: "right"
       // render: (statusText: string) => {
       //   if (statusText) {
       //     let tempStatus = _.find(status, { statusTitle: statusText });

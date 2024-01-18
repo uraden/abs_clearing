@@ -24,14 +24,14 @@ import BankReference from "./pages/bankReference/index.tsx";
 
 function App() {
   const router = createBrowserRouter([
-    // {
-    //   path: "/",
-    //   element: (
-    //     <Protected>
-    //       <Main />
-    //     </Protected>
-    //   ),
-    // },
+    {
+      path: "/",
+      element: (
+        <Protected>
+          <AccountPage />
+        </Protected>
+      ),
+    },
     {
       path: "/draft-form",
       element: (
@@ -81,14 +81,14 @@ function App() {
         </Protected>
       ),
     },
-    {
-      path: "/account-page",
-      element: (
-        <Protected>
-          <AccountPage />
-        </Protected>
-      ),
-    },
+    // {
+    //   path: "/account-page",
+    //   element: (
+    //     <Protected>
+    //       <AccountPage />
+    //     </Protected>
+    //   ),
+    // },
     {
       path: "/account-balance-page",
       element: (

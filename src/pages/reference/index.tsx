@@ -59,7 +59,7 @@ const Reference = () => {
 
   return (
     <div style={{ padding: 16 }}>
-      <div className="title">Справочник</div>
+      <div className="title">Техническая поддержка</div>
       <div>
         <Table
           size="small"
