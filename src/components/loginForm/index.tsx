@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Button, Form, Input, notification } from "antd";
 import { login } from "./request";
 import { useNavigate } from "react-router-dom";
+import { getProfile } from "../../assets/reusable/requests";
+import { IProfile } from "../../layout/wrapper/Navbar";
 
 // const Roles = [
 //   {
@@ -48,7 +50,17 @@ const LoginForm: React.FC = () => {
 
     if (response && response.accessToken) {
       localStorage.setItem("accessToken", response.accessToken);
-      navigate("/");
+      const profile = (await getProfile()) as IProfile;
+
+      if (profile.isActive) {
+        navigate("/");
+      } else {
+        api.error({
+          message: "Ошибка при авторизации",
+          description: "Срок действия пароля истек обратитесь к администратору",
+          duration: 4,
+        });
+      }
     }
     setLoading(false);
   };
@@ -82,7 +94,7 @@ const LoginForm: React.FC = () => {
         layout="vertical"
       >
         <Form.Item<FieldType>
-          label={<label style={{color: 'white'}}>Username</label>}
+          label={<label style={{ color: "white" }}>Username</label>}
           name="username"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
@@ -90,7 +102,7 @@ const LoginForm: React.FC = () => {
         </Form.Item>
 
         <Form.Item<FieldType>
-          label={<label style={{color: 'white'}}>Password</label>}
+          label={<label style={{ color: "white" }}>Password</label>}
           name="password"
           rules={[{ required: true, message: "Please input your password!" }]}
         >

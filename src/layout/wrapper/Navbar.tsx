@@ -14,7 +14,16 @@ import {
   HddOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Avatar, Button, Flex, Layout, Menu, Modal, Popover } from "antd";
+import {
+  Avatar,
+  Button,
+  Flex,
+  Layout,
+  Menu,
+  Modal,
+  Popover,
+  notification,
+} from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import CustomPassword from "../../components/password";
@@ -28,7 +37,7 @@ import {
 
 const { Header, Content, Footer } = Layout;
 
-interface IProfile {
+export interface IProfile {
   clientId: number;
   clientName: string;
   fullName: string;
@@ -37,6 +46,8 @@ interface IProfile {
   roleId: number;
   roleName: string;
   userName: string;
+  isActive: boolean;
+  expiredDate: string;
 }
 
 // interface IOperday {
@@ -47,6 +58,7 @@ interface IProfile {
 
 const Navbar = ({ children }: { children: ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(
     location.pathname.replace("/", "")
@@ -74,6 +86,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     roleId: 0,
     roleName: "",
     userName: "",
+    isActive: false,
+    expiredDate: "",
   });
   // const [operDay, setOperday] = useState<IOperday>({
   //   date: "",
@@ -106,14 +120,21 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   const fetchProfile = async () => {
     const response = await getProfile();
     setProfile(response);
+    console.log("resssss: ", response);
     const usd = await getCurrency("USD", dayjs().format("YYYY-MM-DD"));
     const euro = await getCurrency("EUR", dayjs().format("YYYY-MM-DD"));
     setCurrencies({
       usd: usd[0],
       euro: euro[0],
     });
+    const days = dayjs().diff(response?.expiredDate, "day");
+    if (days < 4) {
+      api.error({
+        message: "Срок действия пароля истек",
+        description: "Срок действия пароля истек, смените пароль",
+      });
+    }
   };
-  console.log("currencies: ", currencies);
   // const fetchOperdays = async () => {
   //   const response = await fetchOperDay();
   //   console.log('ressss: ', response);
@@ -154,22 +175,21 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     getItem("Документы", "0", <FileTextOutlined />, [
       getItem("Новый документ", "new-doc"),
       getItem("Список документов", "account-list"),
+      // getItem("Удаленные и незавершенные платежи", "delete-incomplete"),
       getItem("Архив документов", "account-list-archive"),
     ]),
     getItem("Отчеты", "sub1", <FileDoneOutlined />, [
       getItem("Выписка лицевых счетов", "account-recent-reports"),
       getItem("Выписка лицевых счетов за период", "account-period-reports"),
-      getItem("Сальдо-оборотная ведомость", "/#1"),
-      // getItem("Сальдо-оборотная ведомость за период", "/#2"),
-      getItem("Ведомость платежных операций", "/#3"),
-      getItem("Удаленные и незавершенные платежи", "delete-incomplete"),
-      getItem("Отчет об удаленных документах", "/#5"),
+      getItem("Сальдо-оборотная ведомость", "saldo-report"),
+      // getItem("Ведомость платежных операций", "/#3"),
+      // getItem("Удаленные и незавершенные платежи", "delete-incomplete"),
+      // getItem("Отчет об удаленных документах", "/#5"),
     ]),
     getItem("Сервис", "9", <BlockOutlined />, [
       getItem("Импорт документов", "draft-form"),
     ]),
-    getItem("Справочники", "reference", <HddOutlined />, 
-    [
+    getItem("Справочники", "reference", <HddOutlined />, [
       getItem("Техническая поддержка", "reference"),
       getItem("Филиалы банков", "bank-reference"),
     ]),
@@ -213,8 +233,34 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     </div>
   );
 
+  const passwordReminder = () => {
+    const days = dayjs().diff(profile?.expiredDate, "day");
+    if (days < 4) {
+      return (
+        <span
+          className="custom-text-warning"
+          style={{
+            color: "red",
+            fontStyle: "italic",
+          }}
+        >
+          {dayjs(profile?.expiredDate).format("DD.MM.YYYY")} (осталось {days}{" "}
+          дней)
+        </span>
+      );
+      // return <div>{dayjs(profile?.expiredDate).format('DD.MM.YYYY')}(осталось {days > 3 ? days : <span style={{ color: 'red' }}>{days}</span>} дней)</div>;
+    }
+    return (
+      <span style={{ fontStyle: "italic" }}>
+        {dayjs(profile?.expiredDate).format("DD.MM.YYYY")} (осталось {days}{" "}
+        дней)
+      </span>
+    );
+  };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
+      {contextHolder}
       <Modal
         title="Смена пароля"
         open={isModalOpen}
@@ -352,9 +398,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
           <div>
             Срок действия пароля:{" "}
-            <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
-              10.01.2024 13:57 (осталось 21 дней)
-            </span>
+            {/* <span style={{ fontStyle: "italic", textDecoration: "underline" }}> */}
+            {passwordReminder()}
+            {/* </span> */}
           </div>
         </Flex>
       </Footer>
