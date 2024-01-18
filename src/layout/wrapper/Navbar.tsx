@@ -146,7 +146,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   );
 
   const items: MenuItem[] = [
-    // getItem(logoImg, ""),
+    getItem(logoImg, ""),
     getItem("Счета", "account-page-home", <PieChartOutlined />, [
       // getItem("Мои Счета", "account-page"),
       getItem("Остатки и обороты счетов", "account-balance-page"),
@@ -225,7 +225,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         <CustomPassword onClose={() => setIsModalOpen(false)} />
       </Modal>
       <Header className="header-container">
-        <div style={{ width: "20vw" }}>{logoImg}</div>
+        {/* <div style={{ width: "20vw" }}>{logoImg}</div> */}
         <Menu
           // theme="dark"
           defaultSelectedKeys={[activeMenu]}
