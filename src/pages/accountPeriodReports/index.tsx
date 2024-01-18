@@ -169,9 +169,9 @@ const AccountReport = () => {
         message: "Нет отчетов",
         //@ts-expect-error try to fix
         description: `Нету отчетов c ${dayjs(values.range[0]).format(
-          "YYYY-MM-DD"
+          "DD.MM.YYYY"
           //@ts-expect-error try to fix
-        )} - до ${dayjs(values.range[1]).format("YYYY-MM-DD")}`,
+        )} - до ${dayjs(values.range[1]).format("DD.MM.YYYY")}`,
       });
     }
     // dhandlePdf(response.currentDate, response.ownerAccount, response.operDate);

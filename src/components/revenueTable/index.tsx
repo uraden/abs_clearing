@@ -2,6 +2,7 @@ import { Table } from "antd";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleDebit, getSingleCredit } from "./request";
+import { formatNumberWithCommas } from "../../assets/reusable/functions";
 
 const RevenueTable = () => {
   const [isLoading, setLoading] = useState(true);
@@ -12,19 +13,24 @@ const RevenueTable = () => {
     {
       title: "№",
       dataIndex: "id",
+      align: "center",
+      fixed: "left",
     },
     {
       title: "Документ",
+      
       children: [
         {
           title: "№",
           dataIndex: "documentNumber",
           align: "center",
+          fixed: "left",
         },
         {
           title: "Дата",
           dataIndex: "documentDate",
           align: "center",
+          fixed: "left",
         },
       ],
     },
@@ -40,6 +46,8 @@ const RevenueTable = () => {
           title: "Лицевой счет",
           dataIndex: "debitAccount",
           align: "center",
+          width: '12%',
+          render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
         },
         {
           title: "ИНН",
@@ -60,6 +68,8 @@ const RevenueTable = () => {
           title: "Лицевой счет",
           dataIndex: "creditAccount",
           align: "center",
+          width: '12%',
+          render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
         },
         {
           title: "ИНН",
@@ -73,8 +83,11 @@ const RevenueTable = () => {
       dataIndex: "amount",
       align: "center",
       key: "total_amount",
-      render: (amount: string) =>
-        Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+      render: (amount: string) => (
+        <div style={{ textAlign: "right" }}>
+          {formatNumberWithCommas(amount)}
+        </div>
+      ),
     },
     {
       title: "Назначение",
@@ -109,8 +122,6 @@ const RevenueTable = () => {
     fetchData();
   }, []);
 
-  console.log("this is data", responseData);
-
   return (
     <>
       <Table
@@ -121,6 +132,7 @@ const RevenueTable = () => {
         bordered
         style={{ marginTop: 40 }}
         pagination={false}
+        scroll={{ x: 1500 }}
       />
     </>
   );

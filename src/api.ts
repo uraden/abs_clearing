@@ -15,6 +15,7 @@ export default {
   accountInfo: () => [baseUrl, "account", "info"].join("/"),
   order: () => [baseUrl, "doc", "new"].join("/"),
   orderAll: () => [baseUrl, "doc", "all"].join("/"),
+  // accountReport: () => ['http://100.1.0.45:8090/api/v1', "account", "report"].join("/"), 
   accountReport: () => [baseUrl, "account", "report"].join("/"),
   singleOrder: (oderId: number) => [baseUrl, "doc", oderId].join("/"),
   allAccount: () => [baseUrl, "account", "all"].join("/"),

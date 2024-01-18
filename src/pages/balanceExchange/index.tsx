@@ -10,15 +10,11 @@ import {
 // import jsPDF from "jspdf";
 // import { font } from "../../assets/fonts/font";
 import { useEffect, useState } from "react";
-import {
-  getAccountReportData,
-  getAccounts,
-} from "../accountRecentReports/request";
+// import { getAccountReportData } from "../accountRecentReports/request";
 // import moment from "moment";
 import dayjs from "dayjs";
-import * as ExcelJS from 'exceljs';
-
-
+import * as ExcelJS from "exceljs";
+import { getAccountReport } from "../accountBalancePage/request";
 
 const { RangePicker } = DatePicker;
 
@@ -28,9 +24,7 @@ const AccountReport = () => {
   // });
   const [isLoading, setLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
-  const [accountList, setAccountList] = useState([]);
-  const [apiData, setApiData] = useState();
-
+  const [apiData, setApiData] = useState([]);
 
   // eslint-disable-next-line
   // const handlePdf = (
@@ -88,15 +82,6 @@ const AccountReport = () => {
   //   doc.save("test");
   // };
 
-  const fetchAccounts = async () => {
-    const request = await getAccounts();
-    //@ts-expect-error try to fix
-    setAccountList(request.map(({ account }: unknown) => account));
-  };
-
-  useEffect(() => {
-    fetchAccounts();
-  }, []);
   // const handlePdf = () => {
   //   doc.addFileToVFS("WorkSans-normal.ttf", font);
 
@@ -148,13 +133,21 @@ const AccountReport = () => {
   //   doc.save("test");
   // };
 
-
-  console.log('this is account LIST', accountList)
-  
   const onFinish = async (values: unknown) => {
-    console.log("vall: ", values);
     setLoading(true);
-    const response = await getAccountReportData({
+
+    // const fetchReport = async () => {
+    //   setLoading(true);
+    //   const response = await getAccountReport({
+    //     fromDate: dayjs(globalDate.date).format("YYYY-MM-DD"),
+    //     toDate: dayjs(globalDate.date).format("YYYY-MM-DD"),
+    //   });
+
+    //   setResponseData(response);
+    //   setLoading(false);
+    // };
+
+    const response = await getAccountReport({
       //@ts-expect-error try to fix
       account: values.account,
       //@ts-expect-error try to fix
@@ -162,8 +155,8 @@ const AccountReport = () => {
       //@ts-expect-error try to fix
       toDate: dayjs(values.range[1]).format("YYYY-MM-DD"),
     });
-    console.log("reqqq: ", response);
-    setApiData(response)
+
+    setApiData(response);
     setLoading(false);
     if (!response.data.length) {
       setLoading(false);
@@ -183,137 +176,180 @@ const AccountReport = () => {
     console.log("errorInfo: ", errorInfo);
   };
 
-  // @ts-expect-error try to fix
-  const apiExcelData = apiData?.data.map((item: {
-    documentType: string;
-    mfo: string;
-    account: string;
-    documentNumber: string;
-    debit: number;
-    credit: number;
-  }) => {
-    return {
-      'BO': item.documentType,
-      'MFO': item.mfo,
-      'Счет': item.account,
-      '№ Док': item.documentNumber,
-      'Дебет': item.debit,
-      'Кредит': item.credit,
-    };
-  });
+  // @ts-ignore
+  const apiExcelData = apiData.map(
+    (item: {
+      documentType: string;
+      mfo: string;
+      account: string;
+      documentNumber: string;
+      debit: number;
+      credit: number;
+    }) => {
+      return {
+        BO: item.documentType,
+        MFO: item.mfo,
+        Счет: item.account,
+        "№ Док": item.documentNumber,
+        Дебет: item.debit,
+        Кредит: item.credit,
+      };
+    }
+  );
 
   const generateExcel = async () => {
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Sheet1');
-  
+    const worksheet = workbook.addWorksheet("Sheet1");
+
     // Create a worksheet
-    worksheet.addRow(['', '', '', '', 'Форма', '00150LS']);
+    worksheet.addRow(["", "", "", "", "Форма", "00150LS"]);
     const greyRow = worksheet.lastRow;
     // @ts-expect-error try to fix
     greyRow.eachCell((cell, colNumber) => {
-    if (colNumber <= 6) {
-      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00FFFF' } }; 
-    }
-  });
+      if (colNumber <= 6) {
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "00FFFF" },
+        };
+      }
+    });
 
     worksheet.addRow([]);
-  
-    // @ts-expect-error try to fix
-    const titleRow = worksheet.addRow([`${apiData ? apiData?.clientName : '"Milliy kliring markazi" AJ'}`]);
-    titleRow.getCell(1).alignment = { horizontal: 'center' };
+
+    // @ts-ignore
+    const titleRow = worksheet.addRow([`"Milliy kliring markazi" AJ`]);
+    titleRow.getCell(1).alignment = { horizontal: "center" };
     titleRow.getCell(1).font = { bold: true };
-  
+
     worksheet.addRow([]);
     // @ts-expect-error try to fix
-    worksheet.addRow(['Код филиала', `${apiData?.branchMFO}`]);
+    worksheet.addRow(["Код филиала", `${apiData?.branchMFO}`]);
     // @ts-expect-error try to fix
-    worksheet.addRow(['Номер счета клиента', `${apiData?.ownerAccount}`]);
-    // @ts-expect-error try to fix
-    worksheet.addRow(['Наименование клиента', `${apiData?.clientName}`]);
-    // @ts-expect-error try to fix
-    worksheet.addRow(['Дата последней. Операции', `${apiData?.lastOperationDate}`]);
-  
-    // @ts-expect-error try to fix
-    const incomingBalanceRow = worksheet.addRow(['Входящий  Остаток', `${apiData?.debitSumTotal}`]);
-    incomingBalanceRow.getCell(2).numFmt = '0,000.00';
-    incomingBalanceRow.getCell(2).alignment = { horizontal: 'right' };
-  
-    // @ts-expect-error try to fix
-    const outgoingBalanceRow = worksheet.addRow(['Исходящий Остаток', `${apiData?.creditSumTotal}`]);
-    outgoingBalanceRow.getCell(2).numFmt = '0,000.00';
-    outgoingBalanceRow.getCell(2).alignment = { horizontal: 'right' };
-  
+    worksheet.addRow(["Валюта", `${apiData?.ownerAccount}`]);
+
     worksheet.addRow([]);
 
-    const headerRow = worksheet.addRow(['BO', 'МФО', 'СЧЕТ', '№ ДОКУМЕНТА', 'Дебет (Д)', 'Кредит (К)']);
+    const headerRow = worksheet.addRow([
+      "BO",
+      "МФО",
+      "СЧЕТ",
+      "№ ДОКУМЕНТА",
+      "Дебет (Д)",
+      "Кредит (К)",
+    ]);
     headerRow.eachCell((cell) => {
       cell.font = { bold: true };
-      
-      cell.border = { top: { style: 'thin' }, bottom: { style: 'thin' }, left: { style: 'thin' }, right: { style: 'thin' } };
-      
-      cell.alignment = { horizontal: 'center' };
+
+      cell.border = {
+        top: { style: "thin" },
+        bottom: { style: "thin" },
+        left: { style: "thin" },
+        right: { style: "thin" },
+      };
+
+      cell.alignment = { horizontal: "center" };
     });
-  
-    
-    apiExcelData.forEach((data : unknown) => {
-      // @ts-expect-error try to fix
-      const dataRow = worksheet.addRow([data.BO, data.MFO, data.Счет, data['№ Док'], data.Дебет, data.Кредит]);
-      
+
+    apiExcelData.forEach((data: unknown) => {
+      // @ts-ignore
+      const dataRow = worksheet.addRow([
+        // @ts-ignore
+        data.BO, data.MFO, data.Счет, data["№ Док"], data.Дебет, data.Кредит,
+      ]);
+
       dataRow.eachCell((cell) => {
-        cell.border = { top: { style: 'thin' }, bottom: { style: 'thin' }, left: { style: 'thin' }, right: { style: 'thin' } };
-        cell.alignment = { horizontal: 'center' };
+        cell.border = {
+          top: { style: "thin" },
+          bottom: { style: "thin" },
+          left: { style: "thin" },
+          right: { style: "thin" },
+        };
+        cell.alignment = { horizontal: "center" };
       });
     });
-    // @ts-expect-error try to fix
-    const totalRow = worksheet.addRow(['', '', '', 'ИТОГО:', `${apiData?.debitSumTotal}`, `${apiData?.creditSumTotal}`]);
-    
+    // @ts-ignore
+    const totalRow = worksheet.addRow([
+      "",
+      "",
+      "",
+      "ИТОГО:",
+      // @ts-ignore
+      `${apiData?.debitSumTotal}`,
+      // @ts-ignore
+      `${apiData?.creditSumTotal}`,
+    ]);
+
     totalRow.eachCell((cell, index) => {
-      cell.border = { top: { style: 'thin' }, bottom: { style: 'thin' }, left: { style: 'thin' }, right: { style: 'thin' } };
-      cell.alignment = { horizontal: index === 1 ? 'center' : 'right' };
+      cell.border = {
+        top: { style: "thin" },
+        bottom: { style: "thin" },
+        left: { style: "thin" },
+        right: { style: "thin" },
+      };
+      cell.alignment = { horizontal: index === 1 ? "center" : "right" };
     });
 
-    worksheet.addRow(['']);
+    worksheet.addRow([""]);
 
-    const inChargePerson = worksheet.addRow(['Ответственный испольнитель', '', '','','', '']);
+    const inChargePerson = worksheet.addRow([
+      "Ответственный испольнитель",
+      "",
+      "",
+      "",
+      "",
+      "",
+    ]);
 
-    const borderInChargePerson = inChargePerson.getCell(3)
-    const borderInChargePerson2 = inChargePerson.getCell(5)
-    borderInChargePerson.border = {  bottom: { style: 'thin' } };
-    borderInChargePerson2.border = {  bottom: { style: 'thin' } };
+    const borderInChargePerson = inChargePerson.getCell(3);
+    const borderInChargePerson2 = inChargePerson.getCell(5);
+    borderInChargePerson.border = { bottom: { style: "thin" } };
+    borderInChargePerson2.border = { bottom: { style: "thin" } };
 
-    worksheet.addRow(['']);
+    worksheet.addRow([""]);
 
-    const accountantHead = worksheet.addRow(['Главный бухгалтер', '', '', '','', '']);
+    const accountantHead = worksheet.addRow([
+      "Главный бухгалтер",
+      "",
+      "",
+      "",
+      "",
+      "",
+    ]);
 
-    const borderaccountantHead = accountantHead.getCell(3)
-    const borderaccountantHead2 = accountantHead.getCell(5)
-    borderaccountantHead.border = {  bottom: { style: 'thin' } };
-    borderaccountantHead2.border = {  bottom: { style: 'thin' } };
+    const borderaccountantHead = accountantHead.getCell(3);
+    const borderaccountantHead2 = accountantHead.getCell(5);
+    borderaccountantHead.border = { bottom: { style: "thin" } };
+    borderaccountantHead2.border = { bottom: { style: "thin" } };
 
-    worksheet.addRow(['']);
-    worksheet.addRow(['']);
-    worksheet.addRow(['']);
+    worksheet.addRow([""]);
+    worksheet.addRow([""]);
+    worksheet.addRow([""]);
 
     const currentDate = new Date();
 
     const day = currentDate.getDate();
-    const month = currentDate.getMonth() + 1; 
+    const month = currentDate.getMonth() + 1;
     const year = currentDate.getFullYear();
     const formattedDate = `${day}/${month}/${year}`;
 
-    worksheet.addRow(['Дата изготовления', '', `${formattedDate}`, '', '', '']);
-    
+    worksheet.addRow(["Дата изготовления", "", `${formattedDate}`, "", "", ""]);
+
     const greyRowNew = worksheet.lastRow;
     // @ts-expect-error try to fix
     greyRowNew.eachCell((cell, colNumber) => {
-    if (colNumber <= 7) {
-      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00FFFF' } }; 
-    }
-  });
+      if (colNumber <= 7) {
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "00FFFF" },
+        };
+      }
+    });
 
-    worksheet.mergeCells('A3:F3');
-    worksheet.mergeCells('A19:D19');
-  
+    worksheet.mergeCells("A3:F3");
+    worksheet.mergeCells("A19:D19");
+
     // Auto-fit column widths based on content
     worksheet.columns.forEach((column, index) => {
       let maxWidth = 0;
@@ -322,26 +358,28 @@ const AccountReport = () => {
         const cellWidth = cell.value ? cell.value.toString().length : 0;
         maxWidth = Math.max(maxWidth, cellWidth);
       });
-      worksheet.getColumn(index + 1).width = maxWidth + 2; 
+      worksheet.getColumn(index + 1).width = maxWidth + 2;
     });
 
     const buffer = await workbook.xlsx.writeBuffer();
-    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const link = document.createElement('a');
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = 'Выписка лицевого счета.xlsx';
+    link.download = "Выписка лицевого счета.xlsx";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   useEffect(() => {
-    // @ts-expect-error try to fix
-    if(apiData?.data.length > 0) {
-      generateExcel()
+   // @ts-ignore
+    if (apiData.length > 0) {
+      generateExcel();
     }
-  }, [apiData])
-  
+  }, [apiData]);
+
   return (
     <div style={{ padding: 8, fontSize: 16 }}>
       <div className="title">Сальдо-оборотная ведомость</div>
@@ -368,14 +406,14 @@ const AccountReport = () => {
           <Form.Item
             // labelCol={{ span: 4 }}
             // wrapperCol={{ span: 14 }}
-            label="Выберите счет"
+            label="Выберите валюту"
             name="account"
-            rules={[{ required: true, message: "Выберите счет" }]}
+            rules={[{ required: true, message: "Выберите валюту" }]}
           >
             <Select style={{ width: 200 }}>
-              {accountList.map((account: string) => (
-                <Select.Option value={account}>{account}</Select.Option>
-              ))}
+              <Select.Option value="RUB">RUB</Select.Option>
+              <Select.Option value="USD">USD</Select.Option>
+              <Select.Option value="UZS">UZS</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -386,7 +424,12 @@ const AccountReport = () => {
             <RangePicker />
           </Form.Item>
           <Form.Item>
-            <Button style={{ outline: 'none' }} loading={isLoading} type="primary" htmlType="submit">
+            <Button
+              style={{ outline: "none" }}
+              loading={isLoading}
+              type="primary"
+              htmlType="submit"
+            >
               Скачать отчет
             </Button>
           </Form.Item>
