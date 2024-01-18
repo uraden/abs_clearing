@@ -1,30 +1,61 @@
+import { useEffect, useState } from "react";
 import { Descriptions, Table } from "antd";
 import type { DescriptionsProps } from "antd/lib";
+import { getBankWorkingHours } from "./request";
+import dayjs from "dayjs";
+
+
+interface BankOpenHours {
+  day: string;
+  externalBank: string;
+  internalBank: string;
+  isActive: boolean | undefined
+}
 
 const Reference = () => {
+  const [bankOpenHrs, setBankOpenHrs] = useState<BankOpenHours[]>([])
+
+  const fetchBankWorkingHours = async () => {
+    const response = await getBankWorkingHours();
+    setBankOpenHrs(response)
+  }
+
+  useEffect(() => {
+    fetchBankWorkingHours();
+    
+  }, []); 
+
+  const filteredData: BankOpenHours | undefined = bankOpenHrs.find(item => item?.isActive);
+
+
   const columnPaymnetSchedule = [
     {
       dataIndex: "bank_type",
     },
-    {
-      dataIndex: "start_time",
-    },
+   
     {
       dataIndex: "end_time",
+      render: (amount: string) => ({
+        children: (
+          <div style={{ fontWeight: 600, fontSize: 16 }}>
+            {amount}
+          </div>
+        ),
+      }),
     },
   ];
+
+
   const dataPaymnetSchedule = [
     {
       key: 1,
-      bank_type: "Межбанковские",
-      start_time: "00:00",
-      end_time: "23:55",
+      bank_type: "Время закрытия межбанковских услуг",
+      end_time: dayjs(filteredData?.externalBank, "HH:mm:ss").format("HH:mm")
     },
     {
       key: 2,
-      bank_type: "Внутрибанковские",
-      start_time: "00:00",
-      end_time: "23:55",
+      bank_type: "Время закрытия внутрибанковских услуг",
+      end_time: dayjs(filteredData?.internalBank, "HH:mm:ss").format("HH:mm"),
     },
   ];
 
@@ -67,7 +98,7 @@ const Reference = () => {
           dataSource={dataPaymnetSchedule}
           pagination={false}
           bordered
-          style={{ width: 280, marginRight: 20 }}
+          style={{ width: 380, marginRight: 20 }}
           title={() => (
             <tr style={{ textAlign: "center" }}>
               <h4>Расписание платежей</h4>

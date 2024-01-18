@@ -30,4 +30,5 @@ export default {
   paymentPurposeList: () => [baseUrl, "payment-purpose", "all"].join("/"),
   currency: (curr: string, date: string) => ["https://cbu.uz/ru/arkhiv-kursov-valyut/json", curr, date].join('/'),
   bankDirectory: () => [baseUrl, 'client', 'all'].join('/'),
+  bankWorkingHours: () => [baseUrl, 'oper-day', 'all'].join('/'),
 };
