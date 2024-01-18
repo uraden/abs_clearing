@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 // import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
-import { DatePicker, Table } from "antd";
-import { getAccountArchiveList } from "./request";
+import { DatePicker, Table, Space, Button  } from "antd";
+import { getAccountArchiveList, } from "./request";
 import type { DatePickerProps } from "antd";
 import moment from "moment";
 // import { status } from "../../assets/defaultData";
 import _ from "lodash";
 import dayjs from "dayjs";
 import { fetchOperDay } from "../../assets/reusable/functions";
+import { Link } from "react-router-dom";
 
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
@@ -155,18 +156,19 @@ const AccountListArchive = () => {
       //   }
       // },
     },
-    // {
-    //   title: "Действие",
-    //   key: "action",
-    //   //@ts-ignore
-    //   render: (_, record) => (
-    //     <Space size="middle">
-    //       <Link to={`/edit/${record.key}/doc`}>
-    //         <Button>Изменить</Button>
-    //       </Link>
-    //     </Space>
-    //   ),
-    // },
+    {
+      title: "Действие",
+      key: "action",
+      align: 'center',
+      //@ts-expect-error try
+      render: (_, record) => (
+        <Space size="middle">
+          <Link to={`/archive/${record.key}/doc`}>
+            <Button>Посмотреть</Button>
+          </Link>
+        </Space>
+      ),
+    },
   ];
 
   const fetchOperdays = async () => {

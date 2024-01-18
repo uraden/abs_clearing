@@ -6,6 +6,7 @@ import "./App.css";
 // import AccountEntryForm from "./pages/accountForm";
 import NewDoc from "./pages/accountFormNew/newDoc.tsx";
 import AccountEditDoc from "./pages/editDoc";
+import ArchiveDoc from "./pages/archiveDoc"
 // import AccountEntryFormNew from "./pages/accountFormNew";
 import AccountList from "./pages/accountList";
 import AccountPage from "./pages/accountPage";
@@ -62,6 +63,14 @@ function App() {
       element: (
         <Protected>
           <AccountEditDoc />
+        </Protected>
+      ),
+    },
+    {
+      path: "/archive/:docId/doc",
+      element: (
+        <Protected>
+          <ArchiveDoc />
         </Protected>
       ),
     },
