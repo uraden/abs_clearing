@@ -550,7 +550,6 @@ const AccountEntryFormNew = () => {
             >
               <Space.Compact style={{ width: "100%" }}>
                 <Input
-                  // @ts-expect-error
                   onChange={({ target: { value } }) => {
                     console.log("val: ", value);
                     setTempCreditAccount(value);
