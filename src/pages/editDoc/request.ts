@@ -93,3 +93,17 @@ export const getOrderStatuses = async () => {
     }
   }
 };
+
+export const editFormStatus = async (body: unknown) => {
+  try {
+    const request = await httpClient.put(api.changeStatusOrder(), body);
+    console.log("req: ", request);
+    return request.data;
+  } catch (error: unknown) {
+    const myError = error as MyError;
+    if (myError.response) {
+      console.log("requesttt: ", myError.response.data);
+      return myError.response.data;
+    }
+  }
+};

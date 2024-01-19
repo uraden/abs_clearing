@@ -20,8 +20,9 @@ import {
   editFormData,
   getActiveInfo,
   getActiveList,
-  // getOrderStatuses,
+  getOrderStatuses,
   getSingleOrder,
+  editFormStatus,
 } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
 
@@ -111,12 +112,10 @@ const AccountEntryFormNew = () => {
     creditName: "Пожалуйста выберете Наименование получателя",
     creditMFO: "Пожалуйста выберете МФО Банка",
   });
+  const [allStatus, setAllStatus] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState()
 
-  // const handleInputChange = (e: unknown) => {
-  //   console.log('eeee: ', e);
-  //   // @ts-ignore
-  //   setTempCreditAccount(e);
-  // };
+
 
   const handleButtonClick = () => {
     if (tempCreditAccount) {
@@ -138,9 +137,39 @@ const AccountEntryFormNew = () => {
     setEditData(infoEdit);
   };
 
+  const getAllOrderStatuses = async () => {
+    const response = await getOrderStatuses();
+    setAllStatus(response);
+  };
+
+  const confirmFormStatus = () => {
+    setLoading(false);
+    message.success("Статус изменен");
+
+  };
+
+  const editStatusId = async () =>{
+    setLoading(true)
+    try {
+      const requset = await editFormStatus({
+        documentId: editData.id,
+        statusId: selectedStatus
+      })
+      if(requset.code == 0) {
+        confirmFormStatus()
+        fetchEditForm()
+      }
+
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+
   useEffect(() => {
     fetchEditForm();
     setEditable(true);
+    getAllOrderStatuses();
   }, []);
 
   useEffect(() => {
@@ -175,8 +204,10 @@ const AccountEntryFormNew = () => {
       });
       console.log("editdddd: ", editData);
       setTempCreditAccount(editData?.creditAccount);
+      setSelectedStatus(editData?.statusName);
     }
   }, [editData]);
+
 
   const handleDebet = async (value: string, type: string) => {
     setLoading(true);
@@ -263,6 +294,8 @@ const AccountEntryFormNew = () => {
     navigate("/account-list");
   };
 
+ 
+
   const failConfirmForm = () => {
     message.error("Couldn't send form");
   };
@@ -270,7 +303,6 @@ const AccountEntryFormNew = () => {
   const onFinish = async (values: any) => {
     console.log("valuess: ", values);
     setLoading(true);
-    // console.log("valuess: ", values);
     try {
       const request = await editFormData({
         ...values,
@@ -325,6 +357,10 @@ const AccountEntryFormNew = () => {
     console.log(`selected ${value}`);
   };
 
+  const onChangeStatus = (value: unknown) => {
+      setSelectedStatus(value)
+  };
+ 
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
@@ -498,7 +534,7 @@ const AccountEntryFormNew = () => {
   return (
     <>
       <h1 style={{ textAlign: "center", marginBottom: 16 }}>
-        Изменить поручение
+        Изменить электронный платежный документ
       </h1>
       <Divider></Divider>
 
@@ -689,8 +725,6 @@ const AccountEntryFormNew = () => {
 
                     <DownCircleFilled
                       onClick={() => {
-                        // console.log('debet: ', debetAccount);
-
                         if (debetAccount) {
                           form.setFieldValue("creditName", "");
                           form.setFieldValue("creditINN", "");
@@ -801,7 +835,6 @@ const AccountEntryFormNew = () => {
                 <Input
                   maxLength={20}
                   style={{ width: 400 }}
-                  // @ts-ignore
                   onChange={({ target: { value } }) => {
                     setTempCreditAccount(value);
                   }}
@@ -964,57 +997,37 @@ const AccountEntryFormNew = () => {
               {editable ? "Изменить" : "Создать"}
             </Button>
           </Form.Item>
-          {editable ? (
-            <>
-              {displayButton()}
 
-              {editData?.statusId === "11" ? null : (
-                <Button
-                  style={{
-                    outline: 0,
-                  }}
-                  onClick={async () => {
-                    setLoading(true);
-                    const response = await changeStatus({
-                      orderId: Number(editData.id),
-                      newStatusId: 11,
-                    });
-                    if (response.code === 0) {
-                      messageApi.open({
-                        type: "success",
-                        content: response.message,
-                      });
-                      fetchEditForm();
-                    } else if (response.code !== 0) {
-                      messageApi.open({
-                        type: "error",
-                        content: response.message,
-                      });
-                    }
-                    setLoading(false);
-                  }}
-                  danger
-                  loading={isLoading}
-                >
-                  Отбраковать
-                </Button>
-              )}
-            </>
-          ) : (
-            <></>
-          )}
+          <Form.Item>
+            <Select 
+           
+            value={selectedStatus}
+            style={{ width: 140 }}
+            onChange={onChangeStatus}
+            >
+              {allStatus.map((status: any) => (
+                <Select.Option key={status.id} value={status.id}>
+                  {status.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
 
-          {/* <Form.Item>
+          <Form.Item>
             <Button
-              danger
               type="primary"
-              style={{
-                outline: "none",
+              
+              loading={isLoading}
+              style={{ outline: "none" }}
+              onClick={()=>{
+                editStatusId()
               }}
             >
-              Удалить
+              {editable ? "Сохранить" : "Создать"}
             </Button>
-          </Form.Item> */}
+          </Form.Item>
+
+
         </div>
       </Form>
     </>
