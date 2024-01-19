@@ -20,9 +20,9 @@ import {
   editFormData,
   getActiveInfo,
   getActiveList,
-  getOrderStatuses,
+  // getOrderStatuses,
   getSingleOrder,
-  editFormStatus,
+  // editFormStatus,
 } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
 
@@ -112,8 +112,8 @@ const AccountEntryFormNew = () => {
     creditName: "Пожалуйста выберете Наименование получателя",
     creditMFO: "Пожалуйста выберете МФО Банка",
   });
-  const [allStatus, setAllStatus] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState()
+  // const [allStatus, setAllStatus] = useState([]);
+  // const [selectedStatus, setSelectedStatus] = useState()
 
 
 
@@ -137,39 +137,38 @@ const AccountEntryFormNew = () => {
     setEditData(infoEdit);
   };
 
-  const getAllOrderStatuses = async () => {
-    const response = await getOrderStatuses();
-    setAllStatus(response);
-  };
+  // const getAllOrderStatuses = async () => {
+  //   const response = await getOrderStatuses();
+  //   setAllStatus(response);
+  // };
 
-  const confirmFormStatus = () => {
-    setLoading(false);
-    messageApi.success("Статус изменен");
+  // const confirmFormStatus = () => {
+  //   setLoading(false);
+  //   messageApi.success("Статус изменен");
+  // };
 
-  };
+  // const editStatusId = async () =>{
+  //   setLoading(true)
+  //   try {
+  //     const requset = await editFormStatus({
+  //       documentId: editData.id,
+  //       statusId: selectedStatus
+  //     })
+  //     if(requset.code == 0) {
+  //       confirmFormStatus()
+  //       fetchEditForm()
+  //     }
 
-  const editStatusId = async () =>{
-    setLoading(true)
-    try {
-      const requset = await editFormStatus({
-        documentId: editData.id,
-        statusId: selectedStatus
-      })
-      if(requset.code == 0) {
-        confirmFormStatus()
-        fetchEditForm()
-      }
-
-    } catch(error) {
-      console.log(error)
-    }
-  }
+  //   } catch(error) {
+  //     console.log(error)
+  //   }
+  // }
 
 
   useEffect(() => {
     fetchEditForm();
     setEditable(true);
-    getAllOrderStatuses();
+    // getAllOrderStatuses();
   }, []);
 
   useEffect(() => {
@@ -204,8 +203,8 @@ const AccountEntryFormNew = () => {
       });
       console.log("editdddd: ", editData);
       setTempCreditAccount(editData?.creditAccount);
-      //@ts-expect-error try
-      setSelectedStatus(editData?.statusName);
+      
+      // setSelectedStatus(editData?.statusName);
     }
   }, [editData]);
 
@@ -358,10 +357,10 @@ const AccountEntryFormNew = () => {
     console.log(`selected ${value}`);
   };
 
-  const onChangeStatus = (value: unknown) => {
-    //@ts-expect-error try
-      setSelectedStatus(value)
-  };
+  // const onChangeStatus = (value: unknown) => {
+  //   //@ts-expect-error try
+  //     setSelectedStatus(value)
+  // };
  
   const onSearch = (value: string) => {
     console.log("search:", value);
@@ -974,7 +973,7 @@ const AccountEntryFormNew = () => {
             </Button>
           </Form.Item>
 
-          <Form.Item>
+          {/* <Form.Item>
             <Select 
            
             value={selectedStatus}
@@ -987,9 +986,9 @@ const AccountEntryFormNew = () => {
                 </Select.Option>
               ))}
             </Select>
-          </Form.Item>
+          </Form.Item> */}
 
-          <Form.Item>
+          {/* <Form.Item>
             <Button
               type="primary"
               
@@ -1001,7 +1000,7 @@ const AccountEntryFormNew = () => {
             >
               {editable ? "Сохранить" : "Создать"}
             </Button>
-          </Form.Item>
+          </Form.Item> */}
 
 
         </div>
