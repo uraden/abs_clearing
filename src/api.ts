@@ -32,4 +32,5 @@ export default {
   currency: () => [baseUrl, "currency"].join("/"),
   bankDirectory: () => [baseUrl, "client", "all"].join("/"),
   bankWorkingHours: () => [baseUrl, "oper-day", "all"].join("/"),
+  changeStatusOrder: () =>[baseUrl, 'doc', 'changeStatus'].join('/'),
 };
