@@ -26,13 +26,12 @@ import {
 } from "./request";
 import { withDecimal } from "../../assets/numberToJs";
 
-import _ from "lodash";
-import { status } from "../../assets/defaultData";
+// import _ from "lodash";
 import dayjs from "dayjs";
 import { DownCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { IPurpose } from "../../assets/interfaces";
-import { changeStatus, getPaymentPurposes } from "../accountFormNew/request";
+import {getPaymentPurposes } from "../accountFormNew/request";
 
 type EditData = {
   operDay: string;
@@ -88,6 +87,7 @@ const AccountEntryFormNew = () => {
     // forderDay: ""
   });
   // const location = useLocation();
+  
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const [notificationApi, notificationContextHolder] =
@@ -144,7 +144,7 @@ const AccountEntryFormNew = () => {
 
   const confirmFormStatus = () => {
     setLoading(false);
-    message.success("Статус изменен");
+    messageApi.success("Статус изменен");
 
   };
 
@@ -204,6 +204,7 @@ const AccountEntryFormNew = () => {
       });
       console.log("editdddd: ", editData);
       setTempCreditAccount(editData?.creditAccount);
+      //@ts-expect-error try
       setSelectedStatus(editData?.statusName);
     }
   }, [editData]);
@@ -358,6 +359,7 @@ const AccountEntryFormNew = () => {
   };
 
   const onChangeStatus = (value: unknown) => {
+    //@ts-expect-error try
       setSelectedStatus(value)
   };
  
@@ -371,90 +373,91 @@ const AccountEntryFormNew = () => {
     option?: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
-  interface TempStatus {
-    statusColor?: string;
-    statusId?: number;
-    statusTitle?: string;
-    // typestatusId?: number
-  }
-  const displayButton = () => {
-    let tempStatus: TempStatus = {};
-    if (editData?.statusId === "12" || editData?.statusId === "11") {
-      return null;
-    }
-    if (editData?.statusId === "10") {
-      tempStatus = (_.find(status, { statusId: 12 }) as TempStatus) || {};
-      return (
-        <Button
-          type="primary"
-          loading={isLoading}
-          style={{
-            outline: "none",
-            backgroundColor: tempStatus.statusColor,
-            border: `1px solid ${tempStatus.statusColor}`,
-          }}
-          onClick={async () => {
-            setLoading(true);
-            const response = await changeStatus({
-              orderId: Number(editData.id),
-              newStatusId: tempStatus?.statusId,
-            });
-            if (response.code === 0) {
-              messageApi.open({
-                type: "success",
-                content: response.message,
-              });
-              fetchEditForm();
-            } else if (response.code !== 0) {
-              messageApi.open({
-                type: "error",
-                content: response.message,
-              });
-            }
-            setLoading(false);
-          }}
-        >
-          {tempStatus.statusTitle}
-        </Button>
-      );
-    } else {
-      tempStatus =
-        _.find(status, { statusId: Number(editData?.statusId) + 1 }) || {};
-      return (
-        <Button
-          type="primary"
-          loading={isLoading}
-          style={{
-            outline: "none",
-            backgroundColor: tempStatus.statusColor,
-            border: `1px solid ${tempStatus.statusColor}`,
-          }}
-          onClick={async () => {
-            setLoading(true);
-            const response = await changeStatus({
-              orderId: Number(editData.id),
-              newStatusId: tempStatus?.statusId,
-            });
-            if (response.code === 0) {
-              messageApi.open({
-                type: "success",
-                content: response.message,
-              });
-              fetchEditForm();
-            } else if (response.code !== 0) {
-              messageApi.open({
-                type: "error",
-                content: response.message,
-              });
-            }
-            setLoading(false);
-          }}
-        >
-          {tempStatus.statusTitle}
-        </Button>
-      );
-    }
-  };
+  // interface TempStatus {
+  //   statusColor?: string;
+  //   statusId?: number;
+  //   statusTitle?: string;
+  //   // typestatusId?: number
+  // }
+
+  // const displayButton = () => {
+  //   let tempStatus: TempStatus = {};
+  //   if (editData?.statusId === "12" || editData?.statusId === "11") {
+  //     return null;
+  //   }
+  //   if (editData?.statusId === "10") {
+  //     tempStatus = (_.find(status, { statusId: 12 }) as TempStatus) || {};
+  //     return (
+  //       <Button
+  //         type="primary"
+  //         loading={isLoading}
+  //         style={{
+  //           outline: "none",
+  //           backgroundColor: tempStatus.statusColor,
+  //           border: `1px solid ${tempStatus.statusColor}`,
+  //         }}
+  //         onClick={async () => {
+  //           setLoading(true);
+  //           const response = await changeStatus({
+  //             orderId: Number(editData.id),
+  //             newStatusId: tempStatus?.statusId,
+  //           });
+  //           if (response.code === 0) {
+  //             messageApi.open({
+  //               type: "success",
+  //               content: response.message,
+  //             });
+  //             fetchEditForm();
+  //           } else if (response.code !== 0) {
+  //             messageApi.open({
+  //               type: "error",
+  //               content: response.message,
+  //             });
+  //           }
+  //           setLoading(false);
+  //         }}
+  //       >
+  //         {tempStatus.statusTitle}
+  //       </Button>
+  //     );
+  //   } else {
+  //     tempStatus =
+  //       _.find(status, { statusId: Number(editData?.statusId) + 1 }) || {};
+  //     return (
+  //       <Button
+  //         type="primary"
+  //         loading={isLoading}
+  //         style={{
+  //           outline: "none",
+  //           backgroundColor: tempStatus.statusColor,
+  //           border: `1px solid ${tempStatus.statusColor}`,
+  //         }}
+  //         onClick={async () => {
+  //           setLoading(true);
+  //           const response = await changeStatus({
+  //             orderId: Number(editData.id),
+  //             newStatusId: tempStatus?.statusId,
+  //           });
+  //           if (response.code === 0) {
+  //             messageApi.open({
+  //               type: "success",
+  //               content: response.message,
+  //             });
+  //             fetchEditForm();
+  //           } else if (response.code !== 0) {
+  //             messageApi.open({
+  //               type: "error",
+  //               content: response.message,
+  //             });
+  //           }
+  //           setLoading(false);
+  //         }}
+  //       >
+  //         {tempStatus.statusTitle}
+  //       </Button>
+  //     );
+  //   }
+  // };
 
   const validateMinLengthMFO = (_: unknown, value: unknown) => {
     if (typeof value === "string" && value.length < 5) {
