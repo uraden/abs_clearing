@@ -1,8 +1,9 @@
 // create store for Redux toolkit 
 import { configureStore } from '@reduxjs/toolkit';
-import globalDateReducer from './features/globalDateSlice';
+import globalReducer from './features/globalDateSlice';
 export const store = configureStore({
   reducer: {
-    globalDate: globalDateReducer,
+    globalDate: globalReducer.global,
+    globalProfile: globalReducer.profile,
   },
 });

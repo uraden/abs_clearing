@@ -3,7 +3,6 @@ import RevenueTable from "../../../components/revenueTable";
 
 const Revenue = () => {
   const params = useParams();
-  console.log("para: ", params);
   return (
     <div>
       <div className="title">

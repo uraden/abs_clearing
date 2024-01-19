@@ -49,11 +49,6 @@ const RevenueTable = () => {
           width: '12%',
           render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
         },
-        {
-          title: "ИНН",
-          dataIndex: "debitINN",
-          align: "center",
-        },
       ],
     },
     {
@@ -70,11 +65,6 @@ const RevenueTable = () => {
           align: "center",
           width: '12%',
           render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
-        },
-        {
-          title: "ИНН",
-          dataIndex: "creditINN",
-          align: "center",
         },
       ],
     },
