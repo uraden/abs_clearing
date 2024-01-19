@@ -39,7 +39,7 @@ const RevenueTable = () => {
       children: [
         {
           title: "МФО Банка",
-          dataIndex: "debitClient",
+          dataIndex: "debitMFO",
           align: "center",
         },
         {
@@ -56,7 +56,7 @@ const RevenueTable = () => {
       children: [
         {
           title: "МФО Банка",
-          dataIndex: "creditClient",
+          dataIndex: "creditMFO",
           align: "center",
         },
         {
