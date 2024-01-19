@@ -1,6 +1,9 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
+import {
+  fetchGlobalDate,
+  fetchProfile,
+} from "../../reduxStore/features/globalDateSlice";
 import {
   FileTextOutlined,
   PieChartOutlined,
@@ -27,7 +30,6 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import CustomPassword from "../../components/password";
-import { getProfile } from "../../assets/reusable/requests";
 import dayjs from "dayjs";
 import {
   formatNumberWithCommas,
@@ -50,6 +52,13 @@ export interface IProfile {
   expiredDate: string;
 }
 
+export interface ICurrency {
+  date: string;
+  difference: number;
+  price: number;
+  name: string;
+}
+
 // interface IOperday {
 //   date: string;
 //   id: number;
@@ -63,32 +72,30 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   const [activeMenu, setActiveMenu] = useState(
     location.pathname.replace("/", "")
   );
-  const [currencies, setCurrencies] = useState({
-    usd: {
-      Rate: 0,
-      Diff: "",
+  const [currencies, setCurrencies] = useState<ICurrency[]>([
+    {
+      date: "",
+      difference: 0,
+      price: 0,
+      name: "",
     },
-    euro: {
-      Rate: 0,
-      Diff: "",
-    },
-  });
+  ]);
   // const {
   //   token: { colorBgContainer },
   // } = theme.useToken();
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<IProfile>({
-    clientId: 0,
-    clientName: "",
-    fullName: "",
-    id: 0,
-    roleDescription: "",
-    roleId: 0,
-    roleName: "",
-    userName: "",
-    isActive: false,
-    expiredDate: "",
-  });
+  // const [profile, setProfile] = useState<IProfile>({
+  //   clientId: 0,
+  //   clientName: "",
+  //   fullName: "",
+  //   id: 0,
+  //   roleDescription: "",
+  //   roleId: 0,
+  //   roleName: "",
+  //   userName: "",
+  //   isActive: false,
+  //   expiredDate: "",
+  // });
   // const [operDay, setOperday] = useState<IOperday>({
   //   date: "",
   //   id: 0,
@@ -100,6 +107,11 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   // @ts-expect-error try
   const { globalDate } = useSelector((state: unknown) => state.globalDate);
+  // @ts-ignore
+  const { globalDate: tempProfile } = useSelector(
+    // @ts-ignore
+    (state: unknown) => state.globalProfile
+  );
 
   type MenuItem = Required<MenuProps>["items"][number];
 
@@ -117,18 +129,16 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     } as MenuItem;
   }
 
-  const fetchProfile = async () => {
-    const response = await getProfile();
-    setProfile(response);
-    console.log("resssss: ", response);
-    const usd = await getCurrency("USD", dayjs().format("YYYY-MM-DD"));
-    const euro = await getCurrency("EUR", dayjs().format("YYYY-MM-DD"));
-    setCurrencies({
-      usd: usd[0],
-      euro: euro[0],
-    });
-    const days = dayjs().diff(response?.expiredDate, "day");
-    if (days < 4) {
+  const fetchProfilee = async () => {
+    // const response = await getProfile();
+
+    // setProfile(response);
+
+    const currency = await getCurrency();
+    // const euro = await getCurrency("EUR", dayjs().format("YYYY-MM-DD"));
+    setCurrencies(currency);
+    const days = dayjs().diff(tempProfile.expiredDate, "day");
+    if (days < 4 && days > -1) {
       api.error({
         message: "Срок действия пароля истек",
         description: "Срок действия пароля истек, смените пароль",
@@ -142,10 +152,12 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   // };
 
   useEffect(() => {
-    fetchProfile();
+    fetchProfilee();
     // fetchOperdays();
     // @ts-expect-error try
     dispatch(fetchGlobalDate());
+    // @ts-ignore
+    dispatch(fetchProfile());
   }, []);
 
   // const currentYear = new Date().getFullYear();
@@ -234,8 +246,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   );
 
   const passwordReminder = () => {
-    const days = dayjs().diff(profile?.expiredDate, "day");
-    if (days < 4) {
+    const days = dayjs().diff(tempProfile?.expiredDate, "day");
+
+    if (days < 4 && days > -1) {
       return (
         <span
           className="custom-text-warning"
@@ -244,16 +257,16 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             fontStyle: "italic",
           }}
         >
-          {dayjs(profile?.expiredDate).format("DD.MM.YYYY")} (осталось {days}{" "}
-          дней)
+          {dayjs(tempProfile?.expiredDate).format("DD.MM.YYYY")} (осталось{" "}
+          {Math.abs(days)} дней)
         </span>
       );
       // return <div>{dayjs(profile?.expiredDate).format('DD.MM.YYYY')}(осталось {days > 3 ? days : <span style={{ color: 'red' }}>{days}</span>} дней)</div>;
     }
     return (
       <span style={{ fontStyle: "italic" }}>
-        {dayjs(profile?.expiredDate).format("DD.MM.YYYY")} (осталось {days}{" "}
-        дней)
+        {dayjs(tempProfile?.expiredDate).format("DD.MM.YYYY")} (осталось{" "}
+        {Math.abs(days)} дней)
       </span>
     );
   };
@@ -296,13 +309,44 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         </div>
         <div className="currency-container">
           <div>
+            Курс на{" "}
+            {currencies[0].date
+              ? dayjs(currencies[0].date).format("DD.MM.YYYY")
+              : dayjs().format("DD.MM.YYYY")}
+            :
+          </div>
+          {currencies.map((currency: ICurrency) => (
+            <div className="currency-icon">
+              {currency.name === "USD" ? (
+                <DollarOutlined style={{ fontSize: 20 }} />
+              ) : (
+                <EuroCircleOutlined style={{ fontSize: 20 }} />
+              )}
+              {formatNumberWithCommas(String(currency.price), 2)}
+              <div
+                style={{
+                  color: currency.difference < 0 ? "red" : "green",
+                  marginRight: 2,
+                  marginLeft: 2,
+                }}
+              >
+                ({currency.difference})
+              </div>
+              {currency.difference < 0 ? (
+                <FallOutlined style={{ color: "red", fontSize: 20 }} />
+              ) : (
+                <RiseOutlined style={{ color: "green", fontSize: 20 }} />
+              )}{" "}
+            </div>
+          ))}
+          {/* <div>
             ЦБ{" "}
             <span style={{ fontStyle: "italic" }}>
               {dayjs().format("DD.MM.YYYY")}
             </span>
             :
-          </div>
-          <div className="currency-icon">
+          </div> */}
+          {/* <div className="currency-icon">
             <DollarOutlined style={{ fontSize: 20 }} />
             {formatNumberWithCommas(String(currencies.usd.Rate), 2)}
             <div
@@ -338,7 +382,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             ) : (
               <RiseOutlined style={{ color: "green", fontSize: 20 }} />
             )}
-          </div>
+          </div> */}
         </div>
         <div>
           <Popover trigger="click" title={"Настройки"} content={content}>
@@ -386,13 +430,13 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           <div>
             Клиент:{" "}
             <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
-              {profile?.clientName}
+              {tempProfile?.clientName}
             </span>
           </div>
           <div>
             Пользователь:{" "}
             <span style={{ fontStyle: "italic", textDecoration: "underline" }}>
-              {profile?.fullName}
+              {tempProfile?.fullName}
             </span>
           </div>
 

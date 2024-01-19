@@ -17,12 +17,6 @@ httpClient.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.log('err before: ', error);
-    // if (error.response.status === 401) {
-    //   console.log('err after: ', error.response);
-    //   // return window.location.href = '/login';
-    //   localStorage.clear()
-    // }
     return Promise.reject(error);
   }
 );
