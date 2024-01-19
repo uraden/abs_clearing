@@ -186,7 +186,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     ]),
     getItem("Документы", "0", <FileTextOutlined />, [
       getItem("Новый документ", "new-doc"),
-      getItem("Список документов", "account-list"),
+      getItem("Мои документы", "account-list"),
       // getItem("Удаленные и незавершенные платежи", "delete-incomplete"),
       getItem("Архив документов", "account-list-archive"),
     ]),

@@ -209,6 +209,7 @@ const AccountReport = () => {
     const apiDataStartRowNumber = subHeaderRowNumber + 1;
     
     // Iterate through the API data again to apply styles
+    //@ts-ignore
     apiExcelData.forEach((data, index) => {
       const dataRowIndex = apiDataStartRowNumber + index;
       const dataRow = worksheet.getRow(dataRowIndex);
