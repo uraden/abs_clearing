@@ -15,7 +15,7 @@ httpClient.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("accessToken");
         if (token) {
-            // @ts-ignore
+            // @ts-expect-error try
             config.headers = {
                 Authorization: `Bearer ${token}`,
             };
