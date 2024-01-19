@@ -80,27 +80,8 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       name: "",
     },
   ]);
-  // const {
-  //   token: { colorBgContainer },
-  // } = theme.useToken();
+
   const navigate = useNavigate();
-  // const [profile, setProfile] = useState<IProfile>({
-  //   clientId: 0,
-  //   clientName: "",
-  //   fullName: "",
-  //   id: 0,
-  //   roleDescription: "",
-  //   roleId: 0,
-  //   roleName: "",
-  //   userName: "",
-  //   isActive: false,
-  //   expiredDate: "",
-  // });
-  // const [operDay, setOperday] = useState<IOperday>({
-  //   date: "",
-  //   id: 0,
-  //   isActive: false,
-  // });
 
   // redux is below
   const dispatch = useDispatch();
@@ -130,10 +111,6 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   }
 
   const fetchProfilee = async () => {
-    // const response = await getProfile();
-
-    // setProfile(response);
-
     const currency = await getCurrency();
     // const euro = await getCurrency("EUR", dayjs().format("YYYY-MM-DD"));
     setCurrencies(currency);
@@ -309,10 +286,12 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         </div>
         <div className="currency-container">
           <div>
-            Курс на{" "}
-            {currencies[0].date
-              ? dayjs(currencies[0].date).format("DD.MM.YYYY")
-              : dayjs().format("DD.MM.YYYY")}
+            <div>Курс на </div>
+            <div>
+              {currencies[0].date
+                ? dayjs(currencies[0].date).format("DD.MM.YYYY")
+                : dayjs().format("DD.MM.YYYY")}
+            </div>
             :
           </div>
           {currencies.map((currency: ICurrency) => (
@@ -339,50 +318,6 @@ const Navbar = ({ children }: { children: ReactNode }) => {
               )}{" "}
             </div>
           ))}
-          {/* <div>
-            ЦБ{" "}
-            <span style={{ fontStyle: "italic" }}>
-              {dayjs().format("DD.MM.YYYY")}
-            </span>
-            :
-          </div> */}
-          {/* <div className="currency-icon">
-            <DollarOutlined style={{ fontSize: 20 }} />
-            {formatNumberWithCommas(String(currencies.usd.Rate), 2)}
-            <div
-              style={{
-                color: currencies.usd.Diff.includes("-") ? "red" : "green",
-                marginRight: 2,
-                marginLeft: 2,
-              }}
-            >
-              ({currencies.usd.Diff})
-            </div>
-            {currencies.usd.Diff.includes("-") ? (
-              <FallOutlined style={{ color: "red", fontSize: 20 }} />
-            ) : (
-              <RiseOutlined style={{ color: "green", fontSize: 20 }} />
-            )}{" "}
-          </div>
-          <div className="currency-icon">
-            <EuroCircleOutlined style={{ fontSize: 20 }} />
-            {formatNumberWithCommas(String(currencies.euro.Rate), 2)}
-            <div
-              style={{
-                color: currencies.euro.Diff.includes("-") ? "red" : "green",
-                marginRight: 2,
-                marginLeft: 2,
-              }}
-            >
-              ({currencies.euro.Diff})
-            </div>
-
-            {currencies.euro.Diff.includes("-") ? (
-              <FallOutlined style={{ color: "red", fontSize: 20 }} />
-            ) : (
-              <RiseOutlined style={{ color: "green", fontSize: 20 }} />
-            )}
-          </div> */}
         </div>
         <div>
           <Popover trigger="click" title={"Настройки"} content={content}>
