@@ -301,7 +301,7 @@ const AccountEntryFormNew = () => {
   };
   // eslint-disable-next-line
   const onFinish = async (values: any) => {
-    console.log("valuess: ", values);
+    
     setLoading(true);
     try {
       const request = await editFormData({
@@ -504,33 +504,6 @@ const AccountEntryFormNew = () => {
     return filteredValue;
   };
 
-  // const CustomInput = ({ value, onChange, onButtonClick }) => {
-  //   // @ts-ignore
-  //   const handleInputChange = (accountNumber: any) => {
-  //     onChange(accountNumber);
-  //   };
-
-  //   return (
-  //     <div style={{ display: "flex" }}>
-  //       <InputNumber
-  //         value={value}
-  //         onChange={handleInputChange}
-  //         maxLength={20}
-  //         style={{ width: 400 }}
-  //       />
-  //       <DownCircleFilled
-  //         onClick={onButtonClick}
-  //         style={{
-  //           fontSize: 24,
-  //           color: "#1677ff",
-  //           cursor: "pointer",
-  //           marginLeft: 5,
-  //         }}
-  //       />
-  //     </div>
-  //   );
-  // };
-
   return (
     <>
       <h1 style={{ textAlign: "center", marginBottom: 16 }}>
@@ -570,7 +543,7 @@ const AccountEntryFormNew = () => {
             // allowClear
           >
             <Select.Option value="01">Платежное поручение</Select.Option>
-            <Select.Option value="06">Мемориальный ордер</Select.Option>
+            {/* <Select.Option value="06">Мемориальный ордер</Select.Option> */}
           </Select>
         </Form.Item>
         <Form.Item

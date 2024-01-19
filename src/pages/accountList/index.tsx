@@ -13,11 +13,14 @@ const AccoutDocs = () => {
   const [isLoading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   // @ts-ignore
-  const  formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
-    const parts = Number(amount).toFixed(minimumFractionDigits).toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-}
+  const formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
+    const parts = Number(amount)
+      .toFixed(minimumFractionDigits)
+      .toString()
+      .split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  };
   const columns = [
     {
       title: "№ Док.",
@@ -49,8 +52,10 @@ const AccoutDocs = () => {
           dataIndex: "debitAccount",
           key: "debitAccount",
           align: "center",
-          width: '12%',
-          render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
+          width: "12%",
+          render: (account: string) => (
+            <span style={{ whiteSpace: "nowrap" }}>{account}</span>
+          ),
         },
         // {
         //   title: "ИНН",
@@ -81,8 +86,10 @@ const AccoutDocs = () => {
           dataIndex: "creditAccount",
           key: "creditAccount",
           align: "center",
-          width: '12%',
-          render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
+          width: "12%",
+          render: (account: string) => (
+            <span style={{ whiteSpace: "nowrap" }}>{account}</span>
+          ),
         },
         // {
         //   title: "ИНН",
@@ -129,7 +136,7 @@ const AccoutDocs = () => {
     {
       title: "Действие",
       key: "action",
-      fixed: 'right',
+      fixed: "right",
       //@ts-ignore
       render: (_, record) => (
         <Space size="middle">
@@ -207,11 +214,9 @@ const AccoutDocs = () => {
     fetchOperdays();
   }, []);
 
-  
-
   return (
     <>
-      <div className="title">Список документов</div>
+      <div className="title">Мои документы</div>
       <Table
         loading={isLoading}
         dataSource={dataSource}

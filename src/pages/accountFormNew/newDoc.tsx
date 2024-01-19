@@ -292,7 +292,7 @@ const AccountEntryFormNew = () => {
             // allowClear
           >
             <Select.Option value="01">Платежное поручение</Select.Option>
-            <Select.Option value="06">Мемориальный ордер</Select.Option>
+            {/* <Select.Option value="06">Мемориальный ордер</Select.Option> */}
           </Select>
         </Form.Item>
         <Form.Item

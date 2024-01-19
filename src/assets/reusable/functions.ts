@@ -1,7 +1,7 @@
-import axios from "axios";
 import api from "../../api";
 import { IOperday } from "../interfaces";
 import { getOperdays } from "./requests";
+import { httpClient } from "../../httpClient";
 
 export const fetchOperDay = async () => {
   const response = await getOperdays();
@@ -12,9 +12,9 @@ export const fetchOperDay = async () => {
   return response.find((day: IOperday) => day.isActive);
 };
 
-export const getCurrency = async (currency: string, date: string) => {
+export const getCurrency = async () => {
   try {
-    const request = await axios.get(api.currency(currency, date));
+    const request = await httpClient.get(api.currency());
     console.log("date: ", request);
     return request.data;
   } catch (error) {

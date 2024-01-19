@@ -6,6 +6,7 @@ import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { getAccountReport } from "./request";
+import { formatNumberWithCommas } from "../../assets/reusable/functions";
 
 export default function AccountBalancePage() {
   const [responseData, setResponseData] = useState<DataType[]>();
@@ -45,6 +46,8 @@ export default function AccountBalancePage() {
       title: "Лицевой счет",
       dataIndex: "account",
       align: "center",
+      width: '12%',
+      render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
     },
     // {
     //   title: "Валюта",
@@ -58,9 +61,7 @@ export default function AccountBalancePage() {
       render: (amount) => ({
         children: (
           <div style={{ textAlign: "right" }}>
-            {Number(amount).toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-            })}
+            {formatNumberWithCommas(amount)}
           </div>
         ),
       }),
@@ -92,9 +93,7 @@ export default function AccountBalancePage() {
             return {
               children: (
                 <Link style={{ textAlign: "right" }} to={`${account}/debet`}>
-                  {Number(debet).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                  })}
+                  {formatNumberWithCommas(debet)}
                 </Link>
               ),
               props: {
@@ -111,9 +110,7 @@ export default function AccountBalancePage() {
             return {
               children: (
                 <Link style={{ textAlign: "right" }} to={`${account}/credit`}>
-                  {Number(credit).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                  })}
+                  {formatNumberWithCommas(credit)}
                 </Link>
               ),
               props: {
@@ -131,9 +128,7 @@ export default function AccountBalancePage() {
       render: (amount) => ({
         children: (
           <div style={{ textAlign: "right" }}>
-            {Number(amount).toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-            })}
+            {formatNumberWithCommas(amount)}
           </div>
         ),
       }),
