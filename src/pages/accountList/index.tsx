@@ -6,7 +6,6 @@ import { getAccountArchiveList } from "../accountListArchive/request";
 import moment from "moment";
 // import { status } from "../../assets/defaultData";
 import _ from "lodash";
-import { fetchOperDay } from "../../assets/reusable/functions";
 import dayjs from "dayjs";
 import { editFormStatus, getOrderStatuses } from "../editDoc/request";
 import { useSelector } from "react-redux";
