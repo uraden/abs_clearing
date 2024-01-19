@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 // import AccountList from "../../components/simpleTable";
-import { Button, Space, Table } from "antd";
+import { Button, Form, Select, Space, Table } from "antd";
 import { Link } from "react-router-dom";
 import { getAccountArchiveList } from "../accountListArchive/request";
 import moment from "moment";
@@ -8,9 +8,13 @@ import moment from "moment";
 import _ from "lodash";
 import { fetchOperDay } from "../../assets/reusable/functions";
 import dayjs from "dayjs";
+import { editFormStatus, getOrderStatuses } from "../editDoc/request";
+import { useSelector } from "react-redux";
 
 const AccoutDocs = () => {
   const [isLoading, setLoading] = useState(false);
+  const [allStatus, setAllStatus] = useState([]);
+  const [selectedDocs, setSelectedDocs] = useState([]);
   const [dataSource, setDataSource] = useState([]);
   // @ts-ignore
   const formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
@@ -153,11 +157,19 @@ const AccoutDocs = () => {
     },
   ];
 
+  // @ts-ignore
+  const { globalDate } = useSelector((state: unknown) => state.globalDate);
+
+  const getAllOrderStatuses = async () => {
+    const response = await getOrderStatuses();
+    setAllStatus(response);
+  };
+
   const fetchOperdays = async () => {
-    const response = await fetchOperDay();
+    // const response = await fetchOperDay();
     // setOperday(response);
 
-    await getList(response.date);
+    await getList(globalDate?.date);
   };
 
   const getList = async (operday: string) => {
@@ -167,7 +179,7 @@ const AccoutDocs = () => {
       // clientId: 2,
       operday: dayjs(operday).format("YYYY-MM-DD"),
     });
-    console.log("response: ", response);
+
     setDataSource(
       response.map(
         (item: {
@@ -204,6 +216,7 @@ const AccoutDocs = () => {
           operDay: item.operDay,
           forderDay: item.forderDay,
           statusName: item.statusName,
+          documentId: item.id,
         })
       )
     );
@@ -211,8 +224,36 @@ const AccoutDocs = () => {
   };
 
   useEffect(() => {
+    getAllOrderStatuses();
     fetchOperdays();
   }, []);
+
+  // rowSelection object indicates the need for row selection
+  const rowSelection = {
+    // @ts-ignore
+    onChange: (selectedRowKeys: React.Key[], selectedRows: any) => {
+      setSelectedDocs(selectedRows);
+    },
+  };
+
+  const onFinish = async ({ statusId }: any) => {
+    setLoading(true);
+    if (selectedDocs.length) {
+      const modififedData = selectedDocs.map((doc: any) => ({
+        documentId: doc.documentId,
+        statusId: statusId,
+      }));
+      await editFormStatus(modififedData);
+      setSelectedDocs([]);
+      await getList(globalDate?.date);
+    }
+  };
+
+  const onFinishFailed = async (values: any) => {
+    console.log("values: ", values);
+  };
+
+  console.log("seeL: ", selectedDocs);
 
   return (
     <>
@@ -225,7 +266,47 @@ const AccoutDocs = () => {
         bordered
         style={{ marginTop: 40 }}
         scroll={{ x: 1500 }}
+        rowSelection={{
+          selectedRowKeys: selectedDocs.length
+            ? selectedDocs.map((doc: any) => doc.key)
+            : [],
+          ...rowSelection,
+        }}
+        // @ts-ignore
+        pagination={dataSource.length < 20 ? false : true}
       />
+      <div style={{ marginTop: 8, marginLeft: 8 }}>
+        <Form
+          layout="inline"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <Form.Item
+            name="statusId"
+            label="Статусы"
+            rules={[{ required: true, message: "" }]}
+          >
+            <Select style={{ width: 140 }}>
+              {allStatus.map((status: any) => (
+                <Select.Option key={status.id} value={status.id}>
+                  {status.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              loading={isLoading}
+              htmlType="submit"
+              style={{ outline: "none" }}
+            >
+              Изменить
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     </>
   );
 };

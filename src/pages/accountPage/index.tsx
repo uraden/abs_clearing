@@ -14,7 +14,7 @@ import type { ColumnsType, TableProps } from "antd/es/table";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { getAllAccounts } from "./request";
 
-import { status } from "../../assets/defaultData";
+// import { status } from "../../assets/defaultData";
 import _ from "lodash";
 
 interface DataType {
@@ -92,10 +92,10 @@ const AccountPage = () => {
     setOpen(false);
   };
 
-  const statusFilterData = status.map((statusItem) => ({
-    text: statusItem.statusTitle,
-    value: statusItem.statusTitle,
-  }));
+  // const statusFilterData = status.map((statusItem) => ({
+  //   text: statusItem.statusTitle,
+  //   value: statusItem.statusTitle,
+  // }));
 
   const columns: ColumnsType<DataType> = [
     {
@@ -136,10 +136,10 @@ const AccountPage = () => {
     {
       title: "Статус",
       dataIndex: "status",
-      filters: statusFilterData,
+      // filters: statusFilterData,
       // @ts-ignore
-      onFilter: (value: string, record) => record.status.startsWith(value),
-      filterSearch: true,
+      // onFilter: (value: string, record) => record.status.startsWith(value),
+      // filterSearch: true,
       width: "10%",
       // render: (statusText: string) => {
       //   if (statusText) {
