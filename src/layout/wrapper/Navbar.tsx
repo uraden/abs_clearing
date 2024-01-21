@@ -286,13 +286,14 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         </div>
         <div className="currency-container">
           <div>
-            <div>Курс на </div>
-            <div>
+            {/* <div>Курс на </div> */}
+            {/* <div>
               {currencies[0].date
                 ? dayjs(currencies[0].date).format("DD.MM.YYYY")
                 : dayjs().format("DD.MM.YYYY")}
             </div>
-            :
+            : */}
+            Курсы валют:
           </div>
           {currencies.map((currency: ICurrency) => (
             <div className="currency-icon">

@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleDebit, getSingleCredit } from "./request";
@@ -6,7 +6,7 @@ import { formatNumberWithCommas } from "../../assets/reusable/functions";
 
 const RevenueTable = () => {
   const [isLoading, setLoading] = useState(true);
-  const [responseData, setResponseData] = useState();
+  const [responseData, setResponseData] = useState([]);
   const accountnumber = useParams();
 
   const columns = [
@@ -14,26 +14,27 @@ const RevenueTable = () => {
       title: "№",
       dataIndex: "id",
       align: "center",
-      fixed: "left",
+      width: '4%'
+      // fixed: "left",
     },
-    {
-      title: "Документ",
-      
-      children: [
-        {
-          title: "№",
-          dataIndex: "documentNumber",
-          align: "center",
-          fixed: "left",
-        },
-        {
-          title: "Дата",
-          dataIndex: "documentDate",
-          align: "center",
-          fixed: "left",
-        },
-      ],
-    },
+    // {
+    //   title: "Документ",
+
+    //   children: [
+    //     {
+    //       title: "№",
+    //       dataIndex: "documentNumber",
+    //       align: "center",
+    //       fixed: "left",
+    //     },
+    //     {
+    //       title: "Дата",
+    //       dataIndex: "documentDate",
+    //       align: "center",
+    //       fixed: "left",
+    //     },
+    //   ],
+    // },
     {
       title: "Плательщик",
       children: [
@@ -41,13 +42,16 @@ const RevenueTable = () => {
           title: "МФО Банка",
           dataIndex: "debitMFO",
           align: "center",
+          width: '8%'
         },
         {
           title: "Лицевой счет",
           dataIndex: "debitAccount",
           align: "center",
-          width: '12%',
-          render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
+          width: "12%",
+          render: (account: string) => (
+            <span style={{ whiteSpace: "nowrap" }}>{account}</span>
+          ),
         },
       ],
     },
@@ -58,13 +62,18 @@ const RevenueTable = () => {
           title: "МФО Банка",
           dataIndex: "creditMFO",
           align: "center",
+          width: '8%'
         },
         {
           title: "Лицевой счет",
           dataIndex: "creditAccount",
           align: "center",
-          width: '12%',
-          render: (account: string) => <span style={{ whiteSpace: 'nowrap' }}>{account}</span>
+          width: "12%",
+          render: (account: string) => (
+            <Tooltip title="Ipak yoli Bank AO">
+              <span style={{ whiteSpace: "nowrap" }}>{account}</span>
+            </Tooltip>
+          ),
         },
       ],
     },
@@ -72,6 +81,7 @@ const RevenueTable = () => {
       title: "Сумма",
       dataIndex: "amount",
       align: "center",
+      width: "12%",
       key: "total_amount",
       render: (amount: string) => (
         <div style={{ textAlign: "right" }}>
@@ -83,6 +93,13 @@ const RevenueTable = () => {
       title: "Назначение",
       dataIndex: "naznacheniya",
       key: "Назначение",
+      width: "42%",
+      align: "center",
+      render: (text: string) => (
+        <div style={{ textAlign: "left" }}>
+          {text}
+        </div>
+      ),
     },
   ];
 
@@ -93,13 +110,41 @@ const RevenueTable = () => {
         const response = await getSingleDebit({
           account: accountnumber.account,
         });
-        setResponseData(response);
+        setResponseData([
+          // @ts-ignore
+          {
+            id: "1",
+            debitMFO: "000123",
+            debitAccount: "1234567890987654321",
+            creditMFO: "000123",
+            creditAccount: "1234567890987654321",
+            amount: "12345678.90",
+            naznacheniya:
+              "10.10.2010 это за кредит за здоровье, за бонус за всё))) что-то один",
+          },
+          // @ts-ignore
+          ...response,
+        ]);
         setLoading(false);
       } else {
         const response = await getSingleCredit({
           account: accountnumber.account,
         });
-        setResponseData(response);
+        setResponseData([
+          // @ts-ignore
+          {
+            id: "1",
+            debitMFO: "000123",
+            debitAccount: "1234567890987654321",
+            creditMFO: "000123",
+            creditAccount: "1234567890987654321",
+            amount: "12345678.90",
+            naznacheniya:
+              "10.10.2010 это за кредит за здоровье, за бонус за всё))) что-то один",
+          },
+          // @ts-ignore
+          ...response,
+        ]);
         setLoading(false);
       }
     } catch (error) {

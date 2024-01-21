@@ -1,15 +1,15 @@
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import RevenueTable from "../../../components/revenueTable";
 
 const Revenue = () => {
-  const params = useParams();
+  // const params = useParams();
   return (
     <div>
       <div className="title">
         Мониторинг платежных документов
-        <br />
+        {/* <br />
         {params.revenue === "debet" ? "Исходящий" : "Поступление"} -{" "}
-        {params.account}
+        {params.account} */}
       </div>
       <RevenueTable />
     </div>
