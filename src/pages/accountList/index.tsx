@@ -26,13 +26,6 @@ const AccoutDocs = () => {
   };
   const columns = [
     {
-      title: "№ Док.",
-      dataIndex: "documentNumber",
-      key: "documentNumber",
-      align: "center",
-      fixed: "left",
-    },
-    {
       title: "Дата Док.",
       dataIndex: "operDay",
       key: "operDay",
@@ -41,6 +34,14 @@ const AccoutDocs = () => {
       render: (operDay: string) =>
         operDay ? moment(operDay).format("DD.MM.YYYY") : null,
     },
+    {
+      title: "№ Док.",
+      dataIndex: "documentNumber",
+      key: "documentNumber",
+      align: "center",
+      fixed: "left",
+    },
+    
     {
       title: "Плательщик",
       children: [
@@ -271,7 +272,7 @@ const AccoutDocs = () => {
             : [],
           ...rowSelection,
         }}
-        // @ts-ignore
+        // @ts-expect-error try
         pagination={dataSource.length < 20 ? false : true}
       />
       <div style={{ marginTop: 8, marginLeft: 8 }}>
