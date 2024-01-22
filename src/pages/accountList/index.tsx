@@ -160,17 +160,18 @@ const AccoutDocs = () => {
   // @ts-ignore
   const { globalDate } = useSelector((state: unknown) => state.globalDate);
 
+  console.log("globalDateeeeeeee: ", globalDate.date);
+
   const getAllOrderStatuses = async () => {
     const response = await getOrderStatuses();
     setAllStatus(response);
   };
 
-  const fetchOperdays = async () => {
-    // const response = await fetchOperDay();
-    // setOperday(response);
-
-    await getList(globalDate?.date);
-  };
+  // const fetchOperdays = async () => {
+  //   // const response = await fetchOperDay();
+  //   // setOperday(response);
+  //   await getList(globalDate.date);
+  // };
 
   const getList = async (operday: string) => {
     setLoading(true);
@@ -225,8 +226,14 @@ const AccoutDocs = () => {
 
   useEffect(() => {
     getAllOrderStatuses();
-    fetchOperdays();
+    // fetchOperdays();
   }, []);
+
+  useEffect(() => {
+    if (globalDate?.date) {
+      getList(globalDate.date);
+    }
+  }, [globalDate?.date]);
 
   // rowSelection object indicates the need for row selection
   const rowSelection = {
@@ -237,12 +244,13 @@ const AccoutDocs = () => {
   };
 
   const onFinish = async ({ statusId }: any) => {
-    setLoading(true);
     if (selectedDocs.length) {
+      setLoading(true);
       const modififedData = selectedDocs.map((doc: any) => ({
         documentId: doc.documentId,
         statusId: statusId,
       }));
+      setLoading(false);
       await editFormStatus(modififedData);
       setSelectedDocs([]);
       await getList(globalDate?.date);

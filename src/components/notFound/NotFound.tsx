@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
-    <div className="not-found-bg">
+    <div className="not-found-bg bg-image">
       {/* <img
         className="not-found-page"
         src="https://i.ibb.co/W6tgcKQ/softcodeon.gif"
@@ -16,7 +16,7 @@ const NotFound = () => {
         alignItems: "center",
         justifyContent: 'center'
       }}>
-        <Link to="/account-page">
+        <Link to="/">
           <Button
             style={{
               fontSize: 20,
