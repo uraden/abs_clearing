@@ -16,7 +16,7 @@ const NotFound = () => {
         alignItems: "center",
         justifyContent: 'center'
       }}>
-        <Link to="/account-page">
+        <Link to="/">
           <Button
             style={{
               fontSize: 20,
