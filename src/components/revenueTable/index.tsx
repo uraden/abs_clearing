@@ -49,8 +49,10 @@ const RevenueTable = () => {
           dataIndex: "debitAccount",
           align: "center",
           width: "12%",
-          render: (account: string) => (
-            <span style={{ whiteSpace: "nowrap" }}>{account}</span>
+          render: (account: string, rest: any) => (
+            <Tooltip title={rest.debitClient}>
+              <span style={{ whiteSpace: "nowrap" }}>{account}</span>
+            </Tooltip>
           ),
         },
       ],
@@ -69,8 +71,8 @@ const RevenueTable = () => {
           dataIndex: "creditAccount",
           align: "center",
           width: "12%",
-          render: (account: string) => (
-            <Tooltip title="Ipak yoli Bank AO">
+          render: (account: string, rest: any) => (
+            <Tooltip title={rest.creditClient}>
               <span style={{ whiteSpace: "nowrap" }}>{account}</span>
             </Tooltip>
           ),
@@ -110,41 +112,13 @@ const RevenueTable = () => {
         const response = await getSingleDebit({
           account: accountnumber.account,
         });
-        setResponseData([
-          // @ts-ignore
-          {
-            id: "1",
-            debitMFO: "000123",
-            debitAccount: "1234567890987654321",
-            creditMFO: "000123",
-            creditAccount: "1234567890987654321",
-            amount: "12345678.90",
-            naznacheniya:
-              "10.10.2010 это за кредит за здоровье, за бонус за всё))) что-то один",
-          },
-          // @ts-ignore
-          ...response,
-        ]);
+        setResponseData(response);
         setLoading(false);
       } else {
         const response = await getSingleCredit({
           account: accountnumber.account,
         });
-        setResponseData([
-          // @ts-ignore
-          {
-            id: "1",
-            debitMFO: "000123",
-            debitAccount: "1234567890987654321",
-            creditMFO: "000123",
-            creditAccount: "1234567890987654321",
-            amount: "12345678.90",
-            naznacheniya:
-              "10.10.2010 это за кредит за здоровье, за бонус за всё))) что-то один",
-          },
-          // @ts-ignore
-          ...response,
-        ]);
+        setResponseData(response);
         setLoading(false);
       }
     } catch (error) {
