@@ -279,13 +279,13 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             textAlign: "end",
           }}
         >
-          Опер. день:{" "}
+         <span className="text-currency"> Опер. день: </span> 
           <span style={{ fontWeight: "bold" }}>
             {dayjs(globalDate?.date).format("DD.MM.YYYY")}
           </span>
         </div>
         <div className="currency-container">
-          <div>
+          <div style={{whiteSpace: 'nowrap' }}>
             {/* <div>Курс на </div> */}
             {/* <div>
               {currencies[0].date

@@ -460,6 +460,12 @@
   animation: color-change 0.5s infinite;
 }
 
+@media screen and (max-width: 1535px) {
+  .text-currency {
+    display: none !important;
+  }
+}
+
 @keyframes color-change {
   0% { color: #ffccc7; }
   20% { color: #ffa39e; }
