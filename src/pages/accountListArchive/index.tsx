@@ -30,13 +30,6 @@ const AccountListArchive = () => {
 
   const columns = [
     {
-      title: "№ Док.",
-      dataIndex: "documentNumber",
-      key: "documentNumber",
-      align: "center",
-      // fixed: "left"
-    },
-    {
       title: "Дата Док.",
       dataIndex: "operDay",
       key: "operDay",
@@ -45,6 +38,14 @@ const AccountListArchive = () => {
       render: (operDay: string) =>
         operDay ? moment(operDay).format("DD.MM.YYYY") : null,
     },
+    {
+      title: "№ Док.",
+      dataIndex: "documentNumber",
+      key: "documentNumber",
+      align: "center",
+      // fixed: "left"
+    },
+    
     // {
     //   title: "Опер. день",
     //   dataIndex: "forderDay",

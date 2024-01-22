@@ -21,13 +21,18 @@ const DraftForm = () => {
   const [setDraftList] = useState();
   const [visible, setVisible] = useState(false);
   const columns = [
-    { title: "№ Док.", dataIndex: "nDoc", key: "nDoc" },
     {
       title: "Дата Док.",
       dataIndex: "dtd",
       key: "dtd",
       render: (dtd: string) => (dtd ? moment(dtd).format("DD.MM.YYYY") : null),
     },
+    { 
+      title: "№ Док.", 
+      dataIndex: "nDoc", 
+      key: "nDoc" 
+    },
+    
     // {
     //   title: "Опер. день",
     //   dataIndex: "forderDay",
