@@ -127,21 +127,20 @@ const AccoutDocs = () => {
       dataIndex: "statusName",
       key: "statusName",
       align: "center",
-      // render: (statusText: string) => {
-      //   if (statusText) {
-      //     let tempStatus = _.find(status, { statusTitle: statusText });
-      //     console.log("temppp: ", tempStatus);
-      //     return (
-      //       <Tag color={tempStatus?.statusColor}>{tempStatus?.statusTitle}</Tag>
-      //     );
-      //   }
-      // },
+      filters: allStatus.map((status: unknown) => ({
+        // @ts-expect-error try
+        text: status?.name,
+        // @ts-expect-error try
+        value: status?.id,
+      })),
+      // @ts-expect-error try
+      onFilter: (value: unknown, record: unknown) => record?.statusName.includes(value),
     },
     {
       title: "Действие",
       key: "action",
       fixed: "right",
-      //@ts-ignore
+      // @ts-expect-error try
       render: (_, record) => (
         <Space size="middle">
           <Link to={`/edit/${record.key}/doc`}>

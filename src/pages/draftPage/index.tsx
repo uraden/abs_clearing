@@ -205,7 +205,7 @@ const DraftForm = () => {
         <Table
           loading={isLoading}
           dataSource={dataSource}
-          // @ts-ignore
+          // @ts-expect-error try
           columns={columns}
           bordered
           style={{ marginTop: 40 }}
