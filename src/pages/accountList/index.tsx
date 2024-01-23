@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { getAccountTodayList } from "../accountListArchive/request";
 import moment from "moment";
 // import { status } from "../../assets/defaultData";
-import _, { iteratee } from "lodash";
+import _ from "lodash";
 import { editFormStatus, getOrderStatuses } from "../editDoc/request";
 import { useSelector } from "react-redux";
 import { IFilterTable } from "../../assets/interfaces";
