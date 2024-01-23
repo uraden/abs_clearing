@@ -149,7 +149,7 @@ const AccoutDocs = () => {
               record.key + localStorage.getItem("accessToken")
             )}/doc`}
           > */}
-            <Button>Изменить</Button>
+            <Button>Детали</Button>
           </Link>
         </Space>
       ),
@@ -257,7 +257,6 @@ const AccoutDocs = () => {
     console.log("values: ", values);
   };
 
-  console.log("seeL: ", selectedDocs);
 
   return (
     <>

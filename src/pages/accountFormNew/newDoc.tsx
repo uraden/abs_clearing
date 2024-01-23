@@ -292,6 +292,7 @@ const AccountEntryFormNew = () => {
             // allowClear
           >
             <Select.Option value="01">Платежное поручение</Select.Option>
+            <Select.Option value="21">Пл.поруч.через сист.дист.обсл.</Select.Option>
             {/* <Select.Option value="06">Мемориальный ордер</Select.Option> */}
           </Select>
         </Form.Item>
@@ -414,7 +415,7 @@ const AccountEntryFormNew = () => {
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
               >
-                {docType === "01" ? (
+                {docType === "01" || docType === "21"? (
                   <Select
                     style={{
                       width: 400,
