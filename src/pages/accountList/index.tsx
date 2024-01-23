@@ -5,16 +5,17 @@ import { Link } from "react-router-dom";
 import { getAccountTodayList } from "../accountListArchive/request";
 import moment from "moment";
 // import { status } from "../../assets/defaultData";
-import _ from "lodash";
+import _, { iteratee } from "lodash";
 import { editFormStatus, getOrderStatuses } from "../editDoc/request";
 import { useSelector } from "react-redux";
+import { IFilterTable } from "../../assets/interfaces";
 
 const AccoutDocs = () => {
   const [isLoading, setLoading] = useState(false);
   const [allStatus, setAllStatus] = useState([]);
   const [selectedDocs, setSelectedDocs] = useState([]);
   const [dataSource, setDataSource] = useState([]);
-  // @ts-ignore
+  // @ts-expect-error try
   const formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
     const parts = Number(amount)
       .toFixed(minimumFractionDigits)
@@ -126,11 +127,11 @@ const AccoutDocs = () => {
       dataIndex: "statusName",
       key: "statusName",
       align: "center",
-      filters: allStatus.map((status: unknown) => ({
-        // @ts-expect-error try
+      filters: allStatus.map((status: IFilterTable) => ({
+        
         text: status?.name,
-        // @ts-expect-error try
-        value: status?.id,
+        
+        value: status?.name,
       })),
       // @ts-expect-error try
       onFilter: (value: unknown, record: unknown) => record?.statusName.includes(value),

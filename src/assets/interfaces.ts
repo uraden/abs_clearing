@@ -23,3 +23,8 @@ export interface IPurpose {
   code: number;
   name: string;
 }
+
+export interface IFilterTable {
+  id: number;
+  name: string;
+}
