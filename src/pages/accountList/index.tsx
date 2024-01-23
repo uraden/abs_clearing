@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 // import AccountList from "../../components/simpleTable";
 import { Button, Form, Select, Space, Table } from "antd";
 import { Link } from "react-router-dom";
-import { getAccountArchiveList } from "../accountListArchive/request";
+import { getAccountTodayList } from "../accountListArchive/request";
 import moment from "moment";
 // import { status } from "../../assets/defaultData";
 import _ from "lodash";
-import dayjs from "dayjs";
 import { editFormStatus, getOrderStatuses } from "../editDoc/request";
 import { useSelector } from "react-redux";
 
@@ -172,13 +171,10 @@ const AccoutDocs = () => {
   //   await getList(globalDate.date);
   // };
 
-  const getList = async (operday: string) => {
+  const getList = async () => {
     setLoading(true);
     // @ts-ignore
-    const response = await getAccountArchiveList({
-      // clientId: 2,
-      operday: dayjs(operday).format("YYYY-MM-DD"),
-    });
+    const response = await getAccountTodayList();
 
     setDataSource(
       response.map(
@@ -230,7 +226,7 @@ const AccoutDocs = () => {
 
   useEffect(() => {
     if (globalDate?.date) {
-      getList(globalDate.date);
+      getList();
     }
   }, [globalDate?.date]);
 
@@ -252,7 +248,7 @@ const AccoutDocs = () => {
       setLoading(false);
       await editFormStatus(modififedData);
       setSelectedDocs([]);
-      await getList(globalDate?.date);
+      await getList();
     }
   };
 

@@ -1,36 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 // import { fetchGlobalDate } from "../../reduxStore/features/globalDateSlice";
-import { DatePicker, Table, Space, Button  } from "antd";
-import { getAccountArchiveList, } from "./request";
+import { DatePicker, Table, Space, Button } from "antd";
+import { getAccountArchiveList } from "./request";
 import type { DatePickerProps } from "antd";
 import moment from "moment";
 // import { status } from "../../assets/defaultData";
 import _ from "lodash";
 import dayjs from "dayjs";
-import { fetchOperDay } from "../../assets/reusable/functions";
 import { Link } from "react-router-dom";
+
+const { RangePicker } = DatePicker;
 
 const AccountListArchive = () => {
   const [isLoading, setLoading] = useState(false);
   // @ts-expect-error try
   const { globalDate } = useSelector((state: unknown) => state.globalDate);
   const [dataSource, setDataSource] = useState([]);
-  const [chosenDate, setChosenDate] = useState(
-    globalDate?.date ? dayjs(globalDate?.date, "DD.MM.YYYY") : null
-  );
-  // const [datePickedM, setDatePckedM] = useState(dayjs().format("DD.MM.YYYY"));
-  // const [operday, setOperday] = useState<IOperday>();
-
-  // redux is below
-  // const dispatch = useDispatch();
 
   // @ts-expect-error try
-  const  formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
-    const parts = Number(amount).toFixed(minimumFractionDigits).toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-}
+  const formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
+    const parts = Number(amount)
+      .toFixed(minimumFractionDigits)
+      .toString()
+      .split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  };
 
   const columns = [
     {
@@ -71,13 +67,9 @@ const AccountListArchive = () => {
           dataIndex: "debitAccount",
           key: "debitAccount",
           align: "center",
-          width: '12%',
+          width: "12%",
           render: (amount: string) => ({
-            children: (
-              <div style={{whiteSpace: 'nowrap'}}>
-               {amount}
-              </div>
-            ),
+            children: <div style={{ whiteSpace: "nowrap" }}>{amount}</div>,
           }),
         },
         // { title: "ИНН", dataIndex: "debitINN", key: "debitINN", align: "center" },
@@ -104,13 +96,9 @@ const AccountListArchive = () => {
           dataIndex: "creditAccount",
           key: "creditAccount",
           align: "center",
-          width: '12%',
+          width: "12%",
           render: (amount: string) => ({
-            children: (
-              <div style={{whiteSpace: 'nowrap'}}>
-               {amount}
-              </div>
-            ),
+            children: <div style={{ whiteSpace: "nowrap" }}>{amount}</div>,
           }),
         },
         // {
@@ -135,8 +123,8 @@ const AccountListArchive = () => {
       // fixed: "right",
       render: (amount: string) => ({
         children: (
-          <div style={{ textAlign: 'right' }}>
-           {formatNumberWithCommas(amount)}
+          <div style={{ textAlign: "right" }}>
+            {formatNumberWithCommas(amount)}
           </div>
         ),
       }),
@@ -145,7 +133,7 @@ const AccountListArchive = () => {
       title: "Статус",
       dataIndex: "statusName",
       key: "statusName",
-      align: 'center',
+      align: "center",
       // fixed: "right"
       // render: (statusText: string) => {
       //   if (statusText) {
@@ -160,7 +148,7 @@ const AccountListArchive = () => {
     {
       title: "Действие",
       key: "action",
-      align: 'center',
+      align: "center",
       //@ts-expect-error try
       render: (_, record) => (
         <Space size="middle">
@@ -172,25 +160,10 @@ const AccountListArchive = () => {
     },
   ];
 
-  const fetchOperdays = async () => {
-    const response = await fetchOperDay();
-    // setOperday(response);
-    await getList(response.date);
-    setChosenDate(response.date);
-  };
-
-  useEffect(() => {
-    fetchOperdays();
-    // dispatch(fetchGlobalDate());
-  }, []);
-
-  const getList = async (date: unknown) => {
+  const getList = async (dates: unknown) => {
     setLoading(true);
     // @ts-expect-error try
-    const response = await getAccountArchiveList({
-      // @ts-expect-error try
-      operday: dayjs(date).format("YYYY-MM-DD"),
-    });
+    const response = await getAccountArchiveList(dates);
     // console.log("response: ", response);
     setDataSource(
       response.map(
@@ -234,18 +207,21 @@ const AccountListArchive = () => {
     setLoading(false);
   };
 
-  // useEffect(() => {
-  // getList(moment().format("YYYY-MM-DD"));
-  // }, []);
-
   const onChange: DatePickerProps["onChange"] = (dateString) => {
-    console.log("dateString: ", dateString);
-    if (dateString) {
-      const tempDate = dayjs(dateString);
+    console.log('date: ', dateString);
+    // @ts-ignore
+    if (dateString && dateString.length) {
+      // const tempDate = dayjs(dateString);
       // setDatePckedM(tempDate.format("DD.MM.YYYY"));
-      getList(tempDate);
-      setChosenDate(tempDate);
+      return getList({
+        //@ts-ignore
+        fromDate: dayjs(dateString[0]).format("YYYY-MM-DD"),
+        //@ts-ignore
+        toDate: dayjs(dateString[1]).format("YYYY-MM-DD"),
+      });
+      // setChosenDate(tempDate);
     }
+    return setDataSource([]);
   };
 
   return (
@@ -253,11 +229,13 @@ const AccountListArchive = () => {
       <div className="title">Архив документов</div>
       <div className="todays_date">
         Дата:{" "}
-        <DatePicker
-          onChange={onChange}
-          format="DD.MM.YYYY"
-          value={dayjs(chosenDate)}
-        />
+        <div>
+          <RangePicker
+            // @ts-ignore
+            onChange={onChange}
+            format="DD.MM.YYYY"
+          />
+        </div>
       </div>
       <Table
         loading={isLoading}

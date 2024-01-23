@@ -162,6 +162,10 @@
 
 .todays_date {
   font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .main-table-1-account {
