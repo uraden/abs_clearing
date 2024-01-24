@@ -290,13 +290,13 @@ const AccoutDocs = () => {
             rules={[{ required: true, message: "" }]}
           >
             <Select style={{ width: 140 }}>
-              <Select.Option key={1} value={1}>
+              <Select.Option key={2} value={2}>
                 Удалить
               </Select.Option>
-              <Select.Option key={2} value={2}>
+              <Select.Option key={3} value={3}>
                 Подписать
               </Select.Option>
-              <Select.Option key={3} value={3}>
+              <Select.Option key={4} value={4}>
                 Отправить
               </Select.Option>
             </Select>
