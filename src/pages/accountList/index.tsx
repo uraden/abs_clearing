@@ -296,6 +296,9 @@ const AccoutDocs = () => {
               <Select.Option key={2} value={2}>
                 Подписать
               </Select.Option>
+              <Select.Option key={3} value={3}>
+                Отправить
+              </Select.Option>
             </Select>
             {/* <Select style={{ width: 140 }}>
               {allStatus.map((status: any) => (
