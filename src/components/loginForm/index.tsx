@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Input, notification } from "antd";
-import { login } from "./request";
+import { getSN, login } from "./request";
 import { useNavigate } from "react-router-dom";
 import { getProfile } from "../../assets/reusable/requests";
 import { IProfile } from "../../layout/wrapper/Navbar";
@@ -24,6 +24,7 @@ type FieldType = {
 interface ILogin {
   accessToken?: string;
   status?: number;
+  sn?: string;
 }
 
 const LoginForm: React.FC = () => {
@@ -37,7 +38,22 @@ const LoginForm: React.FC = () => {
 
   const onFinish = async (values: unknown) => {
     setLoading(true);
-    const response = (await login(values)) as ILogin;
+    const request = await getSN();
+
+    if (request.status === 'error') {
+      setLoading(false);
+      return api.error({
+        message: "Ошибка при авторизации",
+        description:
+          "Проверьте ключ",
+        duration: 4,
+      });
+    }
+    const response = (await login({
+      //@ts-ignore
+      ...values,
+      sn: request.var1,
+    })) as ILogin;
     console.log("responsetssst: ", response);
     if (response && response.status === 401) {
       api.error({

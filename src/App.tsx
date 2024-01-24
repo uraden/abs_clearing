@@ -23,8 +23,44 @@ import AccountRecentReport from "./pages/accountRecentReports/index.tsx";
 import DeleteIncomplete from "./pages/deleteIncomplete/index.tsx";
 import Reference from "./pages/reference/index.tsx";
 import BankReference from "./pages/bankReference/index.tsx";
+import { useEffect } from "react";
 
 function App() {
+  // const dispatch = useDispatch();
+  // const getSn = () => {
+    // const webSocket = new WebSocket('ws://localhost:8181');
+    // console.log('there was a connection')
+
+    // webSocket.onopen = event => {
+    //   console.log('it is OPENNED -->')
+    //   var obj = { "function": "getTokenSN", "token_type": "ePass/iKey", "status": 0 };
+    //   var msg = JSON.stringify(obj);
+    //   webSocket.send(msg);
+    // };
+
+    // webSocket.onmessage = function (evt) {
+    //   var received_msg = evt.data;
+    //   var myObj = JSON.parse(received_msg);
+    //   if (myObj.status == "success") {
+    //     //@ts-ignore
+    //     dispatch(fetchSn(myObj.var1))
+    //   }
+    //   if (myObj.status == "error") {
+    //     //@ts-ignore
+    //     dispatch(fetchSn(myObj.var1));
+    //     webSocket.close()
+    //   }
+    // };
+
+    // webSocket.onclose = event => {
+    //   alert('onclose');
+    // };
+  // }
+
+  useEffect(() => {
+    // getSn();
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: "/",

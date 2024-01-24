@@ -21,3 +21,24 @@ export const login = async (body: unknown) => {
     }
   }
 };
+
+export const getSN = async () => {
+  try {
+    const params = {
+      "function": "getTokenSN",
+      "token_type": "ePass/iKey",
+      "status": "0"
+    };
+    const msg = JSON.stringify(params);
+    
+    const request = await axios.post('http://localhost:6210/crypto/getTokenSN', msg);
+    console.log("reqqq: ", request);
+    return request.data;
+  } catch (error: unknown) {
+    const myError = error as MyError;
+    console.log("reqqq: ", myError);
+    if (myError.response && myError.response.status) {
+      return myError.response;
+    }
+  }
+};

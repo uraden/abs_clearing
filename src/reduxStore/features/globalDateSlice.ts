@@ -10,6 +10,13 @@ const initialState = {
   loading: false,
 };
 
+const initialSocketState = {
+  sn: null,
+  status: "idle",
+  error: null,
+  loading: false,
+};
+
 const initialProfileState = {
   globalDate: {
     id: 0,
@@ -68,6 +75,12 @@ export const fetchProfile = createAsyncThunk(
     return request;
   }
 );
+export const fetchSn = createAsyncThunk(
+  "globalDate/fetchSn",
+  async (sn: number) => {
+    return sn;
+  }
+);
 
 const globalDateSlice = createSlice({
   name: "globalDate",
@@ -112,7 +125,30 @@ const globalProfile = createSlice({
   },
 });
 
+const globalSocket = createSlice({
+  name: "globalSocket",
+  initialState: initialSocketState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSn.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchSn.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        //@ts-ignore
+        state.sn = action.payload;
+      })
+      .addCase(fetchSn.rejected, (state, action) => {
+        state.status = "failed";
+        // @ts-expect-error try
+        state.error = action.error.message;
+      });
+  },
+});
+
 export default {
   global: globalDateSlice.reducer,
   profile: globalProfile.reducer,
+  socket: globalSocket.reducer,
 };

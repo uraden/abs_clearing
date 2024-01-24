@@ -5,5 +5,6 @@ export const store = configureStore({
   reducer: {
     globalDate: globalReducer.global,
     globalProfile: globalReducer.profile,
+    socket: globalReducer.socket
   },
 });
