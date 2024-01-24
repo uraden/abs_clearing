@@ -41,7 +41,7 @@ const AccoutDocs = () => {
       align: "center",
       fixed: "left",
     },
-    
+
     {
       title: "Плательщик",
       children: [
@@ -128,13 +128,13 @@ const AccoutDocs = () => {
       key: "statusName",
       align: "center",
       filters: allStatus.map((status: IFilterTable) => ({
-        
         text: status?.name,
-        
+
         value: status?.name,
       })),
       // @ts-expect-error try
-      onFilter: (value: unknown, record: unknown) => record?.statusName.includes(value),
+      onFilter: (value: unknown, record: unknown) =>
+        record?.statusName.includes(value),
     },
     {
       title: "Действие",
@@ -257,7 +257,6 @@ const AccoutDocs = () => {
     console.log("values: ", values);
   };
 
-
   return (
     <>
       <div className="title">Мои документы</div>
@@ -286,16 +285,24 @@ const AccoutDocs = () => {
         >
           <Form.Item
             name="statusId"
-            label="Статусы"
+            // label="Статусы"
             rules={[{ required: true, message: "" }]}
           >
             <Select style={{ width: 140 }}>
+              <Select.Option key={1} value={1}>
+                Удалить
+              </Select.Option>
+              <Select.Option key={2} value={2}>
+                Подписать
+              </Select.Option>
+            </Select>
+            {/* <Select style={{ width: 140 }}>
               {allStatus.map((status: any) => (
                 <Select.Option key={status.id} value={status.id}>
                   {status.name}
                 </Select.Option>
               ))}
-            </Select>
+            </Select> */}
           </Form.Item>
 
           <Form.Item>
@@ -305,7 +312,7 @@ const AccoutDocs = () => {
               htmlType="submit"
               style={{ outline: "none" }}
             >
-              Изменить
+              Выполнить
             </Button>
           </Form.Item>
         </Form>
