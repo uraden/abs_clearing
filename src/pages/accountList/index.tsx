@@ -132,8 +132,9 @@ const AccoutDocs = () => {
 
         value: status?.name,
       })),
-      // @ts-expect-error try
+      // @ts-ignore
       onFilter: (value: unknown, record: unknown) =>
+        // @ts-ignore
         record?.statusName.includes(value),
     },
     {
