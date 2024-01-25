@@ -39,7 +39,7 @@ const LoginForm: React.FC = () => {
   const onFinish = async (values: unknown) => {
     setLoading(true);
     const request = await getSN();
-
+    console.log('reqqqqqq: ', request);
     if (request.status === 'error') {
       setLoading(false);
       return api.error({
