@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 // import AccountList from "../../components/simpleTable";
-import { Button, Form, Select, Space, Table } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Form, Select, Space, Table, notification } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { getAccountTodayList } from "../accountListArchive/request";
 import moment from "moment";
 // import { status } from "../../assets/defaultData";
@@ -9,12 +9,15 @@ import _ from "lodash";
 import { editFormStatus, getOrderStatuses } from "../editDoc/request";
 import { useSelector } from "react-redux";
 import { IFilterTable } from "../../assets/interfaces";
+import { getSN } from "../../components/loginForm/request";
 
 const AccoutDocs = () => {
   const [isLoading, setLoading] = useState(false);
   const [allStatus, setAllStatus] = useState([]);
   const [selectedDocs, setSelectedDocs] = useState([]);
+  const [api, contextHolder] = notification.useNotification();
   const [dataSource, setDataSource] = useState([]);
+  const navigate = useNavigate();
   // @ts-expect-error try
   const formatNumberWithCommas = (amount, minimumFractionDigits = 2) => {
     const parts = Number(amount)
@@ -159,9 +162,6 @@ const AccoutDocs = () => {
 
   // @ts-ignore
   const { globalDate } = useSelector((state: unknown) => state.globalDate);
-
-  console.log("globalDateeeeeeee: ", globalDate.date);
-
   const getAllOrderStatuses = async () => {
     const response = await getOrderStatuses();
     setAllStatus(response);
@@ -241,14 +241,44 @@ const AccoutDocs = () => {
   };
 
   const onFinish = async ({ statusId }: any) => {
+    console.log("");
     if (selectedDocs.length) {
       setLoading(true);
-      const modififedData = selectedDocs.map((doc: any) => ({
-        documentId: doc.documentId,
-        statusId: statusId,
-      }));
+      const request = await getSN();
+      if (request.status === "error") {
+        setLoading(false);
+        api.error({
+          message: "Ошибка при авторизации",
+          description: "Проверьте ключ",
+          duration: 4,
+        });
+        navigate("/login");
+      }
+      // console.log("reqqqqqq: ", request);
+      const modififedData = {
+        statusId,
+        sn: request.var1,
+        data: selectedDocs.map((doc: any) => ({
+          documentId: doc.documentId,
+        })),
+      };
+      // const modififedData = selectedDocs.map((doc: any) => ({
+      //   documentId: doc.documentId,
+      //   statusId: statusId,
+      // }));
       setLoading(false);
-      await editFormStatus(modififedData);
+      const statusResponse = await editFormStatus(modififedData);
+      if (statusResponse.code !== 0) {
+        api.error({
+          message: "Ошибка при изменении статуса",
+          description: statusResponse.message
+        })
+      } else {
+        api.success({
+          message: "Cтатус",
+          description: 'Статус изменен успешно'
+        })
+      }
       setSelectedDocs([]);
       await getList();
     }
@@ -261,6 +291,7 @@ const AccoutDocs = () => {
   return (
     <>
       <div className="title">Мои документы</div>
+      {contextHolder}
       <Table
         loading={isLoading}
         dataSource={dataSource}
