@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchGlobalDate,
   fetchProfile,
+  fetchSn,
 } from "../../reduxStore/features/globalDateSlice";
 import {
   FileTextOutlined,
@@ -68,6 +69,8 @@ export interface ICurrency {
 const Navbar = ({ children }: { children: ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+  // @ts-ignore
+  const [socket, setSocket] = useState(null);
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(
     location.pathname.replace("/", "")
@@ -92,6 +95,11 @@ const Navbar = ({ children }: { children: ReactNode }) => {
   const { globalDate: tempProfile } = useSelector(
     // @ts-ignore
     (state: unknown) => state.globalProfile
+  );
+  //@ts-ignore
+  const { sn } = useSelector(
+    // @ts-ignore
+    (state: unknown) => state.socket
   );
 
   type MenuItem = Required<MenuProps>["items"][number];
@@ -135,6 +143,47 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     dispatch(fetchGlobalDate());
     // @ts-ignore
     dispatch(fetchProfile());
+    // Connect to the WebSocket server
+    const newSocket = new WebSocket('ws://localhost:8181'); // Replace with your WebSocket server URL
+    // @ts-ignore
+    newSocket.onopen = (event) => {
+      var obj = { "function": "getTokenSN", "token_type": "ePass/iKey", "status": 0 };
+      var msg = JSON.stringify(obj);
+      newSocket.send(msg);
+    };
+
+    newSocket.onmessage = function (evt) {
+      var received_msg = evt.data;
+      var myObj = JSON.parse(received_msg);
+      if (!myObj.var1) {
+        navigate('/login')
+      }
+      if (myObj.status == "success") {
+        //@ts-ignore
+        dispatch(fetchSn(myObj.var1))
+      }
+   
+      if (myObj.status == "error") {
+        //@ts-ignore
+        // dispatch(fetchSn(myObj.var1));
+        // if ()sn
+        navigate('/login')
+      }
+    };
+
+    newSocket.addEventListener('close', () => {
+      console.log('Disconnected from WebSocket server');
+    });
+
+    //@ts-ignore
+    setSocket(newSocket);
+
+    // Clean up the WebSocket connection on component unmount
+    return () => {
+      if (newSocket) {
+        newSocket.close();
+      }
+    };
   }, []);
 
   // const currentYear = new Date().getFullYear();
@@ -279,13 +328,13 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             textAlign: "end",
           }}
         >
-         <span className="text-currency"> Опер. день: </span> 
+          <span className="text-currency"> Опер. день: </span>
           <span style={{ fontWeight: "bold" }}>
             {dayjs(globalDate?.date).format("DD.MM.YYYY")}
           </span>
         </div>
         <div className="currency-container">
-          <div style={{whiteSpace: 'nowrap' }}>
+          <div style={{ whiteSpace: 'nowrap' }}>
             {/* <div>Курс на </div> */}
             {/* <div>
               {currencies[0].date
