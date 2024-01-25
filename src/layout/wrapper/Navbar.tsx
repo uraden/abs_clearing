@@ -145,6 +145,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     dispatch(fetchProfile());
     // Connect to the WebSocket server
     const newSocket = new WebSocket('ws://localhost:8181'); // Replace with your WebSocket server URL
+    console.log('newWebbbb: ', newSocket.readyState)
     // @ts-ignore
     newSocket.onopen = (event) => {
       var obj = { "function": "getTokenSN", "token_type": "ePass/iKey", "status": 0 };
@@ -162,7 +163,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         //@ts-ignore
         dispatch(fetchSn(myObj.var1))
       }
-   
+
       if (myObj.status == "error") {
         //@ts-ignore
         // dispatch(fetchSn(myObj.var1));
@@ -174,6 +175,10 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     newSocket.addEventListener('close', () => {
       console.log('Disconnected from WebSocket server');
     });
+
+    newSocket.onerror = function (event) {
+      console.log('an error happend in our websocket connection', event);
+    }
 
     //@ts-ignore
     setSocket(newSocket);
