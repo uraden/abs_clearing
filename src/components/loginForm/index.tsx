@@ -64,6 +64,15 @@ const LoginForm: React.FC = () => {
       });
     }
 
+    if (response && response.status === 400) {
+      api.error({
+        message: "Ошибка при авторизации",
+        // @ts-ignore
+        description: response?.data.message,
+        duration: 4,
+      });
+    }
+
     if (response && response.accessToken) {
       localStorage.setItem("accessToken", response.accessToken);
       const profile = (await getProfile()) as IProfile;
