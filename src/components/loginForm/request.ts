@@ -31,7 +31,7 @@ export const getSN = async () => {
     // };
     // const msg = JSON.stringify(params);
 
-    const request = await axios.get('http://100.1.0.220:8077/sn');
+    const request = await axios.get('http://100.1.0.222:8077/sn');
     // const request = await axios.post('http://localhost:3000/sn', msg);
     console.log("reqqq: ", request);
     return request.data;
